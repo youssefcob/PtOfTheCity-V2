@@ -1,0 +1,111 @@
+
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "MedicalProcedure",
+      "@id": "https://www.ptofthecity.com/service/pediatric-rehabilitation#procedure",
+      "name": "Pediatric Rehabilitation",
+      "medicalSpecialty": "PhysicalTherapy",
+      "url": "https://www.ptofthecity.com/service/pediatric-rehabilitation",
+      "description": "Pediatric rehabilitation is a specialized physical therapy service designed to help children improve mobility, strength, coordination, and overall physical development. It supports children with developmental delays, neurological conditions, and physical impairments.",
+      "procedureType": "Therapeutic",
+      "howPerformed": "Our licensed physical therapists provide individualized treatment plans including play-based therapy, motor skill development, balance training, strength exercises, and functional movement activities to support each child’s growth and independence.",
+      "areaServed": [
+        {
+          "@type": "City",
+          "name": "New York"
+        },
+        {
+          "@type": "AdministrativeArea",
+          "name": "Manhattan"
+        },
+        {
+          "@type": "AdministrativeArea",
+          "name": "Brooklyn"
+        },
+        {
+          "@type": "AdministrativeArea",
+          "name": "Queens"
+        },
+        {
+          "@type": "AdministrativeArea",
+          "name": "The Bronx"
+        }
+      ],
+      "provider": {
+        "@id": "https://www.ptofthecity.com/#organization"
+      },
+      "availableAt": [
+        {
+          "@type": "MedicalClinic",
+          "@id": "https://www.ptofthecity.com/clinic/bensonhurst#medicalclinic",
+          "name": "PT of the City – Bensonhurst Clinic"
+        },
+        {
+          "@type": "MedicalClinic",
+          "@id": "https://www.ptofthecity.com/clinic/bushwick#medicalclinic",
+          "name": "PT of the City – Bushwick Clinic"
+        },
+        {
+          "@type": "MedicalClinic",
+          "@id": "https://www.ptofthecity.com/clinic/castle-hill#medicalclinic",
+          "name": "PT of the City – Castle Hill Clinic"
+        },
+        {
+          "@type": "MedicalClinic",
+          "@id": "https://www.ptofthecity.com/clinic/fordham#medicalclinic",
+          "name": "PT of the City – Fordham Clinic"
+        },
+        {
+          "@type": "MedicalClinic",
+          "@id": "https://www.ptofthecity.com/clinic/grand-concourse#medicalclinic",
+          "name": "PT of the City – Grand Concourse Clinic"
+        }
+      ]
+    },
+    {
+      "@type": "WebPage",
+      "@id": "https://www.ptofthecity.com/service/pediatric-rehabilitation#webpage",
+      "url": "https://www.ptofthecity.com/service/pediatric-rehabilitation",
+      "name": "Pediatric Rehabilitation in Brooklyn & The Bronx | Improve Mobility & Development",
+      "description": "Expert pediatric rehabilitation services in Brooklyn and The Bronx. Support children's mobility, coordination, and development with personalized physical therapy programs.",
+      "isPartOf": {
+        "@id": "https://www.ptofthecity.com/#website"
+      },
+      "about": {
+        "@id": "https://www.ptofthecity.com/service/pediatric-rehabilitation#procedure"
+      },
+      "mainEntity": {
+        "@id": "https://www.ptofthecity.com/service/pediatric-rehabilitation#procedure"
+      },
+      "breadcrumb": {
+        "@id": "https://www.ptofthecity.com/service/pediatric-rehabilitation#breadcrumb"
+      }
+    },
+    {
+      "@type": "BreadcrumbList",
+      "@id": "https://www.ptofthecity.com/service/pediatric-rehabilitation#breadcrumb",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://www.ptofthecity.com/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Services",
+          "item": "https://www.ptofthecity.com/services"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "Pediatric Rehabilitation",
+          "item": "https://www.ptofthecity.com/service/pediatric-rehabilitation"
+        }
+      ]
+    }
+  ]
+}

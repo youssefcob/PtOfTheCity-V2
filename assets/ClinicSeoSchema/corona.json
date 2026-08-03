@@ -1,0 +1,153 @@
+
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "MedicalClinic",
+      "@id": "https://www.ptofthecity.com/clinic/corona#medicalclinic",
+      "name": "PT of the City – Corona Clinic",
+      "url": "https://www.ptofthecity.com/clinic/corona",
+      "telephone": "+1-718-648-0888",
+      "image": "https://res.cloudinary.com/dzilc11zf/image/upload/v1755872476/ptofthecity/clinics_images/gdrahgry8ljr0ahoyvzh.webp",
+      "branchOf": {
+        "@type": "MedicalOrganization",
+        "@id": "https://www.ptofthecity.com/#organization",
+        "name": "PT of the City",
+        "url": "https://www.ptofthecity.com/",
+        "sameAs": [
+          "https://www.facebook.com/PTofTheCity",
+          "https://www.instagram.com/pt_city/",
+          "https://www.tiktok.com/@pt_city",
+          "https://www.linkedin.com/company/pt-of-the-city/",
+          "https://www.youtube.com/@PTofTheCity"
+        ]
+      },
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "104-19 Northern Blvd, Ext 117",
+        "addressLocality": "Corona",
+        "addressRegion": "NY",
+        "postalCode": "11368",
+        "addressCountry": "US"
+      },
+      "geo": {
+        "@type": "GeoCoordinates",
+        "latitude": 40.7579327,
+        "longitude": -73.8638552
+      },
+      "hasMap": "https://maps.app.goo.gl/xXvYz4sYYtm3ZFo2A",
+      "identifier": {
+        "@type": "PropertyValue",
+        "propertyID": "PlaceID",
+        "value": "ChIJZ4rZdxRfwokRhWgEiiUcN2Y"
+      },
+      "openingHoursSpecification": [
+        {
+          "@type": "OpeningHoursSpecification",
+          "dayOfWeek": [
+            "Monday",
+            "Tuesday",
+            "Wednesday",
+            "Thursday",
+            "Friday"
+          ],
+          "opens": "08:00",
+          "closes": "19:00"
+        },
+        {
+          "@type": "OpeningHoursSpecification",
+          "dayOfWeek": "Saturday",
+          "opens": "07:00",
+          "closes": "17:00"
+        }
+      ],
+      "medicalSpecialty": "PhysicalTherapy",
+      "areaServed": [
+        {
+          "@type": "Place",
+          "name": "Corona"
+        },
+        {
+          "@type": "Place",
+          "name": "Queens"
+        },
+        {
+          "@type": "Place",
+          "name": "11368"
+        },
+        {
+          "@type": "Place",
+          "name": "11369"
+        },
+        {
+          "@type": "Place",
+          "name": "11372"
+        },
+        {
+          "@type": "Place",
+          "name": "11370"
+        },
+        {
+          "@type": "Place",
+          "name": "11355"
+        },
+        {
+          "@type": "Place",
+          "name": "11358"
+        },
+        {
+          "@type": "Place",
+          "name": "11366"
+        },
+        {
+          "@type": "Place",
+          "name": "11374"
+        },
+        {
+          "@type": "Place",
+          "name": "11375"
+        },
+        {
+          "@type": "Place",
+          "name": "11373"
+        }
+      ],
+      "isAcceptingNewPatients": true,
+      "description": "Physical therapy in Corona offering orthopedic rehabilitation, stroke & neurological rehabilitation, lymphedema treatment, GAIT training, sports rehabilitation, cupping therapy and in-home therapy. Book today.",
+      "priceRange": "$$",
+      "availableService": [
+        {"@type":"MedicalService","name":"GAIT Training","url":"https://www.ptofthecity.com/service/gait-training"},
+        {"@type":"MedicalService","name":"Initial Check-up","url":"https://www.ptofthecity.com/service/initial-check-up"},
+        {"@type":"MedicalService","name":"Orthopedic Rehabilitation","url":"https://www.ptofthecity.com/service/orthopedic-rehabilitation"},
+        {"@type":"MedicalService","name":"Cupping Treatment","url":"https://www.ptofthecity.com/service/cupping-treatment"},
+        {"@type":"MedicalService","name":"In-home Therapy","url":"https://www.ptofthecity.com/service/in-home-therapy"},
+        {"@type":"MedicalService","name":"Stroke & Neurological Rehabilitation","url":"https://www.ptofthecity.com/service/stroke-neurological-rehabilitation"},
+        {"@type":"MedicalService","name":"Sports Rehabilitation","url":"https://www.ptofthecity.com/service/sports-rehabilitation"},
+        {"@type":"MedicalService","name":"Lymphedema Treatment","url":"https://www.ptofthecity.com/service/lymphedema-treatment"}
+      ]
+    },
+    {
+      "@type": "WebPage",
+      "@id": "https://www.ptofthecity.com/clinic/corona#webpage",
+      "url": "https://www.ptofthecity.com/clinic/corona",
+      "name": "Physical Therapy in Corona, Queens | PT of the City",
+      "description": "Physical therapy in Corona offering orthopedic rehabilitation, stroke & neurological rehabilitation, lymphedema treatment, GAIT training, sports rehabilitation, cupping therapy and in-home therapy. Book today.",
+      "isPartOf": {"@id": "https://www.ptofthecity.com/#website"},
+      "about": {"@id": "https://www.ptofthecity.com/clinic/corona#medicalclinic"},
+      "primaryImageOfPage": {
+        "@type": "ImageObject",
+        "url": "https://res.cloudinary.com/dzilc11zf/image/upload/v1755872476/ptofthecity/clinics_images/gdrahgry8ljr0ahoyvzh.webp",
+        "caption": "PT of the City – Corona Clinic"
+      }
+    },
+    {
+      "@type": "BreadcrumbList",
+      "@id": "https://www.ptofthecity.com/clinic/corona#breadcrumb",
+      "itemListElement": [
+        {"@type":"ListItem","position":1,"name":"Home","item":"https://www.ptofthecity.com/"},
+        {"@type":"ListItem","position":2,"name":"Clinics","item":"https://www.ptofthecity.com/clinics/all"},
+        {"@type":"ListItem","position":3,"name":"Corona Clinic","item":"https://www.ptofthecity.com/clinic/corona"}
+      ]
+    }
+  ]
+}

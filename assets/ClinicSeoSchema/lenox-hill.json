@@ -1,0 +1,113 @@
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "MedicalClinic",
+      "@id": "https://www.ptofthecity.com/clinic/lenox-hill#medicalclinic",
+      "name": "PT of the City – Lenox Hill Clinic",
+      "url": "https://www.ptofthecity.com/clinic/lenox-hill",
+      "telephone": "+1-718-648-0888",
+      "image": "https://res.cloudinary.com/dzilc11zf/image/upload/v1755874524/ptofthecity/clinics_images/mpcwa9qztaxptqpdnjkj.webp",
+      "branchOf": {
+        "@type": "MedicalOrganization",
+        "@id": "https://www.ptofthecity.com/#organization",
+        "name": "PT of the City",
+        "url": "https://www.ptofthecity.com/",
+        "sameAs": [
+          "https://www.facebook.com/PTofTheCity",
+          "https://www.instagram.com/pt_city/",
+          "https://www.tiktok.com/@pt_city",
+          "https://www.linkedin.com/company/pt-of-the-city/",
+          "https://www.youtube.com/@PTofTheCity"
+        ]
+      },
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "201 E 77th St, Ext 139",
+        "addressLocality": "New York",
+        "addressRegion": "NY",
+        "postalCode": "10075",
+        "addressCountry": "US"
+      },
+      "geo": {
+        "@type": "GeoCoordinates",
+        "latitude": 40.7730171,
+        "longitude": -73.9579469
+      },
+      "hasMap": "https://maps.app.goo.gl/angTsSvFzQGPr5xq9",
+      "identifier": {
+        "@type": "PropertyValue",
+        "propertyID": "PlaceID",
+        "value": "ChIJOx8JmBtZwokRNOOkwhUaTa0"
+      },
+      "openingHoursSpecification": [
+        {
+          "@type": "OpeningHoursSpecification",
+          "dayOfWeek": [ "Monday", "Wednesday" ],
+          "opens": "08:00",
+          "closes": "17:00"
+        },
+        {
+          "@type": "OpeningHoursSpecification",
+          "dayOfWeek": [ "Tuesday", "Thursday" ],
+          "opens": "08:00",
+          "closes": "20:00"
+        },
+        {
+          "@type": "OpeningHoursSpecification",
+          "dayOfWeek": "Friday",
+          "opens": "07:00",
+          "closes": "17:00"
+        }
+      ],
+      "medicalSpecialty": "PhysicalTherapy",
+      "areaServed": [
+        { "@type": "Place", "name": "Lenox Hill" },
+        { "@type": "Place", "name": "Upper East Side" },
+        { "@type": "Place", "name": "Manhattan" },
+        { "@type": "Place", "name": "10075" },
+        { "@type": "Place", "name": "10162" },
+        { "@type": "Place", "name": "10131" },
+        { "@type": "Place", "name": "10021" },
+        { "@type": "Place", "name": "10065" },
+        { "@type": "Place", "name": "10028" }
+      ],
+      "isAcceptingNewPatients": true,
+      "description": "Physical therapy in Lenox Hill offering orthopedic, stroke & neurological rehabilitation, vestibular therapy, hand therapy, GAIT training & cupping. Book today.",
+      "priceRange": "$$",
+      "availableService": [
+        {"@type":"MedicalService","name":"Initial Check-up","url":"https://www.ptofthecity.com/service/initial-check-up"},
+        {"@type":"MedicalService","name":"Orthopedic Rehabilitation","url":"https://www.ptofthecity.com/service/orthopedic-rehabilitation"},
+        {"@type":"MedicalService","name":"Stroke & Neurological Rehabilitation","url":"https://www.ptofthecity.com/service/stroke-neurological-rehabilitation"},
+        {"@type":"MedicalService","name":"GAIT Training","url":"https://www.ptofthecity.com/service/gait-training"},
+        {"@type":"MedicalService","name":"Hand Therapy","url":"https://www.ptofthecity.com/service/hand-therapy"},
+        {"@type":"MedicalService","name":"Sports Rehabilitation","url":"https://www.ptofthecity.com/service/sports-rehabilitation"},
+        {"@type":"MedicalService","name":"Vestibular Rehabilitation","url":"https://www.ptofthecity.com/service/vestibular-rehabilitation"},
+        {"@type":"MedicalService","name":"Cupping Treatment","url":"https://www.ptofthecity.com/service/cupping-treatment"}
+      ]
+    },
+    {
+      "@type": "WebPage",
+      "@id": "https://www.ptofthecity.com/clinic/lenox-hill#webpage",
+      "url": "https://www.ptofthecity.com/clinic/lenox-hill",
+      "name": "Physical Therapy in Lenox Hill, Manhattan | PT of the City",
+      "description": "Physical therapy in Lenox Hill offering orthopedic, stroke & neurological rehabilitation, vestibular therapy, hand therapy, GAIT training & cupping. Book today.",
+      "isPartOf": {"@id": "https://www.ptofthecity.com/#website"},
+      "about": {"@id": "https://www.ptofthecity.com/clinic/lenox-hill#medicalclinic"},
+      "primaryImageOfPage": {
+        "@type": "ImageObject",
+        "url": "https://res.cloudinary.com/dzilc11zf/image/upload/v1755874524/ptofthecity/clinics_images/mpcwa9qztaxptqpdnjkj.webp",
+        "caption": "PT of the City – Lenox Hill Clinic"
+      }
+    },
+    {
+      "@type": "BreadcrumbList",
+      "@id": "https://www.ptofthecity.com/clinic/lenox-hill#breadcrumb",
+      "itemListElement": [
+        {"@type":"ListItem","position":1,"name":"Home","item":"https://www.ptofthecity.com/"},
+        {"@type":"ListItem","position":2,"name":"Clinics","item":"https://www.ptofthecity.com/clinics/all"},
+        {"@type":"ListItem","position":3,"name":"Lenox Hill Clinic","item":"https://www.ptofthecity.com/clinic/lenox-hill"}
+      ]
+    }
+  ]
+}

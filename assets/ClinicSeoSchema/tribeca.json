@@ -1,0 +1,176 @@
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "MedicalClinic",
+      "@id": "https://www.ptofthecity.com/clinic/tribeca#medicalclinic",
+      "name": "PT of the City – Tribeca Clinic",
+      "url": "https://www.ptofthecity.com/clinic/tribeca",
+      "telephone": "+1-718-648-0888",
+      "image": "https://res.cloudinary.com/dzilc11zf/image/upload/v1755874765/ptofthecity/clinics_images/f1kuaf0wcbvrdnpqvini.webp",
+      "branchOf": {
+        "@type": "MedicalOrganization",
+        "@id": "https://www.ptofthecity.com/#organization",
+        "name": "PT of the City",
+        "url": "https://www.ptofthecity.com/",
+        "sameAs": [
+          "https://www.facebook.com/PTofTheCity",
+          "https://www.instagram.com/pt_city/",
+          "https://www.tiktok.com/@pt_city",
+          "https://www.linkedin.com/company/pt-of-the-city/",
+          "https://www.youtube.com/@PTofTheCity"
+        ]
+      },
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "111 Worth Street, Ext 137",
+        "addressLocality": "New York",
+        "addressRegion": "NY",
+        "postalCode": "10013",
+        "addressCountry": "US"
+      },
+      "geo": {
+        "@type": "GeoCoordinates",
+        "latitude": 40.7159459,
+        "longitude": -74.0033459
+      },
+      "hasMap": "https://maps.app.goo.gl/4yiUMghLn3jy7FXS8",
+      "identifier": {
+        "@type": "PropertyValue",
+        "propertyID": "PlaceID",
+        "value": "ChIJUca222dbwokR9PG-lZ3gGTo"
+      },
+      "openingHoursSpecification": [
+        {
+          "@type": "OpeningHoursSpecification",
+          "dayOfWeek": [
+            "Monday",
+            "Wednesday",
+            "Friday"
+          ],
+          "opens": "09:00",
+          "closes": "17:00"
+        },
+        {
+          "@type": "OpeningHoursSpecification",
+          "dayOfWeek": [
+            "Tuesday",
+            "Thursday"
+          ],
+          "opens": "08:00",
+          "closes": "19:00"
+        }
+      ],
+      "medicalSpecialty": "PhysicalTherapy",
+      "areaServed": [
+        {
+          "@type": "Place",
+          "name": "Tribeca"
+        },
+        {
+          "@type": "Place",
+          "name": "Lower Manhattan"
+        },
+        {
+          "@type": "Place",
+          "name": "Manhattan"
+        },
+        {
+          "@type": "Place",
+          "name": "10013"
+        },
+        {
+          "@type": "Place",
+          "name": "10004"
+        },
+        {
+          "@type": "Place",
+          "name": "10212"
+        },
+        {
+          "@type": "Place",
+          "name": "10280"
+        },
+        {
+          "@type": "Place",
+          "name": "10038"
+        },
+        {
+          "@type": "Place",
+          "name": "10273"
+        },
+        {
+          "@type": "Place",
+          "name": "10278"
+        },
+        {
+          "@type": "Place",
+          "name": "10213"
+        },
+        {
+          "@type": "Place",
+          "name": "10006"
+        },
+        {
+          "@type": "Place",
+          "name": "10007"
+        },
+        {
+          "@type": "Place",
+          "name": "10002"
+        },
+        {
+          "@type": "Place",
+          "name": "10005"
+        },
+        {
+          "@type": "Place",
+          "name": "11269"
+        },
+        {
+          "@type": "Place",
+          "name": "10275"
+        },
+        {
+          "@type": "Place",
+          "name": "10012"
+        }
+      ],
+      "isAcceptingNewPatients": true,
+      "description": "Physical therapy in Tribeca offering orthopedic rehab, stroke & neurological therapy, GAIT training, sports rehabilitation, cupping & in-home therapy. Book today.",
+      "priceRange": "$$",
+      "availableService": [
+        {"@type":"MedicalService","name":"GAIT Training","url":"https://www.ptofthecity.com/service/gait-training"},
+        {"@type":"MedicalService","name":"Initial Check-up","url":"https://www.ptofthecity.com/service/initial-check-up"},
+        {"@type":"MedicalService","name":"Orthopedic Rehabilitation","url":"https://www.ptofthecity.com/service/orthopedic-rehabilitation"},
+        {"@type":"MedicalService","name":"Cupping Treatment","url":"https://www.ptofthecity.com/service/cupping-treatment"},
+        {"@type":"MedicalService","name":"In-home Therapy","url":"https://www.ptofthecity.com/service/in-home-therapy"},
+        {"@type":"MedicalService","name":"Stroke & Neurological Rehabilitation","url":"https://www.ptofthecity.com/service/stroke-neurological-rehabilitation"},
+        {"@type":"MedicalService","name":"Sports Rehabilitation","url":"https://www.ptofthecity.com/service/sports-rehabilitation"}
+      ]
+    },
+    {
+      "@type": "WebPage",
+      "@id": "https://www.ptofthecity.com/clinic/tribeca#webpage",
+      "url": "https://www.ptofthecity.com/clinic/tribeca",
+      "name": "Physical Therapy in Tribeca, Manhattan | PT of the City",
+      "description": "Physical therapy in Tribeca offering orthopedic rehab, stroke & neurological therapy, GAIT training, sports rehabilitation, cupping & in-home therapy. Book today.",
+      "isPartOf": {"@id": "https://www.ptofthecity.com/#website"},
+      "about": {"@id": "https://www.ptofthecity.com/clinic/tribeca#medicalclinic"},
+      "primaryImageOfPage": {
+        "@type": "ImageObject",
+        "url": "https://res.cloudinary.com/dzilc11zf/image/upload/v1755874765/ptofthecity/clinics_images/f1kuaf0wcbvrdnpqvini.webp",
+        "caption": "PT of the City – Tribeca Clinic"
+      }
+    },
+    {
+      "@type": "BreadcrumbList",
+      "@id": "https://www.ptofthecity.com/clinic/tribeca#breadcrumb",
+      "itemListElement": [
+        {"@type":"ListItem","position":1,"name":"Home","item":"https://www.ptofthecity.com/"},
+        {"@type":"ListItem","position":2,"name":"Clinics","item":"https://www.ptofthecity.com/clinics/all"},
+        {"@type":"ListItem","position":3,"name":"Tribeca Clinic","item":"https://www.ptofthecity.com/clinic/tribeca"}
+      ]
+    }
+  ]
+}

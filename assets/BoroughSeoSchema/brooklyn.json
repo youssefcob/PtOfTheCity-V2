@@ -1,0 +1,49 @@
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "MedicalOrganization",
+      "@id": "https://www.ptofthecity.com/#organization",
+      "name": "PT of the City",
+      "url": "https://www.ptofthecity.com/"
+    },
+    {
+      "@type": "CollectionPage",
+      "@id": "https://www.ptofthecity.com/clinics/Brooklyn",
+      "name": "PT of the City – Brooklyn Clinics",
+      "url": "https://www.ptofthecity.com/clinics/Brooklyn",
+      "description": "Find all PT of the City physical therapy clinic locations in Brooklyn, NY. Expert care and physical therapy services at 13 convenient Brooklyn clinics.",
+      "isPartOf": { "@id": "https://www.ptofthecity.com/#organization" },
+      "mainEntity": { "@id": "https://www.ptofthecity.com/clinics/Brooklyn#list" }
+    },
+    {
+      "@type": "ItemList",
+      "@id": "https://www.ptofthecity.com/clinics/Brooklyn#list",
+      "numberOfItems": 13,
+      "itemListElement": [
+  {"@type":"ListItem","position":1,"item":{"@type":"MedicalClinic","@id":"https://www.ptofthecity.com/clinic/bay-ridge#clinic","name":"PT of the City – Bay Ridge","url":"https://www.ptofthecity.com/clinic/bay-ridge","medicalSpecialty":"PhysicalTherapy"}},
+  {"@type":"ListItem","position":2,"item":{"@type":"MedicalClinic","@id":"https://www.ptofthecity.com/clinic/bed-stuy#clinic","name":"PT of the City – Bed Stuy","url":"https://www.ptofthecity.com/clinic/bed-stuy","medicalSpecialty":"PhysicalTherapy"}},
+  {"@type":"ListItem","position":3,"item":{"@type":"MedicalClinic","@id":"https://www.ptofthecity.com/clinic/bensonhurst#clinic","name":"PT of the City – Bensonhurst","url":"https://www.ptofthecity.com/clinic/bensonhurst","medicalSpecialty":"PhysicalTherapy"}},
+  {"@type":"ListItem","position":4,"item":{"@type":"MedicalClinic","@id":"https://www.ptofthecity.com/clinic/brownsville#clinic","name":"PT of the City – Brownsville","url":"https://www.ptofthecity.com/clinic/brownsville","medicalSpecialty":"PhysicalTherapy"}},
+  {"@type":"ListItem","position":5,"item":{"@type":"MedicalClinic","@id":"https://www.ptofthecity.com/clinic/bushwick#clinic","name":"PT of the City – Bushwick","url":"https://www.ptofthecity.com/clinic/bushwick","medicalSpecialty":"PhysicalTherapy"}},
+  {"@type":"ListItem","position":6,"item":{"@type":"MedicalClinic","@id":"https://www.ptofthecity.com/clinic/church-ave#clinic","name":"PT of the City – Church Ave","url":"https://www.ptofthecity.com/clinic/church-ave","medicalSpecialty":"PhysicalTherapy"}},
+  {"@type":"ListItem","position":7,"item":{"@type":"MedicalClinic","@id":"https://www.ptofthecity.com/clinic/clinton-hill#clinic","name":"PT of the City – Clinton Hill","url":"https://www.ptofthecity.com/clinic/clinton-hill","medicalSpecialty":"PhysicalTherapy"}},
+  {"@type":"ListItem","position":8,"item":{"@type":"MedicalClinic","@id":"https://www.ptofthecity.com/clinic/cobble-hill#clinic","name":"PT of the City – Cobble Hill","url":"https://www.ptofthecity.com/clinic/cobble-hill","medicalSpecialty":"PhysicalTherapy"}},
+  {"@type":"ListItem","position":9,"item":{"@type":"MedicalClinic","@id":"https://www.ptofthecity.com/clinic/flatbush#clinic","name":"PT of the City – Flatbush","url":"https://www.ptofthecity.com/clinic/flatbush","medicalSpecialty":"PhysicalTherapy"}},
+  {"@type":"ListItem","position":10,"item":{"@type":"MedicalClinic","@id":"https://www.ptofthecity.com/clinic/greenpoint#clinic","name":"PT of the City – Greenpoint","url":"https://www.ptofthecity.com/clinic/greenpoint","medicalSpecialty":"PhysicalTherapy"}},
+  {"@type":"ListItem","position":11,"item":{"@type":"MedicalClinic","@id":"https://www.ptofthecity.com/clinic/midwood#clinic","name":"PT of the City – Midwood","url":"https://www.ptofthecity.com/clinic/midwood","medicalSpecialty":"PhysicalTherapy"}},
+  {"@type":"ListItem","position":12,"item":{"@type":"MedicalClinic","@id":"https://www.ptofthecity.com/clinic/sheepshead-bay#clinic","name":"PT of the City – Sheepshead Bay","url":"https://www.ptofthecity.com/clinic/sheepshead-bay","medicalSpecialty":"PhysicalTherapy"}},
+  {"@type":"ListItem","position":13,"item":{"@type":"MedicalClinic","@id":"https://www.ptofthecity.com/clinic/sunset-park#clinic","name":"PT of the City – Sunset Park","url":"https://www.ptofthecity.com/clinic/sunset-park","medicalSpecialty":"PhysicalTherapy"}}
+]
+    },
+    {
+      "@type": "BreadcrumbList",
+      "@id": "https://www.ptofthecity.com/clinics/Brooklyn#breadcrumb",
+      "itemListElement": [
+        {"@type":"ListItem","position":1,"name":"Home","item":"https://www.ptofthecity.com/"},
+        {"@type":"ListItem","position":2,"name":"Clinics","item":"https://www.ptofthecity.com/clinics"},
+        {"@type":"ListItem","position":3,"name":"Brooklyn","item":"https://www.ptofthecity.com/clinics/Brooklyn"}
+      ]
+    }
+  ]
+}

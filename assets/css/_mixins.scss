@@ -1,0 +1,197 @@
+// color
+
+$white: #FFF;
+$grey: #eeeced;
+$darkgrey:#D9D9D9;
+$blue: #2bc0d4;
+$blue-shadow:rgba(43, 192, 212,0.15);
+$navy:#236681;
+$black: #2C3233;
+$green: #3cb54a;
+$light-green:rgba(57, 181, 74, 0.20);
+$cta: rgb(46, 229, 193);
+$cta-font: 700;
+
+$lowOpacityGrey:rgba(16, 53, 53, 0.10);
+
+
+$landinPageHeight: 100vh;
+$firstSectionGap: 12.5rem;
+
+$formGap: 1.7rem;
+
+
+
+
+// fonts
+
+$helvetica: "Poppins", sans-serif;
+$helvetica-light: "Poppins", sans-serif;
+$montserrat: "Poppins", sans-serif;
+
+
+//font sizes:
+$h1:3rem;
+$h2: 3rem;
+$h3: 1.5rem;
+$h4: 1.25rem;
+$li:1rem;
+$p:1rem;
+$body: 1rem;
+$button: 1.3rem;
+$caption: 0.875rem;
+
+$resMargin:1rem;
+$pageMargin:11rem;
+$pagePadding:0 $pageMargin;
+$pagePaddingRes: 0 $resMargin;
+
+$navbarHeight: calc(10vh + 1rem);
+
+$section-margin:12.5rem;
+
+$border-radius:1.125rem;
+
+$input-field:height;
+
+@mixin flex($align: center, $justify: center) {
+  display: flex;
+  align-items: $align;
+  justify-content: $justify;
+}
+
+@mixin flexDirection($direction: column, $align: center) {
+  @include flex($align);
+  flex-direction: $direction;
+}
+
+@mixin responsiveFontSize($baseFontSize: 1rem) {
+  $fontSize: calc(#{$baseFontSize} / (1vw + 0.01)); // Add 0.01 to avoid division by zero
+
+  /* Set font size */
+  font-size: $fontSize;
+}
+
+@mixin scrollBar() {
+  &::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+
+  &::-webkit-scrollbar-track {
+    // -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3); 
+    -webkit-border-radius: 10px;
+    border-radius: 10px;
+  }
+
+
+  /* Handle */
+  &::-webkit-scrollbar-thumb {
+    -webkit-border-radius: 10px;
+    border-radius: 10px;
+    background: #D9D9D9;
+    // -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.5); 
+  }
+
+  // &::-webkit-scrollbar-thumb:hover {
+  //   background: $thumb-hover-color;
+  // }
+
+  // // For Firefox
+  // scrollbar-width: thin;
+  // scrollbar-color:  transparent #D9D9D9;
+
+}
+@mixin padding($direction){
+  @if($direction == left){
+    padding-left: 6.25rem;
+    @media screen and (max-width: 500px) {
+      padding-left: 2.5rem;
+    }
+  }
+  @if($direction == right){
+    padding-right: 6.25rem;
+    @media screen and (max-width: 500px) {
+      padding-right: 2.5rem;
+    }
+  }
+}
+@mixin pagePadding() {
+
+  $pagePadding: 0 $pageMargin;
+  $pagePaddingRes: 0 $resMargin;  ;
+  padding: $pagePadding;
+
+  @media screen and (max-width: 1100px) {
+    padding: $pagePaddingRes;
+    // padding-left:$pagePaddingRes;
+    // padding-right: $pagePaddingRes;
+  }
+}
+
+@mixin pageNoPadding() {
+  padding: 0;
+
+  @media screen and (max-width: 500px) {
+    .sectionHeader {
+      margin-left: 6.25rem;
+
+      @media screen and (max-width: 500px) {
+        margin-left: 2.5rem;
+
+      }
+    }
+  }
+
+}
+
+
+
+@mixin backDrop() {
+  background-color: rgba(44, 50, 51, 0.20);
+  backdrop-filter: blur(50px);
+}
+
+@mixin carouselItem($width: 100%, $snap: true) {
+  flex: 0 0 $width;
+
+  @if($snap ==true) {
+    scroll-snap-align: start;
+
+  }
+
+  border-radius: 1.125rem;
+
+}
+
+@mixin carouselItem2($noOfItems: 1) {
+  $percentage: calc(100% / $noOfItems);
+  $margin: calc(1rem / $noOfItems);
+
+  @if($noOfItems ==1) {
+    $percentage: 100%;
+    $margin: 0rem;
+  }
+
+  flex: 0 0 calc($percentage - $margin);
+
+  scroll-snap-align: start;
+  border-radius: 1.125rem;
+
+}
+
+@mixin sectionMargin() {
+  margin: 12.5rem 0;
+}
+
+@mixin image($shadow:shadow) {
+  background-position: center;
+  background-size: cover;
+  $border-radius: 1.125rem;
+
+  border-radius: $border-radius;
+
+  @if($shadow == shadow){
+    // box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+  }
+}

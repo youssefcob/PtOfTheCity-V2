@@ -1,0 +1,246 @@
+
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "MedicalProcedure",
+      "@id": "https://www.ptofthecity.com/service/initial-check-up#procedure",
+      "name": "Initial Check-up",
+      "medicalSpecialty": "PhysicalTherapy",
+      "url": "https://www.ptofthecity.com/service/initial-check-up",
+      "description": "An initial check-up is a comprehensive physical therapy evaluation designed to assess a patient's condition, mobility, strength, and overall functional limitations. It helps create a personalized treatment plan tailored to the patient's needs.",
+      "procedureType": "Diagnostic",
+      "howPerformed": "Our licensed physical therapists perform a detailed assessment including medical history review, posture analysis, range of motion testing, strength evaluation, and movement analysis to develop an individualized treatment plan.",
+      "areaServed": [
+        {
+          "@type": "City",
+          "name": "New York"
+        },
+        {
+          "@type": "AdministrativeArea",
+          "name": "Manhattan"
+        },
+        {
+          "@type": "AdministrativeArea",
+          "name": "Brooklyn"
+        },
+        {
+          "@type": "AdministrativeArea",
+          "name": "Queens"
+        },
+        {
+          "@type": "AdministrativeArea",
+          "name": "The Bronx"
+        }
+      ],
+      "provider": {
+        "@id": "https://www.ptofthecity.com/#organization"
+      },
+      "availableAt": [
+        {
+          "@type": "MedicalClinic",
+          "@id": "https://www.ptofthecity.com/clinic/allerton#medicalclinic",
+          "name": "PT of the City – Allerton Clinic"
+        },
+        {
+          "@type": "MedicalClinic",
+          "@id": "https://www.ptofthecity.com/clinic/astoria#medicalclinic",
+          "name": "PT of the City – Astoria Clinic"
+        },
+        {
+          "@type": "MedicalClinic",
+          "@id": "https://www.ptofthecity.com/clinic/bay-ridge#medicalclinic",
+          "name": "PT of the City – Bay Ridge Clinic"
+        },
+        {
+          "@type": "MedicalClinic",
+          "@id": "https://www.ptofthecity.com/clinic/bed-stuy#medicalclinic",
+          "name": "PT of the City – Bedstuy Clinic"
+        },
+        {
+          "@type": "MedicalClinic",
+          "@id": "https://www.ptofthecity.com/clinic/belmont#medicalclinic",
+          "name": "PT of the City – Belmont Clinic"
+        },
+        {
+          "@type": "MedicalClinic",
+          "@id": "https://www.ptofthecity.com/clinic/bensonhurst#medicalclinic",
+          "name": "PT of the City – Bensonhurst Clinic"
+        },
+        {
+          "@type": "MedicalClinic",
+          "@id": "https://www.ptofthecity.com/clinic/bushwick#medicalclinic",
+          "name": "PT of the City – Bushwick Clinic"
+        },
+        {
+          "@type": "MedicalClinic",
+          "@id": "https://www.ptofthecity.com/clinic/brownsville#medicalclinic",
+          "name": "PT of the City – Brownsville Clinic"
+        },
+        {
+          "@type": "MedicalClinic",
+          "@id": "https://www.ptofthecity.com/clinic/castle-hill#medicalclinic",
+          "name": "PT of the City – Castle Hill Clinic"
+        },
+        {
+          "@type": "MedicalClinic",
+          "@id": "https://www.ptofthecity.com/clinic/central-harlem#medicalclinic",
+          "name": "PT of the City – Central Harlem Clinic"
+        },
+        {
+          "@type": "MedicalClinic",
+          "@id": "https://www.ptofthecity.com/clinic/chelsea#medicalclinic",
+          "name": "PT of the City – Chelsea Clinic"
+        },
+        {
+          "@type": "MedicalClinic",
+          "@id": "https://www.ptofthecity.com/clinic/church-ave#medicalclinic",
+          "name": "PT of the City – Church Ave Clinic"
+        },
+        {
+          "@type": "MedicalClinic",
+          "@id": "https://www.ptofthecity.com/clinic/clinton-hill#medicalclinic",
+          "name": "PT of the City – Clinton Hill Clinic"
+        },
+        {
+          "@type": "MedicalClinic",
+          "@id": "https://www.ptofthecity.com/clinic/cobble-hill#medicalclinic",
+          "name": "PT of the City – Cobble Hill Clinic"
+        },
+        {
+          "@type": "MedicalClinic",
+          "@id": "https://www.ptofthecity.com/clinic/corona#medicalclinic",
+          "name": "PT of the City – Corona Clinic"
+        },
+        {
+          "@type": "MedicalClinic",
+          "@id": "https://www.ptofthecity.com/clinic/flatbush#medicalclinic",
+          "name": "PT of the City – Flatbush Clinic"
+        },
+        {
+          "@type": "MedicalClinic",
+          "@id": "https://www.ptofthecity.com/clinic/fordham#medicalclinic",
+          "name": "PT of the City – Fordham Clinic"
+        },
+        {
+          "@type": "MedicalClinic",
+          "@id": "https://www.ptofthecity.com/clinic/greenpoint#medicalclinic",
+          "name": "PT of the City – Greenpoint Clinic"
+        },
+        {
+          "@type": "MedicalClinic",
+          "@id": "https://www.ptofthecity.com/clinic/grand-concourse#medicalclinic",
+          "name": "PT of the City – Grand Concourse Clinic"
+        },
+        {
+          "@type": "MedicalClinic",
+          "@id": "https://www.ptofthecity.com/clinic/hells-kitchen#medicalclinic",
+          "name": "PT of the City – Hell's Kitchen Clinic"
+        },
+        {
+          "@type": "MedicalClinic",
+          "@id": "https://www.ptofthecity.com/clinic/hunts-point#medicalclinic",
+          "name": "PT of the City – Hunts Point Clinic"
+        },
+        {
+          "@type": "MedicalClinic",
+          "@id": "https://www.ptofthecity.com/clinic/inwood#medicalclinic",
+          "name": "PT of the City – Inwood Clinic"
+        },
+        {
+          "@type": "MedicalClinic",
+          "@id": "https://www.ptofthecity.com/clinic/jamaica#medicalclinic",
+          "name": "PT of the City – Jamaica Clinic"
+        },
+        {
+          "@type": "MedicalClinic",
+          "@id": "https://www.ptofthecity.com/clinic/lenox-hill#medicalclinic",
+          "name": "PT of the City – Lenox Hill Clinic"
+        },
+        {
+          "@type": "MedicalClinic",
+          "@id": "https://www.ptofthecity.com/clinic/midtown#medicalclinic",
+          "name": "PT of the City – Midtown Clinic"
+        },
+        {
+          "@type": "MedicalClinic",
+          "@id": "https://www.ptofthecity.com/clinic/midwood#medicalclinic",
+          "name": "PT of the City – Midwood Clinic"
+        },
+        {
+          "@type": "MedicalClinic",
+          "@id": "https://www.ptofthecity.com/clinic/riverdale#medicalclinic",
+          "name": "PT of the City – Riverdale Clinic"
+        },
+        {
+          "@type": "MedicalClinic",
+          "@id": "https://www.ptofthecity.com/clinic/sheepshead-bay#medicalclinic",
+          "name": "PT of the City – Sheepshead Bay Clinic"
+        },
+        {
+          "@type": "MedicalClinic",
+          "@id": "https://www.ptofthecity.com/clinic/sugar-hill#medicalclinic",
+          "name": "PT of the City – Sugar Hill Clinic"
+        },
+        {
+          "@type": "MedicalClinic",
+          "@id": "https://www.ptofthecity.com/clinic/sunset-park#medicalclinic",
+          "name": "PT of the City – Sunset Park Clinic"
+        },
+        {
+          "@type": "MedicalClinic",
+          "@id": "https://www.ptofthecity.com/clinic/tribeca#medicalclinic",
+          "name": "PT of the City – Tribeca Clinic"
+        },
+        {
+          "@type": "MedicalClinic",
+          "@id": "https://www.ptofthecity.com/clinic/upper-east-side#medicalclinic",
+          "name": "PT of the City – Upper East Side Clinic"
+        }
+      ]
+    },
+    {
+      "@type": "WebPage",
+      "@id": "https://www.ptofthecity.com/service/initial-check-up#webpage",
+      "url": "https://www.ptofthecity.com/service/initial-check-up",
+      "name": "Initial Physical Therapy Evaluation in NYC | Personalized Assessment",
+      "description": "Comprehensive initial physical therapy check-up in New York City. Get a personalized evaluation and treatment plan from licensed therapists.",
+      "isPartOf": {
+        "@id": "https://www.ptofthecity.com/#website"
+      },
+      "about": {
+        "@id": "https://www.ptofthecity.com/service/initial-check-up#procedure"
+      },
+      "mainEntity": {
+        "@id": "https://www.ptofthecity.com/service/initial-check-up#procedure"
+      },
+      "breadcrumb": {
+        "@id": "https://www.ptofthecity.com/service/initial-check-up#breadcrumb"
+      }
+    },
+    {
+      "@type": "BreadcrumbList",
+      "@id": "https://www.ptofthecity.com/service/initial-check-up#breadcrumb",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://www.ptofthecity.com/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Services",
+          "item": "https://www.ptofthecity.com/services"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "Initial Check-up",
+          "item": "https://www.ptofthecity.com/service/initial-check-up"
+        }
+      ]
+    }
+  ]
+}

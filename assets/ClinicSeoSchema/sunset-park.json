@@ -1,0 +1,128 @@
+
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "MedicalClinic",
+      "@id": "https://www.ptofthecity.com/clinic/sunset-park#medicalclinic",
+      "name": "PT of the City – Sunset Park Clinic",
+      "url": "https://www.ptofthecity.com/clinic/sunset-park",
+      "telephone": "+1-718-648-0888",
+      "image": "https://res.cloudinary.com/dzilc11zf/image/upload/v1755874076/ptofthecity/clinics_images/n0udrly8wywhk3zs5gct.webp",
+      "branchOf": {
+        "@type": "MedicalOrganization",
+        "@id": "https://www.ptofthecity.com/#organization",
+        "name": "PT of the City",
+        "url": "https://www.ptofthecity.com/",
+        "sameAs": [
+          "https://www.facebook.com/PTofTheCity",
+          "https://www.instagram.com/pt_city/",
+          "https://www.tiktok.com/@pt_city",
+          "https://www.linkedin.com/company/pt-of-the-city/",
+          "https://www.youtube.com/@PTofTheCity"
+        ]
+      },
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "5418 5th Ave, Ext 140",
+        "addressLocality": "Brooklyn",
+        "addressRegion": "NY",
+        "postalCode": "11220",
+        "addressCountry": "US"
+      },
+      "geo": {
+        "@type": "GeoCoordinates",
+        "latitude": 40.64262850000001,
+        "longitude": -74.01327189999999
+      },
+      "hasMap": "https://maps.app.goo.gl/QhhYqJf6zJy1dqVw8",
+      "identifier": {
+        "@type": "PropertyValue",
+        "propertyID": "PlaceID",
+        "value": "ChIJyfyly09bwokRgxMi-W2ADbs"
+      },
+      "openingHoursSpecification": [
+        {
+          "@type": "OpeningHoursSpecification",
+          "dayOfWeek": [
+            "Monday",
+            "Tuesday",
+            "Wednesday",
+            "Thursday",
+            "Friday"
+          ],
+          "opens": "08:00",
+          "closes": "19:00"
+        }
+      ],
+      "medicalSpecialty": "PhysicalTherapy",
+      "areaServed": [
+        {
+          "@type": "Place",
+          "name": "Sunset Park"
+        },
+        {
+          "@type": "Place",
+          "name": "Brooklyn"
+        },
+        {
+          "@type": "Place",
+          "name": "11220"
+        },
+        {
+          "@type": "Place",
+          "name": "11232"
+        },
+        {
+          "@type": "Place",
+          "name": "11219"
+        },
+        {
+          "@type": "Place",
+          "name": "11209"
+        },
+        {
+          "@type": "Place",
+          "name": "11228"
+        }
+      ],
+      "isAcceptingNewPatients": true,
+      "description": "Physical therapy clinic in Sunset Park, Brooklyn offering orthopedic rehabilitation, sports rehabilitation, pediatric rehabilitation, stroke & neurological rehabilitation, hand therapy, GAIT training, cupping treatment, initial check-up and in-home therapy.",
+      "priceRange": "$$",
+      "availableService": [
+        {"@type":"MedicalService","name":"GAIT Training","url":"https://www.ptofthecity.com/service/gait-training"},
+        {"@type":"MedicalService","name":"Initial Check-up","url":"https://www.ptofthecity.com/service/initial-check-up"},
+        {"@type":"MedicalService","name":"Orthopedic Rehabilitation","url":"https://www.ptofthecity.com/service/orthopedic-rehabilitation"},
+        {"@type":"MedicalService","name":"Cupping Treatment","url":"https://www.ptofthecity.com/service/cupping-treatment"},
+        {"@type":"MedicalService","name":"Hand Therapy","url":"https://www.ptofthecity.com/service/hand-therapy"},
+        {"@type":"MedicalService","name":"Pediatric Rehabilitation","url":"https://www.ptofthecity.com/service/pediatric-rehabilitation"},
+        {"@type":"MedicalService","name":"In-home Therapy","url":"https://www.ptofthecity.com/service/in-home-therapy"},
+        {"@type":"MedicalService","name":"Stroke & Neurological Rehabilitation","url":"https://www.ptofthecity.com/service/stroke-neurological-rehabilitation"},
+        {"@type":"MedicalService","name":"Sports Rehabilitation","url":"https://www.ptofthecity.com/service/sports-rehabilitation"}
+      ]
+    },
+    {
+      "@type": "WebPage",
+      "@id": "https://www.ptofthecity.com/clinic/sunset-park#webpage",
+      "url": "https://www.ptofthecity.com/clinic/sunset-park",
+      "name": "Physical Therapy in Sunset Park, Brooklyn | PT of the City",
+      "description": "Physical therapy clinic in Sunset Park, Brooklyn offering orthopedic rehabilitation, sports rehabilitation, pediatric rehabilitation, stroke & neurological rehabilitation, hand therapy, GAIT training, cupping treatment, initial check-up and in-home therapy.",
+      "isPartOf": {"@id": "https://www.ptofthecity.com/#website"},
+      "about": {"@id": "https://www.ptofthecity.com/clinic/sunset-park#medicalclinic"},
+      "primaryImageOfPage": {
+        "@type": "ImageObject",
+        "url": "https://res.cloudinary.com/dzilc11zf/image/upload/v1755874076/ptofthecity/clinics_images/n0udrly8wywhk3zs5gct.webp",
+        "caption": "PT of the City – Sunset Park Clinic"
+      }
+    },
+    {
+      "@type": "BreadcrumbList",
+      "@id": "https://www.ptofthecity.com/clinic/sunset-park#breadcrumb",
+      "itemListElement": [
+        {"@type":"ListItem","position":1,"name":"Home","item":"https://www.ptofthecity.com/"},
+        {"@type":"ListItem","position":2,"name":"Clinics","item":"https://www.ptofthecity.com/clinics/all"},
+        {"@type":"ListItem","position":3,"name":"Sunset Park Clinic","item":"https://www.ptofthecity.com/clinic/sunset-park"}
+      ]
+    }
+  ]
+}

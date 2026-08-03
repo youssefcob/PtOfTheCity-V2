@@ -1,0 +1,65 @@
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "MedicalClinic",
+      "@id": "https://www.ptofthecity.com/clinic/grand-concourse#medicalclinic",
+      "name": "PT of the City – Grand Concourse Clinic",
+      "url": "https://www.ptofthecity.com/clinic/grand-concourse",
+      "telephone": "+1-718-648-0888",
+      "image": "https://res.cloudinary.com/dzilc11zf/image/upload/v1756129107/ptofthecity/clinics_images/gexf7ahldiy8dzkjcao1.webp",
+      "branchOf": {
+        "@type": "MedicalOrganization",
+        "@id": "https://www.ptofthecity.com/#organization",
+        "name": "PT of the City",
+        "url": "https://www.ptofthecity.com/"
+      },
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "2488 Grand Concourse, RM 205, Ext 144",
+        "addressLocality": "Bronx",
+        "addressRegion": "NY",
+        "postalCode": "10458",
+        "addressCountry": "US"
+      },
+      "geo": {
+        "@type": "GeoCoordinates",
+        "latitude": 40.8620633,
+        "longitude": -73.8969605
+      },
+      "openingHoursSpecification": [
+        {
+          "@type": "OpeningHoursSpecification",
+          "dayOfWeek": [ "Monday", "Wednesday", "Friday" ],
+          "opens": "08:00",
+          "closes": "17:00"
+        },
+        {
+          "@type": "OpeningHoursSpecification",
+          "dayOfWeek": [ "Tuesday", "Thursday" ],
+          "opens": "10:00",
+          "closes": "19:00"
+        }
+      ],
+      "medicalSpecialty": "PhysicalTherapy",
+      "areaServed": [
+        { "@type": "Place", "name": "Grand Concourse" },
+        { "@type": "Place", "name": "Bronx" },
+        { "@type": "Place", "name": "10458" }
+      ],
+      "isAcceptingNewPatients": true,
+      "description": "Physical therapy in Grand Concourse offering orthopedic, neurological & pediatric rehabilitation, GAIT training, hand therapy & cupping. Book today.",
+      "priceRange": "$$",
+      "availableService": [
+        {"@type":"MedicalService","name":"Initial Check-up","url":"https://www.ptofthecity.com/service/initial-check-up"},
+        {"@type":"MedicalService","name":"Sports Rehabilitation","url":"https://www.ptofthecity.com/service/sports-rehabilitation"},
+        {"@type":"MedicalService","name":"Orthopedic Rehabilitation","url":"https://www.ptofthecity.com/service/orthopedic-rehabilitation"},
+        {"@type":"MedicalService","name":"Stroke & Neurological Rehabilitation","url":"https://www.ptofthecity.com/service/stroke-neurological-rehabilitation"},
+        {"@type":"MedicalService","name":"GAIT Training","url":"https://www.ptofthecity.com/service/gait-training"},
+        {"@type":"MedicalService","name":"Hand Therapy","url":"https://www.ptofthecity.com/service/hand-therapy"},
+        {"@type":"MedicalService","name":"Pediatric Rehabilitation","url":"https://www.ptofthecity.com/service/pediatric-rehabilitation"},
+        {"@type":"MedicalService","name":"Cupping Treatment","url":"https://www.ptofthecity.com/service/cupping-treatment"}
+      ]
+    }
+  ]
+}

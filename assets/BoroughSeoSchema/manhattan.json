@@ -1,0 +1,46 @@
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "MedicalOrganization",
+      "@id": "https://www.ptofthecity.com/#organization",
+      "name": "PT of the City",
+      "url": "https://www.ptofthecity.com/"
+    },
+    {
+      "@type": "CollectionPage",
+      "@id": "https://www.ptofthecity.com/clinics/Manhattan",
+      "name": "PT of the City – Manhattan Clinics",
+      "url": "https://www.ptofthecity.com/clinics/Manhattan",
+      "description": "Find all PT of the City physical therapy clinic locations in Manhattan, NY. Expert care and physical therapy services at 9 convenient Manhattan clinics.",
+      "isPartOf": { "@id": "https://www.ptofthecity.com/#organization" },
+      "mainEntity": { "@id": "https://www.ptofthecity.com/clinics/Manhattan#list" }
+    },
+    {
+      "@type": "ItemList",
+      "@id": "https://www.ptofthecity.com/clinics/Manhattan#list",
+      "numberOfItems": 9,
+      "itemListElement": [
+        {"@type":"ListItem","position":1,"item":{"@type":"MedicalClinic","@id":"https://www.ptofthecity.com/clinic/central-harlem#clinic","name":"PT of the City – Central Harlem","url":"https://www.ptofthecity.com/clinic/central-harlem","medicalSpecialty":"PhysicalTherapy"}},
+        {"@type":"ListItem","position":2,"item":{"@type":"MedicalClinic","@id":"https://www.ptofthecity.com/clinic/chelsea#clinic","name":"PT of the City – Chelsea","url":"https://www.ptofthecity.com/clinic/chelsea","medicalSpecialty":"PhysicalTherapy"}},
+        {"@type":"ListItem","position":3,"item":{"@type":"MedicalClinic","@id":"https://www.ptofthecity.com/clinic/hells-kitchen#clinic","name":"PT of the City – Hell's Kitchen","url":"https://www.ptofthecity.com/clinic/hells-kitchen","medicalSpecialty":"PhysicalTherapy"}},
+        {"@type":"ListItem","position":4,"item":{"@type":"MedicalClinic","@id":"https://www.ptofthecity.com/clinic/inwood#clinic","name":"PT of the City – Inwood","url":"https://www.ptofthecity.com/clinic/inwood","medicalSpecialty":"PhysicalTherapy"}},
+        {"@type":"ListItem","position":5,"item":{"@type":"MedicalClinic","@id":"https://www.ptofthecity.com/clinic/lenox-hill#clinic","name":"PT of the City – Lenox Hill","url":"https://www.ptofthecity.com/clinic/lenox-hill","medicalSpecialty":"PhysicalTherapy"}},
+        {"@type":"ListItem","position":6,"item":{"@type":"MedicalClinic","@id":"https://www.ptofthecity.com/clinic/midtown#clinic","name":"PT of the City – Midtown","url":"https://www.ptofthecity.com/clinic/midtown","medicalSpecialty":"PhysicalTherapy"}},
+        {"@type":"ListItem","position":7,"item":{"@type":"MedicalClinic","@id":"https://www.ptofthecity.com/clinic/sugar-hill#clinic","name":"PT of the City – Sugar Hill","url":"https://www.ptofthecity.com/clinic/sugar-hill","medicalSpecialty":"PhysicalTherapy"}},
+        {"@type":"ListItem","position":8,"item":{"@type":"MedicalClinic","@id":"https://www.ptofthecity.com/clinic/tribeca#clinic","name":"PT of the City – Tribeca","url":"https://www.ptofthecity.com/clinic/tribeca","medicalSpecialty":"PhysicalTherapy"}},
+        {"@type":"ListItem","position":9,"item":{"@type":"MedicalClinic","@id":"https://www.ptofthecity.com/clinic/upper-east-side#clinic","name":"PT of the City – Upper East Side","url":"https://www.ptofthecity.com/clinic/upper-east-side","medicalSpecialty":"PhysicalTherapy"}}
+      ]
+    },
+    {
+      "@type": "BreadcrumbList",
+      "@id": "https://www.ptofthecity.com/clinics/Manhattan#breadcrumb",
+      "itemListElement": [
+        {"@type":"ListItem","position":1,"name":"Home","item":"https://www.ptofthecity.com/"},
+        {"@type":"ListItem","position":2,"name":"Clinics","item":"https://www.ptofthecity.com/clinics"},
+        {"@type":"ListItem","position":3,"name":"Manhattan","item":"https://www.ptofthecity.com/clinics/Manhattan"}
+      ]
+    }
+  ]
+}
+

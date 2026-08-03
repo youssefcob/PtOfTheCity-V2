@@ -1,0 +1,151 @@
+
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "MedicalProcedure",
+      "@id": "https://www.ptofthecity.com/service/lymphedema-treatment#procedure",
+      "name": "Lymphedema Treatment",
+      "medicalSpecialty": "PhysicalTherapy",
+      "url": "https://www.ptofthecity.com/service/lymphedema-treatment",
+      "description": "Lymphedema treatment is a specialized physical therapy service focused on reducing swelling and improving lymphatic function. It involves manual lymphatic drainage, compression therapy, and therapeutic exercises to enhance circulation and patient comfort.",
+      "procedureType": "Therapeutic",
+      "howPerformed": "Our licensed physical therapists perform personalized treatment plans including manual lymphatic drainage, compression bandaging, targeted therapeutic exercises, and patient education to reduce swelling and enhance lymphatic flow.",
+      "areaServed": [
+        {
+          "@type": "City",
+          "name": "New York"
+        },
+        {
+          "@type": "AdministrativeArea",
+          "name": "Manhattan"
+        },
+        {
+          "@type": "AdministrativeArea",
+          "name": "Brooklyn"
+        },
+        {
+          "@type": "AdministrativeArea",
+          "name": "Queens"
+        },
+        {
+          "@type": "AdministrativeArea",
+          "name": "The Bronx"
+        }
+      ],
+      "provider": {
+        "@id": "https://www.ptofthecity.com/#organization"
+      },
+      "availableAt": [
+        {
+          "@type": "MedicalClinic",
+          "@id": "https://www.ptofthecity.com/clinic/allerton#medicalclinic",
+          "name": "PT of the City – Allerton Clinic"
+        },
+        {
+          "@type": "MedicalClinic",
+          "@id": "https://www.ptofthecity.com/clinic/bed-stuy#medicalclinic",
+          "name": "PT of the City – Bedstuy Clinic"
+        },
+        {
+          "@type": "MedicalClinic",
+          "@id": "https://www.ptofthecity.com/clinic/bensonhurst#medicalclinic",
+          "name": "PT of the City – Bensonhurst Clinic"
+        },
+        {
+          "@type": "MedicalClinic",
+          "@id": "https://www.ptofthecity.com/clinic/brownsville#medicalclinic",
+          "name": "PT of the City – Brownsville Clinic"
+        },
+        {
+          "@type": "MedicalClinic",
+          "@id": "https://www.ptofthecity.com/clinic/church-ave#medicalclinic",
+          "name": "PT of the City – Church Ave Clinic"
+        },
+        {
+          "@type": "MedicalClinic",
+          "@id": "https://www.ptofthecity.com/clinic/clinton-hill#medicalclinic",
+          "name": "PT of the City – Clinton Hill Clinic"
+        },
+        {
+          "@type": "MedicalClinic",
+          "@id": "https://www.ptofthecity.com/clinic/cobble-hill#medicalclinic",
+          "name": "PT of the City – Cobble Hill Clinic"
+        },
+        {
+          "@type": "MedicalClinic",
+          "@id": "https://www.ptofthecity.com/clinic/flatbush#medicalclinic",
+          "name": "PT of the City – Flatbush Clinic"
+        },
+        {
+          "@type": "MedicalClinic",
+          "@id": "https://www.ptofthecity.com/clinic/jamaica#medicalclinic",
+          "name": "PT of the City – Jamaica Clinic"
+        },
+        {
+          "@type": "MedicalClinic",
+          "@id": "https://www.ptofthecity.com/clinic/midtown#medicalclinic",
+          "name": "PT of the City – Midtown Clinic"
+        },
+        {
+          "@type": "MedicalClinic",
+          "@id": "https://www.ptofthecity.com/clinic/riverdale#medicalclinic",
+          "name": "PT of the City – Riverdale Clinic"
+        },
+        {
+          "@type": "MedicalClinic",
+          "@id": "https://www.ptofthecity.com/clinic/sheepshead-bay#medicalclinic",
+          "name": "PT of the City – Sheepshead Bay Clinic"
+        },
+        {
+          "@type": "MedicalClinic",
+          "@id": "https://www.ptofthecity.com/clinic/upper-east-side#medicalclinic",
+          "name": "PT of the City – Upper East Side Clinic"
+        }
+      ]
+    },
+    {
+      "@type": "WebPage",
+      "@id": "https://www.ptofthecity.com/service/lymphedema-treatment#webpage",
+      "url": "https://www.ptofthecity.com/service/lymphedema-treatment",
+      "name": "Lymphedema Treatment in NYC | Reduce Swelling & Improve Circulation",
+      "description": "Expert lymphedema treatment services in New York City. Improve lymphatic function, reduce swelling, and enhance comfort with personalized physical therapy programs.",
+      "isPartOf": {
+        "@id": "https://www.ptofthecity.com/#website"
+      },
+      "about": {
+        "@id": "https://www.ptofthecity.com/service/lymphedema-treatment#procedure"
+      },
+      "mainEntity": {
+        "@id": "https://www.ptofthecity.com/service/lymphedema-treatment#procedure"
+      },
+      "breadcrumb": {
+        "@id": "https://www.ptofthecity.com/service/lymphedema-treatment#breadcrumb"
+      }
+    },
+    {
+      "@type": "BreadcrumbList",
+      "@id": "https://www.ptofthecity.com/service/lymphedema-treatment#breadcrumb",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://www.ptofthecity.com/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Services",
+          "item": "https://www.ptofthecity.com/services"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "Lymphedema Treatment",
+          "item": "https://www.ptofthecity.com/service/lymphedema-treatment"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,141 @@
+
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "MedicalClinic",
+      "@id": "https://www.ptofthecity.com/clinic/hunts-point#medicalclinic",
+      "name": "PT of the City – Hunts Point Clinic",
+      "url": "https://www.ptofthecity.com/clinic/hunts-point",
+      "telephone": "+1-718-648-0888",
+      "image": "https://res.cloudinary.com/dzilc11zf/image/upload/v1755876395/ptofthecity/clinics_images/jlcpr3gl2siaus54ijn2.webp",
+      "branchOf": {
+        "@type": "MedicalOrganization",
+        "@id": "https://www.ptofthecity.com/#organization",
+        "name": "PT of the City",
+        "url": "https://www.ptofthecity.com/",
+        "sameAs": [
+          "https://www.facebook.com/PTofTheCity",
+          "https://www.instagram.com/pt_city/",
+          "https://www.tiktok.com/@pt_city",
+          "https://www.linkedin.com/company/pt-of-the-city/",
+          "https://www.youtube.com/@PTofTheCity"
+        ]
+      },
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "798 Southern Blvd, 2nd Floor, Ext 120",
+        "addressLocality": "Bronx",
+        "addressRegion": "NY",
+        "postalCode": "10455",
+        "addressCountry": "US"
+      },
+      "geo": {
+        "@type": "GeoCoordinates",
+        "latitude": 40.8160076,
+        "longitude": -73.8960008
+      },
+      "hasMap": "https://maps.app.goo.gl/DLJaYhtVwYwnpBag9",
+      "identifier": {
+        "@type": "PropertyValue",
+        "propertyID": "PlaceID",
+        "value": "ChIJqX-xVc31wokR-7Sy1NUtwCM"
+      },
+      "openingHoursSpecification": [
+        {
+          "@type": "OpeningHoursSpecification",
+          "dayOfWeek": [
+            "Monday",
+            "Wednesday",
+            "Friday"
+          ],
+          "opens": "08:00",
+          "closes": "19:00"
+        },
+        {
+          "@type": "OpeningHoursSpecification",
+          "dayOfWeek": [
+            "Tuesday",
+            "Thursday"
+          ],
+          "opens": "07:00",
+          "closes": "19:00"
+        },
+        {
+          "@type": "OpeningHoursSpecification",
+          "dayOfWeek": "Saturday",
+          "opens": "08:00",
+          "closes": "19:00"
+        }
+      ],
+      "medicalSpecialty": "PhysicalTherapy",
+      "areaServed": [
+        {
+          "@type": "Place",
+          "name": "Hunts Point"
+        },
+        {
+          "@type": "Place",
+          "name": "Bronx"
+        },
+        {
+          "@type": "Place",
+          "name": "10455"
+        },
+        {
+          "@type": "Place",
+          "name": "10459"
+        },
+        {
+          "@type": "Place",
+          "name": "10451"
+        },
+        {
+          "@type": "Place",
+          "name": "10456"
+        },
+        {
+          "@type": "Place",
+          "name": "10474"
+        }
+      ],
+      "isAcceptingNewPatients": true,
+      "description": "Physical therapy in Hunts Point offering orthopedic rehabilitation, sports rehabilitation, stroke & neurological rehabilitation, vestibular therapy, GAIT training, pelvic floor rehabilitation, in-home therapy and cupping treatment.",
+      "priceRange": "$$",
+      "availableService": [
+        {"@type":"MedicalService","name":"GAIT Training","url":"https://www.ptofthecity.com/service/gait-training"},
+        {"@type":"MedicalService","name":"Initial Check-up","url":"https://www.ptofthecity.com/service/initial-check-up"},
+        {"@type":"MedicalService","name":"Orthopedic Rehabilitation","url":"https://www.ptofthecity.com/service/orthopedic-rehabilitation"},
+        {"@type":"MedicalService","name":"Cupping Treatment","url":"https://www.ptofthecity.com/service/cupping-treatment"},
+        {"@type":"MedicalService","name":"In-home Therapy","url":"https://www.ptofthecity.com/service/in-home-therapy"},
+        {"@type":"MedicalService","name":"Stroke & Neurological Rehabilitation","url":"https://www.ptofthecity.com/service/stroke-neurological-rehabilitation"},
+        {"@type":"MedicalService","name":"Pelvic Floor Rehabilitation","url":"https://www.ptofthecity.com/service/pelvic-floor-rehabilitation"},
+        {"@type":"MedicalService","name":"Sports Rehabilitation","url":"https://www.ptofthecity.com/service/sports-rehabilitation"},
+        {"@type":"MedicalService","name":"Vestibular Rehabilitation","url":"https://www.ptofthecity.com/service/vestibular-rehabilitation"}
+      ]
+    },
+    {
+      "@type": "WebPage",
+      "@id": "https://www.ptofthecity.com/clinic/hunts-point#webpage",
+      "url": "https://www.ptofthecity.com/clinic/hunts-point",
+      "name": "Physical Therapy in Hunts Point, Bronx | PT of the City",
+      "description": "Physical therapy in Hunts Point offering orthopedic rehabilitation, sports rehabilitation, stroke & neurological rehabilitation, vestibular therapy, GAIT training, pelvic floor rehabilitation, in-home therapy and cupping treatment.",
+      "isPartOf": {"@id": "https://www.ptofthecity.com/#website"},
+      "about": {"@id": "https://www.ptofthecity.com/clinic/hunts-point#medicalclinic"},
+      "primaryImageOfPage": {
+        "@type": "ImageObject",
+        "url": "https://res.cloudinary.com/dzilc11zf/image/upload/v1755876395/ptofthecity/clinics_images/jlcpr3gl2siaus54ijn2.webp",
+        "caption": "PT of the City – Hunts Point Clinic"
+      }
+    },
+    {
+      "@type": "BreadcrumbList",
+      "@id": "https://www.ptofthecity.com/clinic/hunts-point#breadcrumb",
+      "itemListElement": [
+        {"@type":"ListItem","position":1,"name":"Home","item":"https://www.ptofthecity.com/"},
+        {"@type":"ListItem","position":2,"name":"Clinics","item":"https://www.ptofthecity.com/clinics/all"},
+        {"@type":"ListItem","position":3,"name":"Hunts Point Clinic","item":"https://www.ptofthecity.com/clinic/hunts-point"}
+      ]
+    }
+  ]
+}

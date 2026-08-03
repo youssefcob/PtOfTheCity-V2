@@ -1,0 +1,43 @@
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "MedicalOrganization",
+      "@id": "https://www.ptofthecity.com/#organization",
+      "name": "PT of the City",
+      "url": "https://www.ptofthecity.com/"
+    },
+    {
+      "@type": "CollectionPage",
+      "@id": "https://www.ptofthecity.com/clinics/The%20Bronx",
+      "name": "PT of the City – The Bronx Clinics",
+      "url": "https://www.ptofthecity.com/clinics/The%20Bronx",
+      "description": "Find all PT of the City physical therapy clinic locations in The Bronx, NY. Expert care and physical therapy services at 7 convenient Bronx clinics.",
+      "isPartOf": { "@id": "https://www.ptofthecity.com/#organization" },
+      "mainEntity": { "@id": "https://www.ptofthecity.com/clinics/The%20Bronx#list" }
+    },
+    {
+      "@type": "ItemList",
+      "@id": "https://www.ptofthecity.com/clinics/The%20Bronx#list",
+      "numberOfItems": 7,
+      "itemListElement": [
+        {"@type":"ListItem","position":1,"item":{"@type":"MedicalClinic","@id":"https://www.ptofthecity.com/clinic/allerton#clinic","name":"PT of the City – Allerton","url":"https://www.ptofthecity.com/clinic/allerton","medicalSpecialty":"PhysicalTherapy"}},
+        {"@type":"ListItem","position":2,"item":{"@type":"MedicalClinic","@id":"https://www.ptofthecity.com/clinic/belmont#clinic","name":"PT of the City – Belmont","url":"https://www.ptofthecity.com/clinic/belmont","medicalSpecialty":"PhysicalTherapy"}},
+        {"@type":"ListItem","position":3,"item":{"@type":"MedicalClinic","@id":"https://www.ptofthecity.com/clinic/castle-Hill#clinic","name":"PT of the City – Castle Hill","url":"https://www.ptofthecity.com/clinic/castle-Hill","medicalSpecialty":"PhysicalTherapy"}},
+        {"@type":"ListItem","position":4,"item":{"@type":"MedicalClinic","@id":"https://www.ptofthecity.com/clinic/fordham#clinic","name":"PT of the City – Fordham","url":"https://www.ptofthecity.com/clinic/fordham","medicalSpecialty":"PhysicalTherapy"}},
+        {"@type":"ListItem","position":5,"item":{"@type":"MedicalClinic","@id":"https://www.ptofthecity.com/clinic/grand-concourse#clinic","name":"PT of the City – Grand Concourse","url":"https://www.ptofthecity.com/clinic/grand-concourse","medicalSpecialty":"PhysicalTherapy"}},
+        {"@type":"ListItem","position":6,"item":{"@type":"MedicalClinic","@id":"https://www.ptofthecity.com/clinic/hunts-point#clinic","name":"PT of the City – Hunts Point","url":"https://www.ptofthecity.com/clinic/hunts-point","medicalSpecialty":"PhysicalTherapy"}},
+        {"@type":"ListItem","position":7,"item":{"@type":"MedicalClinic","@id":"https://www.ptofthecity.com/clinic/riverdale#clinic","name":"PT of the City – Riverdale","url":"https://www.ptofthecity.com/clinic/riverdale","medicalSpecialty":"PhysicalTherapy"}}
+      ]
+    },
+    {
+      "@type": "BreadcrumbList",
+      "@id": "https://www.ptofthecity.com/clinics/The%20Bronx#breadcrumb",
+      "itemListElement": [
+        {"@type":"ListItem","position":1,"name":"Home","item":"https://www.ptofthecity.com/"},
+        {"@type":"ListItem","position":2,"name":"Clinics","item":"https://www.ptofthecity.com/clinics"},
+        {"@type":"ListItem","position":3,"name":"The Bronx","item":"https://www.ptofthecity.com/clinics/The%20Bronx"}
+      ]
+    }
+  ]
+}

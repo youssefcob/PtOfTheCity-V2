@@ -1,0 +1,231 @@
+
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "MedicalProcedure",
+      "@id": "https://www.ptofthecity.com/service/in-home-therapy#procedure",
+      "name": "In-home Therapy",
+      "medicalSpecialty": "PhysicalTherapy",
+      "url": "https://www.ptofthecity.com/service/in-home-therapy",
+      "description": "In-home therapy is a convenient physical therapy service where licensed therapists provide personalized treatment in the comfort of the patient’s home. It is ideal for patients with mobility limitations, post-surgical recovery, or those seeking flexible care options.",
+      "procedureType": "Therapeutic",
+      "howPerformed": "Our licensed physical therapists visit patients at home and provide individualized treatment plans including mobility exercises, strength training, balance therapy, and functional movement training tailored to each patient’s condition and environment.",
+      "areaServed": [
+        {
+          "@type": "City",
+          "name": "New York"
+        },
+        {
+          "@type": "AdministrativeArea",
+          "name": "Manhattan"
+        },
+        {
+          "@type": "AdministrativeArea",
+          "name": "Brooklyn"
+        },
+        {
+          "@type": "AdministrativeArea",
+          "name": "Queens"
+        },
+        {
+          "@type": "AdministrativeArea",
+          "name": "The Bronx"
+        }
+      ],
+      "provider": {
+        "@id": "https://www.ptofthecity.com/#organization"
+      },
+      "availableAt": [
+        {
+          "@type": "MedicalClinic",
+          "@id": "https://www.ptofthecity.com/clinic/allerton#medicalclinic",
+          "name": "PT of the City – Allerton Clinic"
+        },
+        {
+          "@type": "MedicalClinic",
+          "@id": "https://www.ptofthecity.com/clinic/astoria#medicalclinic",
+          "name": "PT of the City – Astoria Clinic"
+        },
+        {
+          "@type": "MedicalClinic",
+          "@id": "https://www.ptofthecity.com/clinic/bay-ridge#medicalclinic",
+          "name": "PT of the City – Bay Ridge Clinic"
+        },
+        {
+          "@type": "MedicalClinic",
+          "@id": "https://www.ptofthecity.com/clinic/bed-stuy#medicalclinic",
+          "name": "PT of the City – Bedstuy Clinic"
+        },
+        {
+          "@type": "MedicalClinic",
+          "@id": "https://www.ptofthecity.com/clinic/belmont#medicalclinic",
+          "name": "PT of the City – Belmont Clinic"
+        },
+        {
+          "@type": "MedicalClinic",
+          "@id": "https://www.ptofthecity.com/clinic/bensonhurst#medicalclinic",
+          "name": "PT of the City – Bensonhurst Clinic"
+        },
+        {
+          "@type": "MedicalClinic",
+          "@id": "https://www.ptofthecity.com/clinic/bushwick#medicalclinic",
+          "name": "PT of the City – Bushwick Clinic"
+        },
+        {
+          "@type": "MedicalClinic",
+          "@id": "https://www.ptofthecity.com/clinic/brownsville#medicalclinic",
+          "name": "PT of the City – Brownsville Clinic"
+        },
+        {
+          "@type": "MedicalClinic",
+          "@id": "https://www.ptofthecity.com/clinic/castle-hill#medicalclinic",
+          "name": "PT of the City – Castle Hill Clinic"
+        },
+        {
+          "@type": "MedicalClinic",
+          "@id": "https://www.ptofthecity.com/clinic/central-harlem#medicalclinic",
+          "name": "PT of the City – Central Harlem Clinic"
+        },
+        {
+          "@type": "MedicalClinic",
+          "@id": "https://www.ptofthecity.com/clinic/chelsea#medicalclinic",
+          "name": "PT of the City – Chelsea Clinic"
+        },
+        {
+          "@type": "MedicalClinic",
+          "@id": "https://www.ptofthecity.com/clinic/church-ave#medicalclinic",
+          "name": "PT of the City – Church Ave Clinic"
+        },
+        {
+          "@type": "MedicalClinic",
+          "@id": "https://www.ptofthecity.com/clinic/clinton-hill#medicalclinic",
+          "name": "PT of the City – Clinton Hill Clinic"
+        },
+        {
+          "@type": "MedicalClinic",
+          "@id": "https://www.ptofthecity.com/clinic/cobble-hill#medicalclinic",
+          "name": "PT of the City – Cobble Hill Clinic"
+        },
+        {
+          "@type": "MedicalClinic",
+          "@id": "https://www.ptofthecity.com/clinic/corona#medicalclinic",
+          "name": "PT of the City – Corona Clinic"
+        },
+        {
+          "@type": "MedicalClinic",
+          "@id": "https://www.ptofthecity.com/clinic/flatbush#medicalclinic",
+          "name": "PT of the City – Flatbush Clinic"
+        },
+        {
+          "@type": "MedicalClinic",
+          "@id": "https://www.ptofthecity.com/clinic/fordham#medicalclinic",
+          "name": "PT of the City – Fordham Clinic"
+        },
+        {
+          "@type": "MedicalClinic",
+          "@id": "https://www.ptofthecity.com/clinic/greenpoint#medicalclinic",
+          "name": "PT of the City – Greenpoint Clinic"
+        },
+        {
+          "@type": "MedicalClinic",
+          "@id": "https://www.ptofthecity.com/clinic/hunts-point#medicalclinic",
+          "name": "PT of the City – Hunts Point Clinic"
+        },
+        {
+          "@type": "MedicalClinic",
+          "@id": "https://www.ptofthecity.com/clinic/inwood#medicalclinic",
+          "name": "PT of the City – Inwood Clinic"
+        },
+        {
+          "@type": "MedicalClinic",
+          "@id": "https://www.ptofthecity.com/clinic/jamaica#medicalclinic",
+          "name": "PT of the City – Jamaica Clinic"
+        },
+        {
+          "@type": "MedicalClinic",
+          "@id": "https://www.ptofthecity.com/clinic/midtown#medicalclinic",
+          "name": "PT of the City – Midtown Clinic"
+        },
+        {
+          "@type": "MedicalClinic",
+          "@id": "https://www.ptofthecity.com/clinic/midwood#medicalclinic",
+          "name": "PT of the City – Midwood Clinic"
+        },
+        {
+          "@type": "MedicalClinic",
+          "@id": "https://www.ptofthecity.com/clinic/riverdale#medicalclinic",
+          "name": "PT of the City – Riverdale Clinic"
+        },
+        {
+          "@type": "MedicalClinic",
+          "@id": "https://www.ptofthecity.com/clinic/sheepshead-bay#medicalclinic",
+          "name": "PT of the City – Sheepshead Bay Clinic"
+        },
+        {
+          "@type": "MedicalClinic",
+          "@id": "https://www.ptofthecity.com/clinic/sugar-hill#medicalclinic",
+          "name": "PT of the City – Sugar Hill Clinic"
+        },
+        {
+          "@type": "MedicalClinic",
+          "@id": "https://www.ptofthecity.com/clinic/sunset-park#medicalclinic",
+          "name": "PT of the City – Sunset Park Clinic"
+        },
+        {
+          "@type": "MedicalClinic",
+          "@id": "https://www.ptofthecity.com/clinic/tribeca#medicalclinic",
+          "name": "PT of the City – Tribeca Clinic"
+        },
+        {
+          "@type": "MedicalClinic",
+          "@id": "https://www.ptofthecity.com/clinic/upper-east-side#medicalclinic",
+          "name": "PT of the City – Upper East Side Clinic"
+        }
+      ]
+    },
+    {
+      "@type": "WebPage",
+      "@id": "https://www.ptofthecity.com/service/in-home-therapy#webpage",
+      "url": "https://www.ptofthecity.com/service/in-home-therapy",
+      "name": "In-home Physical Therapy in NYC | Convenient Care at Home",
+      "description": "Professional in-home physical therapy services in New York City. Receive personalized treatment at home to improve mobility, strength, and recovery.",
+      "isPartOf": {
+        "@id": "https://www.ptofthecity.com/#website"
+      },
+      "about": {
+        "@id": "https://www.ptofthecity.com/service/in-home-therapy#procedure"
+      },
+      "mainEntity": {
+        "@id": "https://www.ptofthecity.com/service/in-home-therapy#procedure"
+      },
+      "breadcrumb": {
+        "@id": "https://www.ptofthecity.com/service/in-home-therapy#breadcrumb"
+      }
+    },
+    {
+      "@type": "BreadcrumbList",
+      "@id": "https://www.ptofthecity.com/service/in-home-therapy#breadcrumb",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://www.ptofthecity.com/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Services",
+          "item": "https://www.ptofthecity.com/services"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "In-home Therapy",
+          "item": "https://www.ptofthecity.com/service/in-home-therapy"
+        }
+      ]
+    }
+  ]
+}

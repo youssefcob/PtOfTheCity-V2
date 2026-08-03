@@ -1,0 +1,39 @@
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "MedicalOrganization",
+      "@id": "https://www.ptofthecity.com/#organization",
+      "name": "PT of the City",
+      "url": "https://www.ptofthecity.com/"
+    },
+    {
+      "@type": "CollectionPage",
+      "@id": "https://www.ptofthecity.com/clinics/Queens",
+      "name": "PT of the City – Queens Clinics",
+      "url": "https://www.ptofthecity.com/clinics/Queens",
+      "description": "Find all PT of the City physical therapy clinic locations in Queens, NY. Expert care and physical therapy services at 3 convenient Queens clinics.",
+      "isPartOf": { "@id": "https://www.ptofthecity.com/#organization" },
+      "mainEntity": { "@id": "https://www.ptofthecity.com/clinics/Queens#list" }
+    },
+    {
+      "@type": "ItemList",
+      "@id": "https://www.ptofthecity.com/clinics/Queens#list",
+      "numberOfItems": 3,
+      "itemListElement": [
+  {"@type":"ListItem","position":1,"item":{"@type":"MedicalClinic","@id":"https://www.ptofthecity.com/clinic/astoria#clinic","name":"PT of the City – Astoria","url":"https://www.ptofthecity.com/clinic/astoria","medicalSpecialty":"PhysicalTherapy"}},
+  {"@type":"ListItem","position":2,"item":{"@type":"MedicalClinic","@id":"https://www.ptofthecity.com/clinic/corona#clinic","name":"PT of the City – Corona","url":"https://www.ptofthecity.com/clinic/corona","medicalSpecialty":"PhysicalTherapy"}},
+  {"@type":"ListItem","position":3,"item":{"@type":"MedicalClinic","@id":"https://www.ptofthecity.com/clinic/jamaica#clinic","name":"PT of the City – Jamaica","url":"https://www.ptofthecity.com/clinic/jamaica","medicalSpecialty":"PhysicalTherapy"}}
+]
+    },
+    {
+      "@type": "BreadcrumbList",
+      "@id": "https://www.ptofthecity.com/clinics/Queens#breadcrumb",
+      "itemListElement": [
+        {"@type":"ListItem","position":1,"name":"Home","item":"https://www.ptofthecity.com/"},
+        {"@type":"ListItem","position":2,"name":"Clinics","item":"https://www.ptofthecity.com/clinics"},
+        {"@type":"ListItem","position":3,"name":"Queens","item":"https://www.ptofthecity.com/clinics/Queens"}
+      ]
+    }
+  ]
+}

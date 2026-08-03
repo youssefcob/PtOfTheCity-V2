@@ -1,0 +1,130 @@
+
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "MedicalClinic",
+      "@id": "https://www.ptofthecity.com/clinic/greenpoint#medicalclinic",
+      "name": "PT of the City – Greenpoint Clinic",
+      "url": "https://www.ptofthecity.com/clinic/greenpoint",
+      "telephone": "+1-718-648-0888",
+      "image": "https://res.cloudinary.com/dzilc11zf/image/upload/v1755873653/ptofthecity/clinics_images/jgmpsktmur1fmbhctgqh.webp",
+      "branchOf": {
+        "@type": "MedicalOrganization",
+        "@id": "https://www.ptofthecity.com/#organization",
+        "name": "PT of the City",
+        "url": "https://www.ptofthecity.com/",
+        "sameAs": [
+          "https://www.facebook.com/PTofTheCity",
+          "https://www.instagram.com/pt_city/",
+          "https://www.tiktok.com/@pt_city",
+          "https://www.linkedin.com/company/pt-of-the-city/",
+          "https://www.youtube.com/@PTofTheCity"
+        ]
+      },
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "157 Greenpoint Ave, Ext 141",
+        "addressLocality": "Brooklyn",
+        "addressRegion": "NY",
+        "postalCode": "11222",
+        "addressCountry": "US"
+      },
+      "geo": {
+        "@type": "GeoCoordinates",
+        "latitude": 40.7304375,
+        "longitude": -73.9534798
+      },
+      "hasMap": "https://maps.app.goo.gl/ceLfn9QLoUmRd5A46",
+      "identifier": {
+        "@type": "PropertyValue",
+        "propertyID": "PlaceID",
+        "value": "ChIJPWU6sppZwokRMicUimpUw8g"
+      },
+      "openingHoursSpecification": [
+        {
+          "@type": "OpeningHoursSpecification",
+          "dayOfWeek": [
+            "Monday",
+            "Wednesday",
+            "Friday"
+          ],
+          "opens": "08:00",
+          "closes": "17:00"
+        },
+        {
+          "@type": "OpeningHoursSpecification",
+          "dayOfWeek": [
+            "Tuesday",
+            "Thursday"
+          ],
+          "opens": "10:00",
+          "closes": "19:00"
+        }
+      ],
+      "medicalSpecialty": "PhysicalTherapy",
+      "areaServed": [
+        {
+          "@type": "Place",
+          "name": "Greenpoint"
+        },
+        {
+          "@type": "Place",
+          "name": "Brooklyn"
+        },
+        {
+          "@type": "Place",
+          "name": "11222"
+        },
+        {
+          "@type": "Place",
+          "name": "11101"
+        },
+        {
+          "@type": "Place",
+          "name": "11249"
+        },
+        {
+          "@type": "Place",
+          "name": "11211"
+        }
+      ],
+      "isAcceptingNewPatients": true,
+      "description": "Physical therapy clinic in Greenpoint, Brooklyn offering orthopedic rehabilitation, sports rehabilitation, stroke & neurological rehabilitation, GAIT training, in-home therapy, cupping treatment, pelvic floor rehabilitation and initial check-up.",
+      "priceRange": "$$",
+      "availableService": [
+        {"@type":"MedicalService","name":"GAIT Training","url":"https://www.ptofthecity.com/service/gait-training"},
+        {"@type":"MedicalService","name":"Initial Check-up","url":"https://www.ptofthecity.com/service/initial-check-up"},
+        {"@type":"MedicalService","name":"Orthopedic Rehabilitation","url":"https://www.ptofthecity.com/service/orthopedic-rehabilitation"},
+        {"@type":"MedicalService","name":"Cupping Treatment","url":"https://www.ptofthecity.com/service/cupping-treatment"},
+        {"@type":"MedicalService","name":"In-home Therapy","url":"https://www.ptofthecity.com/service/in-home-therapy"},
+        {"@type":"MedicalService","name":"Stroke & Neurological Rehabilitation","url":"https://www.ptofthecity.com/service/stroke-neurological-rehabilitation"},
+        {"@type":"MedicalService","name":"Pelvic Floor Rehabilitation","url":"https://www.ptofthecity.com/service/pelvic-floor-rehabilitation"},
+        {"@type":"MedicalService","name":"Sports Rehabilitation","url":"https://www.ptofthecity.com/service/sports-rehabilitation"}
+      ]
+    },
+    {
+      "@type": "WebPage",
+      "@id": "https://www.ptofthecity.com/clinic/greenpoint#webpage",
+      "url": "https://www.ptofthecity.com/clinic/greenpoint",
+      "name": "Physical Therapy in Greenpoint, Brooklyn | PT of the City",
+      "description": "Physical therapy clinic in Greenpoint, Brooklyn offering orthopedic rehabilitation, sports rehabilitation, stroke & neurological rehabilitation, GAIT training, in-home therapy, cupping treatment, pelvic floor rehabilitation and initial check-up.",
+      "isPartOf": {"@id": "https://www.ptofthecity.com/#website"},
+      "about": {"@id": "https://www.ptofthecity.com/clinic/greenpoint#medicalclinic"},
+      "primaryImageOfPage": {
+        "@type": "ImageObject",
+        "url": "https://res.cloudinary.com/dzilc11zf/image/upload/v1755873653/ptofthecity/clinics_images/jgmpsktmur1fmbhctgqh.webp",
+        "caption": "PT of the City – Greenpoint Clinic"
+      }
+    },
+    {
+      "@type": "BreadcrumbList",
+      "@id": "https://www.ptofthecity.com/clinic/greenpoint#breadcrumb",
+      "itemListElement": [
+        {"@type":"ListItem","position":1,"name":"Home","item":"https://www.ptofthecity.com/"},
+        {"@type":"ListItem","position":2,"name":"Clinics","item":"https://www.ptofthecity.com/clinics/all"},
+        {"@type":"ListItem","position":3,"name":"Greenpoint Clinic","item":"https://www.ptofthecity.com/clinic/greenpoint"}
+      ]
+    }
+  ]
+}

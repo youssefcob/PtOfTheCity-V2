@@ -1,0 +1,7 @@
+# PT of the City
+
+NYC physical therapy clinic chain. Locations, services, and online booking are listed at https://www.ptofthecity.com.
+
+- Clinics: https://www.ptofthecity.com/clinic
+- Services: https://www.ptofthecity.com/service
+- Teletherapy / virtual PT: https://www.ptofthecity.com/teletherapy

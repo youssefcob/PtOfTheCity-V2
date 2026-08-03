@@ -1,0 +1,124 @@
+
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "MedicalClinic",
+      "@id": "https://www.ptofthecity.com/clinic/flatbush#medicalclinic",
+      "name": "PT of the City – Flatbush Clinic",
+      "url": "https://www.ptofthecity.com/clinic/flatbush",
+      "telephone": "+1-718-648-0888",
+      "branchOf": {
+        "@type": "MedicalOrganization",
+        "@id": "https://www.ptofthecity.com/#organization",
+        "name": "PT of the City",
+        "url": "https://www.ptofthecity.com/",
+        "sameAs": [
+          "https://www.facebook.com/PTofTheCity",
+          "https://www.instagram.com/pt_city/",
+          "https://www.tiktok.com/@pt_city",
+          "https://www.linkedin.com/company/pt-of-the-city/",
+          "https://www.youtube.com/@PTofTheCity"
+        ]
+      },
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "822 Flatbush Ave, Ext 112",
+        "addressLocality": "Brooklyn",
+        "addressRegion": "NY",
+        "postalCode": "11226",
+        "addressCountry": "US"
+      },
+      "geo": {
+        "@type": "GeoCoordinates",
+        "latitude": 40.65261009999999,
+        "longitude": -73.9594249
+      },
+      "hasMap": "https://maps.app.goo.gl/1euYArFHhFaUZaB29",
+      "identifier": {
+        "@type": "PropertyValue",
+        "propertyID": "PlaceID",
+        "value": "ChIJSVSOJZFbwokR2yXFasKURxY"
+      },
+      "openingHoursSpecification": [
+        {
+          "@type": "OpeningHoursSpecification",
+          "dayOfWeek": [
+            "Monday",
+            "Tuesday",
+            "Wednesday",
+            "Thursday",
+            "Friday",
+            "Saturday"
+          ],
+          "opens": "08:00",
+          "closes": "19:00"
+        }
+      ],
+      "medicalSpecialty": "PhysicalTherapy",
+      "areaServed": [
+        {
+          "@type": "Place",
+          "name": "Flatbush"
+        },
+        {
+          "@type": "Place",
+          "name": "Brooklyn"
+        },
+        {
+          "@type": "Place",
+          "name": "11226"
+        },
+        {
+          "@type": "Place",
+          "name": "11218"
+        },
+        {
+          "@type": "Place",
+          "name": "11225"
+        },
+        {
+          "@type": "Place",
+          "name": "11203"
+        },
+        {
+          "@type": "Place",
+          "name": "11365"
+        }
+      ],
+      "isAcceptingNewPatients": true,
+      "description": "Physical therapy clinic in Flatbush, Brooklyn offering orthopedic rehabilitation, sports rehabilitation, stroke & neurological rehabilitation, GAIT training, in-home therapy, cupping treatment, vestibular rehabilitation, lymphedema treatment, pelvic floor rehabilitation and initial check-up.",
+      "priceRange": "$$",
+      "availableService": [
+        {"@type":"MedicalService","name":"GAIT Training","url":"https://www.ptofthecity.com/service/gait-training"},
+        {"@type":"MedicalService","name":"Initial Check-up","url":"https://www.ptofthecity.com/service/initial-check-up"},
+        {"@type":"MedicalService","name":"Orthopedic Rehabilitation","url":"https://www.ptofthecity.com/service/orthopedic-rehabilitation"},
+        {"@type":"MedicalService","name":"Cupping Treatment","url":"https://www.ptofthecity.com/service/cupping-treatment"},
+        {"@type":"MedicalService","name":"In-home Therapy","url":"https://www.ptofthecity.com/service/in-home-therapy"},
+        {"@type":"MedicalService","name":"Stroke & Neurological Rehabilitation","url":"https://www.ptofthecity.com/service/stroke-neurological-rehabilitation"},
+        {"@type":"MedicalService","name":"Pelvic Floor Rehabilitation","url":"https://www.ptofthecity.com/service/pelvic-floor-rehabilitation"},
+        {"@type":"MedicalService","name":"Sports Rehabilitation","url":"https://www.ptofthecity.com/service/sports-rehabilitation"},
+        {"@type":"MedicalService","name":"Vestibular Rehabilitation","url":"https://www.ptofthecity.com/service/vestibular-rehabilitation"},
+        {"@type":"MedicalService","name":"Lymphedema Treatment","url":"https://www.ptofthecity.com/service/lymphedema-treatment"}
+      ]
+    },
+    {
+      "@type": "WebPage",
+      "@id": "https://www.ptofthecity.com/clinic/flatbush#webpage",
+      "url": "https://www.ptofthecity.com/clinic/flatbush",
+      "name": "Physical Therapy in Flatbush, Brooklyn | PT of the City",
+      "description": "Physical therapy clinic in Flatbush, Brooklyn offering orthopedic rehabilitation, sports rehabilitation, stroke & neurological rehabilitation, GAIT training, in-home therapy, cupping treatment, vestibular rehabilitation, lymphedema treatment, pelvic floor rehabilitation and initial check-up.",
+      "isPartOf": {"@id": "https://www.ptofthecity.com/#website"},
+      "about": {"@id": "https://www.ptofthecity.com/clinic/flatbush#medicalclinic"}
+    },
+    {
+      "@type": "BreadcrumbList",
+      "@id": "https://www.ptofthecity.com/clinic/flatbush#breadcrumb",
+      "itemListElement": [
+        {"@type":"ListItem","position":1,"name":"Home","item":"https://www.ptofthecity.com/"},
+        {"@type":"ListItem","position":2,"name":"Clinics","item":"https://www.ptofthecity.com/clinics/all"},
+        {"@type":"ListItem","position":3,"name":"Flatbush Clinic","item":"https://www.ptofthecity.com/clinic/flatbush"}
+      ]
+    }
+  ]
+}

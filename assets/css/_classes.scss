@@ -1,0 +1,529 @@
+@import "variables";
+@import 'mixins';
+
+body {
+  // max-width:100vw;
+  overflow-x: hidden;
+}
+
+pre {
+  color: white;
+}
+
+h1 {
+  font-family: $helvetica;
+  font-weight: 700;
+  font-size: $h1;
+  letter-spacing: 0px;
+  color: $navy;
+  line-height: 100%;
+
+}
+
+br {
+  height: 1rem;
+}
+
+h2 {
+  font-family: $helvetica-light;
+  font-weight: 300;
+  font-size: $h2;
+  letter-spacing: 0px;
+  color: #2C3233;
+
+  @media screen and (max-width: 500px) {
+    font-size: clamp(2rem, 5vw, 3rem);
+
+  }
+}
+
+h3 {
+  font-family: $helvetica-light;
+  font-weight: lighter;
+  font-size: $h3;
+  letter-spacing: 0px;
+  color: #2C3233;
+}
+
+h4 {
+  font-family: $helvetica;
+  font-weight: lighter;
+  font-size: $h4;
+  letter-spacing: 0px;
+  color: #2C3233;
+}
+
+li {
+  margin-left: 20px;
+  line-height: 130%;
+  font-weight: 500;
+
+}
+
+span {
+  font-family: $helvetica;
+  font-weight: 400;
+  letter-spacing: 0px;
+  color: #2C3233;
+  font-size: 1.4rem;
+
+}
+
+p {
+  @extend h4;
+  line-height: 2.25rem;
+
+  font-weight: 400;
+
+  @media screen and (max-width: 500px) {
+    // line-height: 4rem;
+
+  }
+}
+
+li {
+  @extend h4;
+  line-height: 2.25rem;
+
+}
+
+a {
+  text-decoration: none;
+  font-family: $montserrat;
+}
+
+.body {
+  font-family: $montserrat;
+  font-weight: 400;
+  font-size: $body;
+  letter-spacing: 0px;
+  font-stretch: extra-condensed;
+}
+
+.btnfont {
+  font-family: $montserrat;
+  font-weight: 600;
+  font-size: $button;
+  letter-spacing: 0px;
+}
+
+.caption {
+  font-family: $montserrat;
+  font-weight: lighter;
+  font-size: $caption;
+  letter-spacing: 0px;
+}
+
+.ps {
+  font-family: $montserrat;
+  font-size: 1.2rem;
+  // font-weight: 400;
+  color: lighten($black, 20%);
+  margin: 0.6rem;
+}
+
+
+.btn {
+  background-color: $blue;
+
+  color: $black;
+  border: none;
+  padding: 1.4rem 0rem;
+  border-radius: 0.925rem;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  cursor: pointer;
+  @extend .btnfont;
+
+
+  &.responsive {
+    @media screen and (max-width: 990px) {
+      padding: 2rem 0rem;
+      font-size: 1.7rem;
+    }
+
+  }
+
+  &.main {
+    margin-top: 2rem;
+    width: 30%;
+
+    @media screen and (max-width: 500px) {
+      width: 100%;
+      margin-left: none;
+    }
+  }
+
+  &.transparent {
+    background-color: transparent;
+    color: $black;
+    border: 1px solid $blue;
+    transition: all 0.3s ease-in-out;
+
+    &:hover {
+      background-color: rgba(42, 192, 212, 0.30);
+      ;
+      color: $black;
+      transition: all 0.3s ease-in-out;
+
+    }
+  }
+
+
+
+}
+
+.cta {
+  background-color: $cta;
+  font-weight: $cta-font;
+
+  &.bordered {
+    position: relative;
+
+    ::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      padding: 2px;
+      /* border thickness */
+      border-radius: 0.925rem;
+      background: linear-gradient(190deg, #DAFFFF, transparent);
+      -webkit-mask:
+        linear-gradient(#fff 0 0) content-box,
+        linear-gradient(#fff 0 0);
+      -webkit-mask-composite: xor;
+      mask-composite: exclude;
+      pointer-events: none;
+      /* allows clicks through the pseudo-element */
+    }
+  }
+
+}
+
+.sectionHeader {
+  @extend h1;
+  align-self: baseline;
+  margin-bottom: 1.25rem;
+
+  &.rtl {
+    text-align: right;
+  }
+
+
+}
+
+input[type="text"] {
+  font-family: $montserrat;
+  font-size: 1.125rem;
+
+  @media screen and (max-width: 800px) {
+    font-size: 13px;
+  }
+}
+
+.sectionHeader-m {
+  @extend .sectionHeader;
+
+  margin-left: $pageMargin;
+
+  @media screen and (max-width: 500px) {
+    margin-left: $resMargin;
+  }
+
+  &.rtl {
+    margin-left: 0;
+    padding-right: 6.25rem;
+
+    text-align: right;
+
+    @media screen and (max-width: 500px) {
+      padding-right: 2.5rem;
+
+    }
+  }
+
+}
+
+.smallHeader {
+  font-family: $helvetica;
+  font-weight: 400;
+  font-size: 2.5rem;
+
+}
+
+.text {
+  font-family: $helvetica;
+  font-weight: 400;
+  font-size: $h4;
+  letter-spacing: 0px;
+  color: $black;
+
+}
+
+.text-s {
+  font-family: $montserrat;
+  font-size: $h4;
+  font-weight: 400;
+  line-height: 200%;
+  color: $black;
+
+}
+
+.nav-font {
+  font-family: $montserrat;
+  font-size: $h4;
+  font-weight: 400;
+  line-height: 200%;
+  color: $black;
+}
+
+.landing-header {
+  @extend h1;
+  color: $white;
+
+  @media screen and (max-width: 600px) {
+    font-size: 6rem;
+
+  }
+}
+
+.header-t {
+  color: $navy;
+  font-family: $helvetica;
+  font-size: 1.5rem;
+  font-weight: 700;
+
+  &.rtl {
+    text-align: right
+  }
+}
+
+.header-q {
+  @extend .header-t;
+  font-weight: 500;
+
+  &.rtl {
+    text-align: right
+  }
+}
+
+.secondary-landing-header {
+  @extend h2;
+  color: $white;
+
+  &.rtl {
+    text-align: right
+  }
+
+  @media screen and (max-width: 500px) {
+    font-size: 4rem;
+
+  }
+
+}
+
+
+
+.input-field {
+  border: 1px solid $blue;
+  border-radius: 1.125rem;
+  background: $white;
+  outline: none;
+  height: 3.75rem;
+  padding: 1.25rem;
+
+
+}
+
+
+.star {
+  width: 300px;
+  aspect-ratio: 1;
+  background: #F8CA00;
+  clip-path: polygon(50% 0,
+      calc(50%*(1 + sin(.4turn))) calc(50%*(1 - cos(.4turn))),
+      calc(50%*(1 - sin(.2turn))) calc(50%*(1 - cos(.2turn))),
+      calc(50%*(1 + sin(.2turn))) calc(50%*(1 - cos(.2turn))),
+      calc(50%*(1 - sin(.4turn))) calc(50%*(1 - cos(.4turn))));
+  /* or more simple
+  clip-path: polygon(50% 0,79% 90%,2% 35%,98% 35%,21% 90%); 
+   */
+}
+
+.form-label {
+  color: white;
+  font-size: 3rem;
+  display: block;
+  padding-bottom: 1.2rem;
+
+}
+
+.booking-input-field {
+  border: 1px solid $blue;
+  border-radius: 1.125rem;
+  background: $white;
+  // background-color: red;
+  outline: none;
+  height: 5rem;
+  padding: 1.25rem;
+  padding-left: 18px;
+  font-size: 1.4rem;
+  display: flex;
+  align-items: center;
+  // justify-content: center;
+  color: $black;
+
+  @media screen and (max-width: 800px) {
+    height: 6rem;
+    font-size: 13px;
+
+
+  }
+
+}
+
+
+
+@media screen and (min-width: 1100px) {
+  .desktop {
+    display: block;
+  }
+
+  .mobile {
+    display: none;
+  }
+}
+
+@media screen and (max-width: 1100px) {
+  .desktop {
+    display: none;
+  }
+
+  .mobile {
+    display: block;
+  }
+}
+
+.time-picker {
+  // width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+
+  .element {
+    // width: 100%;
+    // height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    padding: 4rem;
+    border-radius: 0.5rem;
+    // background-color: rgba(255, 255, 255, 0.1);
+    height: fit-content;
+
+    .element-p {
+      font-size: 7rem;
+      font-weight: 600;
+      display: block;
+      padding: 3rem;
+
+      color: $white;
+      margin: 0;
+    }
+
+    &.active {
+      background-color: $cta;
+    }
+
+    &:hover {
+      background-color: rgba(255, 255, 255, 0.2);
+    }
+  }
+}
+
+
+.dropdown-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  height: 70vh;
+  overflow-y: scroll;
+  width: 90vw;
+  max-width: 50rem;
+  padding: 2rem;
+  border-radius: 1rem;
+  backdrop-filter: blur(7px);
+  background: rgba(16, 53, 53, 0.50);
+
+  .element {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    cursor: pointer;
+    // background-color: red;
+    border-radius: 10px;
+    padding: 1rem;
+
+    &.active {
+      background-color: $cta;
+    }
+
+    &:hover {
+      background-color: rgba(255, 255, 255, 0.1);
+      border-radius: 0.5rem;
+    }
+
+    .element-p {
+
+      color: white;
+      font-size: 2.2rem;
+      font-weight: 700;
+      padding: 2rem;
+    }
+
+    .clinic-address {
+      p {
+        color: white;
+        font-size: 1.4rem;
+      }
+    }
+  }
+
+
+  h3,
+  p {
+    color: white;
+  }
+}
+
+
+// beyond med
+.bm-eyebrow {
+  font-size: 1.1rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #1D9E75;
+  margin: 0;
+  line-height: 1;
+}
+
+.bm-heading {
+  font-family: $helvetica;
+  font-size: clamp(3rem, 4vw, 5.5rem);
+  font-weight: 400;
+  line-height: 1.1;
+  color: #1a2b2b;
+  margin: 0;
+}
+
+.bm-sub {
+  font-size: 1.45rem;
+  line-height: 1.7;
+  color: #4a5a5a;
+  margin: 0;
+}

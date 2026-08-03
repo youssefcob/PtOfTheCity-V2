@@ -1,0 +1,130 @@
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "MedicalClinic",
+      "@id": "https://www.ptofthecity.com/clinic/belmont#medicalclinic",
+      "name": "PT of the City – Belmont Clinic",
+      "url": "https://www.ptofthecity.com/clinic/belmont",
+      "telephone": "+1-718-648-0888",
+      "branchOf": {
+        "@type": "MedicalOrganization",
+        "@id": "https://www.ptofthecity.com/#organization",
+        "name": "PT of the City",
+        "url": "https://www.ptofthecity.com/",
+        "sameAs": [
+          "https://www.facebook.com/PTofTheCity",
+          "https://www.instagram.com/pt_city/",
+          "https://www.tiktok.com/@pt_city",
+          "https://www.linkedin.com/company/pt-of-the-city/",
+          "https://www.youtube.com/@PTofTheCity"
+        ]
+      },
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "4533 Third Ave",
+        "addressLocality": "Bronx",
+        "addressRegion": "NY",
+        "postalCode": "10458",
+        "addressCountry": "US"
+      },
+      "geo": {
+        "@type": "GeoCoordinates",
+        "latitude": 40.854383,
+        "longitude": -73.890953
+      },
+      "hasMap": "https://maps.app.goo.gl/qQ4BMwVbo1Yo9s429",
+      "identifier": {
+        "@type": "PropertyValue",
+        "propertyID": "PlaceID",
+        "value": "ChIJS4FrA3X1wokRNhT7gaNsoKM"
+      },
+      "openingHoursSpecification": [
+        {
+          "@type": "OpeningHoursSpecification",
+          "dayOfWeek": [
+            "Monday",
+            "Wednesday",
+            "Friday"
+          ],
+          "opens": "08:00",
+          "closes": "17:00"
+        },
+        {
+          "@type": "OpeningHoursSpecification",
+          "dayOfWeek": [
+            "Tuesday",
+            "Thursday"
+          ],
+          "opens": "10:00",
+          "closes": "19:00"
+        }
+      ],
+      "medicalSpecialty": "PhysicalTherapy",
+      "areaServed": [
+        {
+          "@type": "Place",
+          "name": "Belmont"
+        },
+        {
+          "@type": "Place",
+          "name": "Bronx"
+        },
+        {
+          "@type": "Place",
+          "name": "10458"
+        },
+        {
+          "@type": "Place",
+          "name": "10468"
+        },
+        {
+          "@type": "Place",
+          "name": "10457"
+        },
+        {
+          "@type": "Place",
+          "name": "10453"
+        },
+        {
+          "@type": "Place",
+          "name": "10460"
+        }
+      ],
+      "isAcceptingNewPatients": true,
+      "description": "Physical therapy in Belmont offering orthopedic rehabilitation, sports rehabilitation, stroke & neurological rehabilitation, pediatric therapy, pelvic floor rehabilitation, vestibular therapy, lymphedema treatment, GAIT training and in-home therapy. Book today.",
+      "priceRange": "$$",
+      "availableService": [
+        {"@type":"MedicalService","name":"Initial Check-up","url":"https://www.ptofthecity.com/service/initial-check-up"},
+        {"@type":"MedicalService","name":"Sports Rehabilitation","url":"https://www.ptofthecity.com/service/sports-rehabilitation"},
+        {"@type":"MedicalService","name":"Orthopedic Rehabilitation","url":"https://www.ptofthecity.com/service/orthopedic-rehabilitation"},
+        {"@type":"MedicalService","name":"Stroke & Neurological Rehabilitation","url":"https://www.ptofthecity.com/service/stroke-neurological-rehabilitation"},
+        {"@type":"MedicalService","name":"Vestibular Rehabilitation","url":"https://www.ptofthecity.com/service/vestibular-rehabilitation"},
+        {"@type":"MedicalService","name":"Lymphedema Treatment","url":"https://www.ptofthecity.com/service/lymphedema-treatment"},
+        {"@type":"MedicalService","name":"Pelvic Floor Rehabilitation","url":"https://www.ptofthecity.com/service/pelvic-floor-rehabilitation"},
+        {"@type":"MedicalService","name":"GAIT Training","url":"https://www.ptofthecity.com/service/gait-training"},
+        {"@type":"MedicalService","name":"Pediatric Rehabilitation","url":"https://www.ptofthecity.com/service/pediatric-rehabilitation"},
+        {"@type":"MedicalService","name":"Functional Capacity Evaluation","url":"https://www.ptofthecity.com/service/functional-capacity-evaluation"},
+        {"@type":"MedicalService","name":"In-home Therapy","url":"https://www.ptofthecity.com/service/in-home-therapy"}
+      ]
+    },
+    {
+      "@type": "WebPage",
+      "@id": "https://www.ptofthecity.com/clinic/belmont#webpage",
+      "url": "https://www.ptofthecity.com/clinic/belmont",
+      "name": "Physical Therapy in Belmont, Bronx | PT of the City",
+      "description": "Physical therapy in Belmont offering orthopedic rehabilitation, sports rehabilitation, stroke & neurological rehabilitation, pediatric therapy, pelvic floor rehabilitation, vestibular therapy, lymphedema treatment, GAIT training and in-home therapy. Book today.",
+      "isPartOf": {"@id": "https://www.ptofthecity.com/#website"},
+      "about": {"@id": "https://www.ptofthecity.com/clinic/belmont#medicalclinic"}
+    },
+    {
+      "@type": "BreadcrumbList",
+      "@id": "https://www.ptofthecity.com/clinic/belmont#breadcrumb",
+      "itemListElement": [
+        {"@type":"ListItem","position":1,"name":"Home","item":"https://www.ptofthecity.com/"},
+        {"@type":"ListItem","position":2,"name":"Clinics","item":"https://www.ptofthecity.com/clinics/all"},
+        {"@type":"ListItem","position":3,"name":"Belmont Clinic","item":"https://www.ptofthecity.com/clinic/belmont"}
+      ]
+    }
+  ]
+}

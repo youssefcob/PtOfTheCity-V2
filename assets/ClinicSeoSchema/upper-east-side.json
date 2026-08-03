@@ -1,0 +1,145 @@
+
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "MedicalClinic",
+      "@id": "https://www.ptofthecity.com/clinic/upper-east-side#medicalclinic",
+      "name": "PT of the City – Upper East Side Clinic",
+      "url": "https://www.ptofthecity.com/clinic/upper-east-side",
+      "telephone": "+1-718-648-0888",
+      "image": "https://res.cloudinary.com/dzilc11zf/image/upload/v1761069417/ptofthecity/clinics_images/elnldgixxm0imxy0yjbz.webp",
+      "branchOf": {
+        "@type": "MedicalOrganization",
+        "@id": "https://www.ptofthecity.com/#organization",
+        "name": "PT of the City",
+        "url": "https://www.ptofthecity.com/",
+        "sameAs": [
+          "https://www.facebook.com/PTofTheCity",
+          "https://www.instagram.com/pt_city/",
+          "https://www.tiktok.com/@pt_city",
+          "https://www.linkedin.com/company/pt-of-the-city/",
+          "https://www.youtube.com/@PTofTheCity"
+        ]
+      },
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "1458 Lexington Ave, Ext 132",
+        "addressLocality": "New York",
+        "addressRegion": "NY",
+        "postalCode": "10128",
+        "addressCountry": "US"
+      },
+      "geo": {
+        "@type": "GeoCoordinates",
+        "latitude": 40.784962,
+        "longitude": -73.9518823
+      },
+      "hasMap": "https://maps.app.goo.gl/ws1WLPMnjkbiPd9e7",
+      "identifier": {
+        "@type": "PropertyValue",
+        "propertyID": "PlaceID",
+        "value": "ChIJ5dZxb8lZwokRiqSBacaTxvI"
+      },
+      "openingHoursSpecification": [
+        {
+          "@type": "OpeningHoursSpecification",
+          "dayOfWeek": [
+            "Monday",
+            "Wednesday",
+            "Friday"
+          ],
+          "opens": "07:00",
+          "closes": "20:00"
+        },
+        {
+          "@type": "OpeningHoursSpecification",
+          "dayOfWeek": [
+            "Tuesday",
+            "Thursday"
+          ],
+          "opens": "09:00",
+          "closes": "19:00"
+        }
+      ],
+      "medicalSpecialty": "PhysicalTherapy",
+      "areaServed": [
+        {
+          "@type": "Place",
+          "name": "Upper East Side"
+        },
+        {
+          "@type": "Place",
+          "name": "Manhattan"
+        },
+        {
+          "@type": "Place",
+          "name": "10128"
+        },
+        {
+          "@type": "Place",
+          "name": "10029"
+        },
+        {
+          "@type": "Place",
+          "name": "10024"
+        },
+        {
+          "@type": "Place",
+          "name": "10025"
+        },
+        {
+          "@type": "Place",
+          "name": "10035"
+        },
+        {
+          "@type": "Place",
+          "name": "10130"
+        },
+        {
+          "@type": "Place",
+          "name": "10075"
+        },
+        {
+          "@type": "Place",
+          "name": "10131"
+        }
+      ],
+      "isAcceptingNewPatients": true,
+      "description": "Physical therapy in Upper East Side offering orthopedic rehabilitation, stroke & neurological rehabilitation, GAIT training, sports rehabilitation, cupping therapy and in-home therapy. Book today.",
+      "priceRange": "$$",
+      "availableService": [
+        {"@type":"MedicalService","name":"GAIT Training","url":"https://www.ptofthecity.com/service/gait-training"},
+        {"@type":"MedicalService","name":"Initial Check-up","url":"https://www.ptofthecity.com/service/initial-check-up"},
+        {"@type":"MedicalService","name":"Orthopedic Rehabilitation","url":"https://www.ptofthecity.com/service/orthopedic-rehabilitation"},
+        {"@type":"MedicalService","name":"Cupping Treatment","url":"https://www.ptofthecity.com/service/cupping-treatment"},
+        {"@type":"MedicalService","name":"In-home Therapy","url":"https://www.ptofthecity.com/service/in-home-therapy"},
+        {"@type":"MedicalService","name":"Stroke & Neurological Rehabilitation","url":"https://www.ptofthecity.com/service/stroke-neurological-rehabilitation"},
+        {"@type":"MedicalService","name":"Sports Rehabilitation","url":"https://www.ptofthecity.com/service/sports-rehabilitation"}
+      ]
+    },
+    {
+      "@type": "WebPage",
+      "@id": "https://www.ptofthecity.com/clinic/upper-east-side#webpage",
+      "url": "https://www.ptofthecity.com/clinic/upper-east-side",
+      "name": "Physical Therapy in Upper East Side, Manhattan | PT of the City",
+      "description": "Physical therapy in Upper East Side offering orthopedic rehabilitation, stroke & neurological rehabilitation, GAIT training, sports rehabilitation, cupping therapy and in-home therapy. Book today.",
+      "isPartOf": {"@id": "https://www.ptofthecity.com/#website"},
+      "about": {"@id": "https://www.ptofthecity.com/clinic/upper-east-side#medicalclinic"},
+      "primaryImageOfPage": {
+        "@type": "ImageObject",
+        "url": "https://res.cloudinary.com/dzilc11zf/image/upload/v1761069417/ptofthecity/clinics_images/elnldgixxm0imxy0yjbz.webp",
+        "caption": "PT of the City – Upper East Side Clinic"
+      }
+    },
+    {
+      "@type": "BreadcrumbList",
+      "@id": "https://www.ptofthecity.com/clinic/upper-east-side#breadcrumb",
+      "itemListElement": [
+        {"@type":"ListItem","position":1,"name":"Home","item":"https://www.ptofthecity.com/"},
+        {"@type":"ListItem","position":2,"name":"Clinics","item":"https://www.ptofthecity.com/clinics/all"},
+        {"@type":"ListItem","position":3,"name":"Upper East Side Clinic","item":"https://www.ptofthecity.com/clinic/upper-east-side"}
+      ]
+    }
+  ]
+}

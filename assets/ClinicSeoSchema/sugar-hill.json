@@ -1,0 +1,138 @@
+
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "MedicalClinic",
+      "@id": "https://www.ptofthecity.com/clinic/sugar-hill#medicalclinic",
+      "name": "PT of the City – Sugar Hill Clinic",
+      "url": "https://www.ptofthecity.com/clinic/sugar-hill",
+      "telephone": "+1-718-648-0888",
+      "image": "https://res.cloudinary.com/dzilc11zf/image/upload/v1761326054/ptofthecity/clinics_images/nhjkcjduzddwnzed3xdq.webp",
+      "branchOf": {
+        "@type": "MedicalOrganization",
+        "@id": "https://www.ptofthecity.com/#organization",
+        "name": "PT of the City",
+        "url": "https://www.ptofthecity.com/",
+        "sameAs": [
+          "https://www.facebook.com/PTofTheCity",
+          "https://www.instagram.com/pt_city/",
+          "https://www.tiktok.com/@pt_city",
+          "https://www.linkedin.com/company/pt-of-the-city/",
+          "https://www.youtube.com/@PTofTheCity"
+        ]
+      },
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "752 Saint Nicholas Ave, Ext 115",
+        "addressLocality": "New York",
+        "addressRegion": "NY",
+        "postalCode": "10031",
+        "addressCountry": "US"
+      },
+      "geo": {
+        "@type": "GeoCoordinates",
+        "latitude": 40.8258271,
+        "longitude": -73.94325169999999
+      },
+      "hasMap": "https://maps.app.goo.gl/UR8se3cJKG9KQHoNA",
+      "identifier": {
+        "@type": "PropertyValue",
+        "propertyID": "PlaceID",
+        "value": "ChIJFeKRiUf3wokRUoXFdatF0wQ"
+      },
+      "openingHoursSpecification": [
+        {
+          "@type": "OpeningHoursSpecification",
+          "dayOfWeek": [
+            "Monday",
+            "Tuesday",
+            "Wednesday",
+            "Thursday",
+            "Friday"
+          ],
+          "opens": "08:00",
+          "closes": "18:00"
+        },
+        {
+          "@type": "OpeningHoursSpecification",
+          "dayOfWeek": "Saturday",
+          "opens": "08:00",
+          "closes": "16:00"
+        }
+      ],
+      "medicalSpecialty": "PhysicalTherapy",
+      "areaServed": [
+        {
+          "@type": "Place",
+          "name": "Sugar Hill"
+        },
+        {
+          "@type": "Place",
+          "name": "Manhattan"
+        },
+        {
+          "@type": "Place",
+          "name": "10031"
+        },
+        {
+          "@type": "Place",
+          "name": "10032"
+        },
+        {
+          "@type": "Place",
+          "name": "10039"
+        },
+        {
+          "@type": "Place",
+          "name": "10030"
+        },
+        {
+          "@type": "Place",
+          "name": "10037"
+        },
+        {
+          "@type": "Place",
+          "name": "10027"
+        }
+      ],
+      "isAcceptingNewPatients": true,
+      "description": "Physical therapy in Sugar Hill offering orthopedic rehabilitation, neurological rehabilitation, sports rehabilitation, GAIT training, pelvic floor therapy, lymphedema treatment, cupping therapy & in-home therapy. Book today.",
+      "priceRange": "$$",
+      "availableService": [
+        {"@type":"MedicalService","name":"GAIT Training","url":"https://www.ptofthecity.com/service/gait-training"},
+        {"@type":"MedicalService","name":"Initial Check-up","url":"https://www.ptofthecity.com/service/initial-check-up"},
+        {"@type":"MedicalService","name":"Orthopedic Rehabilitation","url":"https://www.ptofthecity.com/service/orthopedic-rehabilitation"},
+        {"@type":"MedicalService","name":"Cupping Treatment","url":"https://www.ptofthecity.com/service/cupping-treatment"},
+        {"@type":"MedicalService","name":"In-home Therapy","url":"https://www.ptofthecity.com/service/in-home-therapy"},
+        {"@type":"MedicalService","name":"Stroke & Neurological Rehabilitation","url":"https://www.ptofthecity.com/service/stroke-neurological-rehabilitation"},
+        {"@type":"MedicalService","name":"Pelvic Floor Rehabilitation","url":"https://www.ptofthecity.com/service/pelvic-floor-rehabilitation"},
+        {"@type":"MedicalService","name":"Sports Rehabilitation","url":"https://www.ptofthecity.com/service/sports-rehabilitation"},
+        {"@type":"MedicalService","name":"Lymphedema Treatment","url":"https://www.ptofthecity.com/service/lymphedema-treatment"}
+      ]
+    },
+    {
+      "@type": "WebPage",
+      "@id": "https://www.ptofthecity.com/clinic/sugar-hill#webpage",
+      "url": "https://www.ptofthecity.com/clinic/sugar-hill",
+      "name": "Physical Therapy in Sugar Hill, Manhattan | PT of the City",
+      "description": "Physical therapy in Sugar Hill offering orthopedic rehabilitation, neurological rehabilitation, sports rehabilitation, GAIT training, pelvic floor therapy, lymphedema treatment, cupping therapy & in-home therapy. Book today.",
+      "isPartOf": {"@id": "https://www.ptofthecity.com/#website"},
+      "about": {"@id": "https://www.ptofthecity.com/clinic/sugar-hill#medicalclinic"},
+      "primaryImageOfPage": {
+        "@type": "ImageObject",
+        "url": "https://res.cloudinary.com/dzilc11zf/image/upload/v1761326054/ptofthecity/clinics_images/nhjkcjduzddwnzed3xdq.webp",
+        "caption": "PT of the City – Sugar Hill Clinic"
+      }
+    },
+    {
+      "@type": "BreadcrumbList",
+      "@id": "https://www.ptofthecity.com/clinic/sugar-hill#breadcrumb",
+      "itemListElement": [
+        {"@type":"ListItem","position":1,"name":"Home","item":"https://www.ptofthecity.com/"},
+        {"@type":"ListItem","position":2,"name":"Clinics","item":"https://www.ptofthecity.com/clinics/all"},
+        {"@type":"ListItem","position":3,"name":"Sugar Hill Clinic","item":"https://www.ptofthecity.com/clinic/sugar-hill"}
+      ]
+    }
+  ]
+}

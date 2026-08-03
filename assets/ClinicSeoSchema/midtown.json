@@ -1,0 +1,149 @@
+
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "MedicalClinic",
+      "@id": "https://www.ptofthecity.com/clinic/midtown#medicalclinic",
+      "name": "PT of the City – Midtown Clinic",
+      "url": "https://www.ptofthecity.com/clinic/midtown",
+      "telephone": "+1-718-648-0888",
+      "image": "https://res.cloudinary.com/dzilc11zf/image/upload/v1755874665/ptofthecity/clinics_images/xla17xuotq754drzr41m.webp",
+      "branchOf": {
+        "@type": "MedicalOrganization",
+        "@id": "https://www.ptofthecity.com/#organization",
+        "name": "PT of the City",
+        "url": "https://www.ptofthecity.com/",
+        "sameAs": [
+          "https://www.facebook.com/PTofTheCity",
+          "https://www.instagram.com/pt_city/",
+          "https://www.tiktok.com/@pt_city",
+          "https://www.linkedin.com/company/pt-of-the-city/",
+          "https://www.youtube.com/@PTofTheCity"
+        ]
+      },
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "575 8th Ave, 10th Floor",
+        "addressLocality": "New York",
+        "addressRegion": "NY",
+        "postalCode": "10018",
+        "addressCountry": "US"
+      },
+      "geo": {
+        "@type": "GeoCoordinates",
+        "latitude": 40.75497329999999,
+        "longitude": -73.9917741
+      },
+      "hasMap": "https://maps.app.goo.gl/vdEhTYyXwBBpVcFPA",
+      "identifier": {
+        "@type": "PropertyValue",
+        "propertyID": "PlaceID",
+        "value": "ChIJx4IBWOFZwokRbrUvdseU648"
+      },
+      "openingHoursSpecification": [
+        {
+          "@type": "OpeningHoursSpecification",
+          "dayOfWeek": [
+            "Monday",
+            "Tuesday",
+            "Wednesday",
+            "Thursday",
+            "Friday"
+          ],
+          "opens": "07:00",
+          "closes": "19:00"
+        }
+      ],
+      "medicalSpecialty": "PhysicalTherapy",
+      "areaServed": [
+        {
+          "@type": "Place",
+          "name": "Midtown"
+        },
+        {
+          "@type": "Place",
+          "name": "Manhattan"
+        },
+        {
+          "@type": "Place",
+          "name": "10018"
+        },
+        {
+          "@type": "Place",
+          "name": "10138"
+        },
+        {
+          "@type": "Place",
+          "name": "10109"
+        },
+        {
+          "@type": "Place",
+          "name": "10036"
+        },
+        {
+          "@type": "Place",
+          "name": "10117"
+        },
+        {
+          "@type": "Place",
+          "name": "10001"
+        },
+        {
+          "@type": "Place",
+          "name": "10164"
+        },
+        {
+          "@type": "Place",
+          "name": "10017"
+        },
+        {
+          "@type": "Place",
+          "name": "10016"
+        },
+        {
+          "@type": "Place",
+          "name": "10157"
+        }
+      ],
+      "isAcceptingNewPatients": true,
+      "description": "Physical therapy in Midtown offering orthopedic, neurological & sports rehabilitation, GAIT training, pelvic floor, vestibular therapy, lymphedema treatment, cupping & in-home therapy. Book today.",
+      "priceRange": "$$",
+      "availableService": [
+        {"@type":"MedicalService","name":"GAIT Training","url":"https://www.ptofthecity.com/service/gait-training"},
+        {"@type":"MedicalService","name":"Initial Check-up","url":"https://www.ptofthecity.com/service/initial-check-up"},
+        {"@type":"MedicalService","name":"Orthopedic Rehabilitation","url":"https://www.ptofthecity.com/service/orthopedic-rehabilitation"},
+        {"@type":"MedicalService","name":"Cupping Treatment","url":"https://www.ptofthecity.com/service/cupping-treatment"},
+        {"@type":"MedicalService","name":"In-home Therapy","url":"https://www.ptofthecity.com/service/in-home-therapy"},
+        {"@type":"MedicalService","name":"Stroke & Neurological Rehabilitation","url":"https://www.ptofthecity.com/service/stroke-neurological-rehabilitation"},
+        {"@type":"MedicalService","name":"Pelvic Floor Rehabilitation","url":"https://www.ptofthecity.com/service/pelvic-floor-rehabilitation"},
+        {"@type":"MedicalService","name":"Sports Rehabilitation","url":"https://www.ptofthecity.com/service/sports-rehabilitation"},
+        {"@type":"MedicalService","name":"Vestibular Rehabilitation","url":"https://www.ptofthecity.com/service/vestibular-rehabilitation"},
+        {"@type":"MedicalService","name":"Lymphedema Treatment","url":"https://www.ptofthecity.com/service/lymphedema-treatment"}
+      ]
+    },
+    {
+      "@type": "WebPage",
+      "@id": "https://www.ptofthecity.com/clinic/midtown#webpage",
+      "url": "https://www.ptofthecity.com/clinic/midtown",
+      "name": "Physical Therapy in Midtown, Manhattan | PT of the City",
+      "description": "Physical therapy in Midtown offering orthopedic, neurological & sports rehabilitation, GAIT training, pelvic floor, vestibular therapy, lymphedema treatment, cupping & in-home therapy. Book today.",
+      "isPartOf": {"@id": "https://www.ptofthecity.com/#website"},
+      "about": {"@id": "https://www.ptofthecity.com/clinic/midtown#medicalclinic"},
+      "primaryImageOfPage": {
+        "@type": "ImageObject",
+        "url": "https://res.cloudinary.com/dzilc11zf/image/upload/v1755874665/ptofthecity/clinics_images/xla17xuotq754drzr41m.webp",
+        "caption": "PT of the City – Midtown Clinic"
+      }
+    },
+    {
+      "@type": "BreadcrumbList",
+      "@id": "https://www.ptofthecity.com/clinic/midtown#breadcrumb",
+      "itemListElement": [
+        {"@type":"ListItem","position":1,"name":"Home","item":"https://www.ptofthecity.com/"},
+        {"@type":"ListItem","position":2,"name":"Clinics","item":"https://www.ptofthecity.com/clinics/all"},
+        {"@type":"ListItem","position":3,"name":"Midtown Clinic","item":"https://www.ptofthecity.com/clinic/midtown"}
+      ]
+    }
+  ]
+}

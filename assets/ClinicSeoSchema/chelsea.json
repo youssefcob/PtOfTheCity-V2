@@ -1,0 +1,111 @@
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "MedicalClinic",
+      "@id": "https://www.ptofthecity.com/clinic/chelsea#medicalclinic",
+      "name": "PT of the City – Chelsea Clinic",
+      "url": "https://www.ptofthecity.com/clinic/chelsea",
+      "telephone": "+1-718-648-0888",
+      "image": "https://res.cloudinary.com/dzilc11zf/image/upload/v1755874218/ptofthecity/clinics_images/zuhltjkqnexjpre85mjq.webp",
+      "branchOf": {
+        "@type": "MedicalOrganization",
+        "@id": "https://www.ptofthecity.com/#organization",
+        "name": "PT of the City",
+        "url": "https://www.ptofthecity.com/",
+        "sameAs": [
+          "https://www.facebook.com/PTofTheCity",
+          "https://www.instagram.com/pt_city/",
+          "https://www.tiktok.com/@pt_city",
+          "https://www.linkedin.com/company/pt-of-the-city/",
+          "https://www.youtube.com/@PTofTheCity"
+        ]
+      },
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "231 W 19th St",
+        "addressLocality": "New York",
+        "addressRegion": "NY",
+        "postalCode": "10011",
+        "addressCountry": "US"
+      },
+      "geo": {
+        "@type": "GeoCoordinates",
+        "latitude": 40.7423601,
+        "longitude": -73.998623
+      },
+      "hasMap": "https://maps.app.goo.gl/eURSw1gdGAwxqQNu7",
+      "identifier": {
+        "@type": "PropertyValue",
+        "propertyID": "PlaceID",
+        "value": "ChIJN8gCUYFZwokRZ6pCTME4vGw"
+      },
+      "openingHoursSpecification": [
+        {
+          "@type": "OpeningHoursSpecification",
+          "dayOfWeek": [ "Monday", "Wednesday", "Friday" ],
+          "opens": "08:00",
+          "closes": "17:00"
+        },
+        {
+          "@type": "OpeningHoursSpecification",
+          "dayOfWeek": [ "Tuesday", "Thursday" ],
+          "opens": "10:00",
+          "closes": "19:00"
+        }
+      ],
+      "medicalSpecialty": "PhysicalTherapy",
+      "areaServed": [
+        { "@type": "Place", "name": "Chelsea" },
+        { "@type": "Place", "name": "Manhattan" },
+        { "@type": "Place", "name": "10011" },
+        { "@type": "Place", "name": "10014" },
+        { "@type": "Place", "name": "10144" },
+        { "@type": "Place", "name": "10003" },
+        { "@type": "Place", "name": "10009" },
+        { "@type": "Place", "name": "10010" },
+        { "@type": "Place", "name": "10160" },
+        { "@type": "Place", "name": "10001" },
+        { "@type": "Place", "name": "10117" }
+      ],
+      "isAcceptingNewPatients": true,
+      "description": "Physical therapy in Chelsea offering sports rehab, orthopedic & neurological therapy, GAIT training, vestibular therapy, pelvic floor rehab & hand therapy. Book today.",
+      "priceRange": "$$",
+      "availableService": [
+        {"@type":"MedicalService","name":"Initial Check-up","url":"https://www.ptofthecity.com/service/initial-check-up"},
+        {"@type":"MedicalService","name":"Sports Rehabilitation","url":"https://www.ptofthecity.com/service/sports-rehabilitation"},
+        {"@type":"MedicalService","name":"Orthopedic Rehabilitation","url":"https://www.ptofthecity.com/service/orthopedic-rehabilitation"},
+        {"@type":"MedicalService","name":"Stroke & Neurological Rehabilitation","url":"https://www.ptofthecity.com/service/stroke-neurological-rehabilitation"},
+        {"@type":"MedicalService","name":"Vestibular Rehabilitation","url":"https://www.ptofthecity.com/service/vestibular-rehabilitation"},
+        {"@type":"MedicalService","name":"Pelvic Floor Rehabilitation","url":"https://www.ptofthecity.com/service/pelvic-floor-rehabilitation"},
+        {"@type":"MedicalService","name":"Hand Therapy","url":"https://www.ptofthecity.com/service/hand-therapy"},
+        {"@type":"MedicalService","name":"GAIT Training","url":"https://www.ptofthecity.com/service/gait-training"},
+        {"@type":"MedicalService","name":"Cupping Treatment","url":"https://www.ptofthecity.com/service/cupping-treatment"},
+        {"@type":"MedicalService","name":"In-home Therapy","url":"https://www.ptofthecity.com/service/in-home-therapy"}
+      ]
+    },
+    {
+      "@type": "WebPage",
+      "@id": "https://www.ptofthecity.com/clinic/chelsea#webpage",
+      "url": "https://www.ptofthecity.com/clinic/chelsea",
+      "name": "Physical Therapy in Chelsea, Manhattan | PT of the City",
+      "description": "Physical therapy in Chelsea offering sports rehab, orthopedic & neurological therapy, GAIT training, vestibular therapy, pelvic floor rehab & hand therapy. Book today.",
+      "isPartOf": {"@id": "https://www.ptofthecity.com/#website"},
+      "about": {"@id": "https://www.ptofthecity.com/clinic/chelsea#medicalclinic"},
+      "primaryImageOfPage": {
+        "@type": "ImageObject",
+        "url": "https://res.cloudinary.com/dzilc11zf/image/upload/v1755874218/ptofthecity/clinics_images/zuhltjkqnexjpre85mjq.webp",
+        "caption": "PT of the City – Chelsea Clinic"
+      }
+    },
+    {
+      "@type": "BreadcrumbList",
+      "@id": "https://www.ptofthecity.com/clinic/chelsea#breadcrumb",
+      "itemListElement": [
+        {"@type":"ListItem","position":1,"name":"Home","item":"https://www.ptofthecity.com/"},
+        {"@type":"ListItem","position":2,"name":"Clinics","item":"https://www.ptofthecity.com/clinics/all"},
+        {"@type":"ListItem","position":3,"name":"Chelsea Clinic","item":"https://www.ptofthecity.com/clinic/chelsea"}
+      ]
+    }
+  ]
+}

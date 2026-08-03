@@ -1,0 +1,36 @@
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebPage",
+      "@id": "https://www.ptofthecity.com/benchcraft#webpage",
+      "url": "https://www.ptofthecity.com/benchcraft",
+      "name": "BenchCraft | PT of the City",
+      "description": "",
+      "isPartOf": {
+        "@id": "https://www.ptofthecity.com/#website"
+      },
+      "breadcrumb": {
+        "@id": "https://www.ptofthecity.com/benchcraft#breadcrumb"
+      }
+    },
+    {
+      "@type": "BreadcrumbList",
+      "@id": "https://www.ptofthecity.com/benchcraft#breadcrumb",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://www.ptofthecity.com/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "BenchCraft",
+          "item": "https://www.ptofthecity.com/benchcraft"
+        }
+      ]
+    }
+  ]
+}

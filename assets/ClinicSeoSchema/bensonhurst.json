@@ -1,0 +1,134 @@
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "MedicalClinic",
+      "@id": "https://www.ptofthecity.com/clinic/bensonhurst#medicalclinic",
+      "name": "PT of the City – Bensonhurst Clinic",
+      "url": "https://www.ptofthecity.com/clinic/bensonhurst",
+      "telephone": "+1-718-648-0888",
+      "image": "https://res.cloudinary.com/dzilc11zf/image/upload/v1755872816/ptofthecity/clinics_images/lmxwenfjkwnoibi45wud.webp",
+      "branchOf": {
+        "@type": "MedicalOrganization",
+        "@id": "https://www.ptofthecity.com/#organization",
+        "name": "PT of the City",
+        "url": "https://www.ptofthecity.com/",
+        "sameAs": [
+          "https://www.facebook.com/PTofTheCity",
+          "https://www.instagram.com/pt_city/",
+          "https://www.tiktok.com/@pt_city",
+          "https://www.linkedin.com/company/pt-of-the-city/",
+          "https://www.youtube.com/@PTofTheCity"
+        ]
+      },
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "8746 20th Ave, Ext 105",
+        "addressLocality": "Brooklyn",
+        "addressRegion": "NY",
+        "postalCode": "11214",
+        "addressCountry": "US"
+      },
+      "geo": {
+        "@type": "GeoCoordinates",
+        "latitude": 40.6018807,
+        "longitude": -74.0014821
+      },
+      "hasMap": "https://maps.app.goo.gl/uDbgpea5eL2vHNwU7",
+      "identifier": {
+        "@type": "PropertyValue",
+        "propertyID": "PlaceID",
+        "value": "ChIJgc_AwFFFwokRBunhMxuAByE"
+      },
+      "openingHoursSpecification": [
+        {
+          "@type": "OpeningHoursSpecification",
+          "dayOfWeek": [
+            "Monday",
+            "Tuesday",
+            "Wednesday",
+            "Thursday",
+            "Friday"
+          ],
+          "opens": "08:00",
+          "closes": "19:00"
+        },
+        {
+          "@type": "OpeningHoursSpecification",
+          "dayOfWeek": "Saturday",
+          "opens": "09:00",
+          "closes": "19:00"
+        },
+        {
+          "@type": "OpeningHoursSpecification",
+          "dayOfWeek": "Sunday",
+          "opens": "09:00",
+          "closes": "17:00"
+        }
+      ],
+      "medicalSpecialty": "PhysicalTherapy",
+      "areaServed": [
+        {
+          "@type": "Place",
+          "name": "Bensonhurst"
+        },
+        {
+          "@type": "Place",
+          "name": "Brooklyn"
+        },
+        {
+          "@type": "Place",
+          "name": "11214"
+        },
+        {
+          "@type": "Place",
+          "name": "11228"
+        },
+        {
+          "@type": "Place",
+          "name": "11204"
+        }
+      ],
+      "isAcceptingNewPatients": true,
+      "description": "Physical therapy clinic in Bensonhurst, Brooklyn providing orthopedic rehabilitation, sports rehabilitation, stroke & neurological rehabilitation, vestibular therapy, pelvic floor rehabilitation, pediatric rehabilitation, lymphedema treatment, hand therapy, GAIT training, in-home therapy and cupping treatment.",
+      "priceRange": "$$",
+      "availableService": [
+        {"@type":"MedicalService","name":"GAIT Training","url":"https://www.ptofthecity.com/service/gait-training"},
+        {"@type":"MedicalService","name":"Initial Check-up","url":"https://www.ptofthecity.com/service/initial-check-up"},
+        {"@type":"MedicalService","name":"Orthopedic Rehabilitation","url":"https://www.ptofthecity.com/service/orthopedic-rehabilitation"},
+        {"@type":"MedicalService","name":"Cupping Treatment","url":"https://www.ptofthecity.com/service/cupping-treatment"},
+        {"@type":"MedicalService","name":"Hand Therapy","url":"https://www.ptofthecity.com/service/hand-therapy"},
+        {"@type":"MedicalService","name":"Pediatric Rehabilitation","url":"https://www.ptofthecity.com/service/pediatric-rehabilitation"},
+        {"@type":"MedicalService","name":"In-home Therapy","url":"https://www.ptofthecity.com/service/in-home-therapy"},
+        {"@type":"MedicalService","name":"Stroke & Neurological Rehabilitation","url":"https://www.ptofthecity.com/service/stroke-neurological-rehabilitation"},
+        {"@type":"MedicalService","name":"Pelvic Floor Rehabilitation","url":"https://www.ptofthecity.com/service/pelvic-floor-rehabilitation"},
+        {"@type":"MedicalService","name":"Sports Rehabilitation","url":"https://www.ptofthecity.com/service/sports-rehabilitation"},
+        {"@type":"MedicalService","name":"Vestibular Rehabilitation","url":"https://www.ptofthecity.com/service/vestibular-rehabilitation"},
+        {"@type":"MedicalService","name":"Lymphedema Treatment","url":"https://www.ptofthecity.com/service/lymphedema-treatment"}
+      ]
+    },
+    {
+      "@type": "WebPage",
+      "@id": "https://www.ptofthecity.com/clinic/bensonhurst#webpage",
+      "url": "https://www.ptofthecity.com/clinic/bensonhurst",
+      "name": "Physical Therapy in Bensonhurst, Brooklyn | PT of the City",
+      "description": "Physical therapy in Bensonhurst, Brooklyn offering orthopedic rehabilitation, sports rehabilitation, stroke & neurological rehabilitation, vestibular therapy, pelvic floor rehabilitation, pediatric rehabilitation, lymphedema treatment, hand therapy, GAIT training, in-home therapy and cupping treatment.",
+      "isPartOf": {"@id": "https://www.ptofthecity.com/#website"},
+      "about": {"@id": "https://www.ptofthecity.com/clinic/bensonhurst#medicalclinic"},
+      "primaryImageOfPage": {
+        "@type": "ImageObject",
+        "url": "https://res.cloudinary.com/dzilc11zf/image/upload/v1755872816/ptofthecity/clinics_images/lmxwenfjkwnoibi45wud.webp",
+        "caption": "PT of the City – Bensonhurst Clinic"
+      }
+    },
+    {
+      "@type": "BreadcrumbList",
+      "@id": "https://www.ptofthecity.com/clinic/bensonhurst#breadcrumb",
+      "itemListElement": [
+        {"@type":"ListItem","position":1,"name":"Home","item":"https://www.ptofthecity.com/"},
+        {"@type":"ListItem","position":2,"name":"Clinics","item":"https://www.ptofthecity.com/clinics/all"},
+        {"@type":"ListItem","position":3,"name":"Bensonhurst Clinic","item":"https://www.ptofthecity.com/clinic/bensonhurst"}
+      ]
+    }
+  ]
+}

@@ -1,0 +1,121 @@
+
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "MedicalClinic",
+      "@id": "https://www.ptofthecity.com/clinic/midwood#medicalclinic",
+      "name": "PT of the City – Midwood Clinic",
+      "url": "https://www.ptofthecity.com/clinic/midwood",
+      "telephone": "+1-718-648-0888",
+      "image": "https://res.cloudinary.com/dzilc11zf/image/upload/v1755873751/ptofthecity/clinics_images/k6jcbchg80xena3nudnh.webp",
+      "branchOf": {
+        "@type": "MedicalOrganization",
+        "@id": "https://www.ptofthecity.com/#organization",
+        "name": "PT of the City",
+        "url": "https://www.ptofthecity.com/",
+        "sameAs": [
+          "https://www.facebook.com/PTofTheCity",
+          "https://www.instagram.com/pt_city/",
+          "https://www.tiktok.com/@pt_city",
+          "https://www.linkedin.com/company/pt-of-the-city/",
+          "https://www.youtube.com/@PTofTheCity"
+        ]
+      },
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "1600 Ave M, Ext 127",
+        "addressLocality": "Brooklyn",
+        "addressRegion": "NY",
+        "postalCode": "11230",
+        "addressCountry": "US"
+      },
+      "geo": {
+        "@type": "GeoCoordinates",
+        "latitude": 40.617974,
+        "longitude": -73.9589544
+      },
+      "hasMap": "https://maps.app.goo.gl/UJRoTs28fqjC3Avk8",
+      "identifier": {
+        "@type": "PropertyValue",
+        "propertyID": "PlaceID",
+        "value": "ChIJhyz8zrNFwokRMNUvu4R7E3c"
+      },
+      "openingHoursSpecification": [
+        {
+          "@type": "OpeningHoursSpecification",
+          "dayOfWeek": [
+            "Monday",
+            "Tuesday",
+            "Wednesday",
+            "Thursday",
+            "Friday"
+          ],
+          "opens": "08:00",
+          "closes": "19:00"
+        }
+      ],
+      "medicalSpecialty": "PhysicalTherapy",
+      "areaServed": [
+        {
+          "@type": "Place",
+          "name": "Midwood"
+        },
+        {
+          "@type": "Place",
+          "name": "Brooklyn"
+        },
+        {
+          "@type": "Place",
+          "name": "11230"
+        },
+        {
+          "@type": "Place",
+          "name": "11210"
+        },
+        {
+          "@type": "Place",
+          "name": "11229"
+        }
+      ],
+      "isAcceptingNewPatients": true,
+      "description": "Physical therapy clinic in Midwood, Brooklyn offering orthopedic rehabilitation, sports rehabilitation, stroke & neurological rehabilitation, vestibular rehabilitation, pelvic floor rehabilitation, GAIT training, cupping treatment, lymphedema treatment, initial check-up and in-home therapy.",
+      "priceRange": "$$",
+      "availableService": [
+        {"@type":"MedicalService","name":"GAIT Training","url":"https://www.ptofthecity.com/service/gait-training"},
+        {"@type":"MedicalService","name":"Initial Check-up","url":"https://www.ptofthecity.com/service/initial-check-up"},
+        {"@type":"MedicalService","name":"Orthopedic Rehabilitation","url":"https://www.ptofthecity.com/service/orthopedic-rehabilitation"},
+        {"@type":"MedicalService","name":"Cupping Treatment","url":"https://www.ptofthecity.com/service/cupping-treatment"},
+        {"@type":"MedicalService","name":"In-home Therapy","url":"https://www.ptofthecity.com/service/in-home-therapy"},
+        {"@type":"MedicalService","name":"Stroke & Neurological Rehabilitation","url":"https://www.ptofthecity.com/service/stroke-neurological-rehabilitation"},
+        {"@type":"MedicalService","name":"Pelvic Floor Rehabilitation","url":"https://www.ptofthecity.com/service/pelvic-floor-rehabilitation"},
+        {"@type":"MedicalService","name":"Sports Rehabilitation","url":"https://www.ptofthecity.com/service/sports-rehabilitation"},
+        {"@type":"MedicalService","name":"Vestibular Rehabilitation","url":"https://www.ptofthecity.com/service/vestibular-rehabilitation"},
+        {"@type":"MedicalService","name":"Lymphedema Treatment","url":"https://www.ptofthecity.com/service/lymphedema-treatment"}
+      ]
+    },
+    {
+      "@type": "WebPage",
+      "@id": "https://www.ptofthecity.com/clinic/midwood#webpage",
+      "url": "https://www.ptofthecity.com/clinic/midwood",
+      "name": "Physical Therapy in Midwood, Brooklyn | PT of the City",
+      "description": "Physical therapy clinic in Midwood, Brooklyn offering orthopedic rehabilitation, sports rehabilitation, stroke & neurological rehabilitation, vestibular rehabilitation, pelvic floor rehabilitation, GAIT training, cupping treatment, lymphedema treatment, initial check-up and in-home therapy.",
+      "isPartOf": {"@id": "https://www.ptofthecity.com/#website"},
+      "about": {"@id": "https://www.ptofthecity.com/clinic/midwood#medicalclinic"},
+      "primaryImageOfPage": {
+        "@type": "ImageObject",
+        "url": "https://res.cloudinary.com/dzilc11zf/image/upload/v1755873751/ptofthecity/clinics_images/k6jcbchg80xena3nudnh.webp",
+        "caption": "PT of the City – Midwood Clinic"
+      }
+    },
+    {
+      "@type": "BreadcrumbList",
+      "@id": "https://www.ptofthecity.com/clinic/midwood#breadcrumb",
+      "itemListElement": [
+        {"@type":"ListItem","position":1,"name":"Home","item":"https://www.ptofthecity.com/"},
+        {"@type":"ListItem","position":2,"name":"Clinics","item":"https://www.ptofthecity.com/clinics/all"},
+        {"@type":"ListItem","position":3,"name":"Midwood Clinic","item":"https://www.ptofthecity.com/clinic/midwood"}
+      ]
+    }
+  ]
+}

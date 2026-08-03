@@ -1,0 +1,139 @@
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "MedicalOrganization",
+      "@id": "https://www.ptofthecity.com/#organization",
+      "name": "PT of the City",
+      "alternateName": "PT of the City – NYC's Top-Rated Physical Therapy Clinics",
+      "url": "https://www.ptofthecity.com/",
+      "logo": "https://www.ptofthecity.com/images/logo.png",
+      "sameAs": [
+        "https://www.facebook.com/PTofTheCity",
+        "https://www.instagram.com/pt_city/",
+        "https://www.tiktok.com/@pt_city",
+        "https://www.linkedin.com/company/pt-of-the-city/",
+        "https://www.youtube.com/@PTofTheCity"
+      ]
+    },
+    {
+      "@type": "Service",
+      "@id": "https://www.ptofthecity.com/teletherapy#service",
+      "name": "Virtual Physical Therapy",
+      "description": "Online physical therapy services in NYC including injury rehab, post-surgery recovery, sports rehab, and pain management delivered via secure telehealth sessions.",
+      "provider": {
+        "@id": "https://www.ptofthecity.com/#organization"
+      },
+      "areaServed": [
+        {
+          "@type": "City",
+          "name": "New York"
+        },
+        {
+          "@type": "AdministrativeArea",
+          "name": "Manhattan"
+        },
+        {
+          "@type": "AdministrativeArea",
+          "name": "Brooklyn"
+        },
+        {
+          "@type": "AdministrativeArea",
+          "name": "Queens"
+        },
+        {
+          "@type": "AdministrativeArea",
+          "name": "The Bronx"
+        },
+        {
+          "@type": "AdministrativeArea",
+          "name": "Staten Island"
+        }
+      ],
+      "availableChannel": {
+        "@type": "ServiceChannel",
+        "serviceLocation": {
+          "@type": "VirtualLocation",
+          "url": "https://www.ptofthecity.com/teletherapy"
+        }
+      },
+      "hasOfferCatalog": {
+        "@type": "OfferCatalog",
+        "name": "Teletherapy Physical Therapy Services",
+        "itemListElement": [
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "MedicalService",
+              "name": "Online Lower Back Pain Treatment"
+            }
+          },
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "MedicalService",
+              "name": "Virtual Neck Pain Therapy"
+            }
+          },
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "MedicalService",
+              "name": "Remote Post-Surgery Rehabilitation"
+            }
+          },
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "MedicalService",
+              "name": "Virtual Sports Injury Rehabilitation"
+            }
+          },
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "MedicalService",
+              "name": "Virtual Pelvic Floor Therapy"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "@type": "WebPage",
+      "@id": "https://www.ptofthecity.com/teletherapy#webpage",
+      "url": "https://www.ptofthecity.com/teletherapy",
+      "name": "Virtual Physical Therapy NYC | PT of the City",
+      "description": "Licensed virtual physical therapy in NYC with insurance & self-pay options. Treat pain and injuries from home.",
+      "isPartOf": {
+        "@id": "https://www.ptofthecity.com/#website"
+      },
+      "about": {
+        "@id": "https://www.ptofthecity.com/teletherapy#service"
+      },
+      "breadcrumb": {
+        "@id": "https://www.ptofthecity.com/teletherapy#breadcrumb"
+      }
+    },
+    {
+      "@type": "BreadcrumbList",
+      "@id": "https://www.ptofthecity.com/teletherapy#breadcrumb",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://www.ptofthecity.com/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Teletherapy",
+          "item": "https://www.ptofthecity.com/teletherapy"
+        }
+      ]
+    }
+  ]
+}
+
+

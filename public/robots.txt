@@ -1,0 +1,24 @@
+User-agent: *
+Allow: /
+ 
+# --- Allow resources for Google
+User-agent: Googlebot
+Allow: /
+ 
+User-agent: Googlebot-Image
+Allow: /
+ 
+User-agent: Googlebot-Mobile
+Allow: /
+ 
+User-agent: AdsBot-Google
+Allow: /
+ 
+Allow: /*.css$
+Allow: /*.js$
+Allow: /static/
+Allow: /media/
+Allow: /pub/media/
+ 
+# --- Sitemap
+Sitemap: https://ptofthecity.com/sitemap.xml
