@@ -14,7 +14,10 @@ const props = defineProps({
     default: String,
     background: String,
     NoLabel: Boolean,
-    cta: Boolean
+    cta: Boolean,
+    // See InputField.vue's `label` prop for the rationale - same opt-in
+    // static-label pattern, shared .field-label class.
+    label: String,
 });
 let filteredList = ref(props.list);
 
@@ -123,41 +126,52 @@ defineExpose({
 </script>
 
 <template>
+    <div class="field-wrap">
+        <label v-if="label" :for="props.placeHolder" class="field-label">
+            {{ label }}<span v-if="props.required" class="field-label-required">&nbsp;*</span>
+        </label>
+        <div ref="dropdownRef" class="drpdown-btn" @click="showDropDown">
 
-    <div ref="dropdownRef" class="drpdown-btn" @click="showDropDown">
-
-        <div class="required">
-            <input :id="props.placeHolder" :dir="$dir()" :disabled="props.disabled" ref="inputField"
-                :class="`input-field ${cta?'ctac':''}`" @input="filterList()" @focus="showDropDown"
-                v-model="input"
-                :style="`width:100%;$;${($props.error) ? 'border-color:red' : ''};${background ? `background-color:${background}` : 'white'}`"
-                type="text">
-
-
-            <label :for="props.placeHolder" ref="asterisk" :class="`asterisk ${$dir()} ${NoLabel ? 'invis' : ''}`">{{
-                $props.placeHolder }}<span v-if="props.required" style="color:red">&nbsp;*</span></label>
-            <label :class="`arrowdown ${$dir()}`" ref="arrowdown">
-                <svg xmlns="http://www.w3.org/2000/svg" width="12" height="13" viewBox="0 0 12 7" fill="none">
-                    <path d="M1 1L6 6L11 1" stroke="black" stroke-width="0.5" stroke-linecap="round"
-                        stroke-linejoin="round" />
-                </svg>
-            </label>
+            <div class="required">
+                <input :id="props.placeHolder" :dir="$dir()" :disabled="props.disabled" ref="inputField"
+                    :class="`input-field ${cta?'ctac':''} ${label ? 'has-static-label' : ''}`" @input="filterList()" @focus="showDropDown"
+                    v-model="input" :placeholder="label ? placeHolder : undefined"
+                    :style="`width:100%;$;${($props.error) ? 'border-color:red' : ''};${background ? `background-color:${background}` : 'white'}`"
+                    type="text">
 
 
+                <label v-if="!label" :for="props.placeHolder" ref="asterisk" :class="`asterisk ${$dir()} ${NoLabel ? 'invis' : ''}`">{{
+                    $props.placeHolder }}<span v-if="props.required" style="color:red">&nbsp;*</span></label>
+                <label :class="`arrowdown ${$dir()} ${label ? 'static-label' : ''}`" ref="arrowdown">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="12" height="13" viewBox="0 0 12 7" fill="none">
+                        <path d="M1 1L6 6L11 1" stroke="black" stroke-width="0.5" stroke-linecap="round"
+                            stroke-linejoin="round" />
+                    </svg>
+                </label>
 
-        </div>
-        <div class="dropdown-container" v-if="show && filteredList?.length && !$props.disabled">
-            <div class="dropdown-list">
-                <div class="dropdown-item " :dir="$dir()" v-for="insurance in filteredList" :key="insurance"
-                    @mousedown="changeInput(insurance)">{{ insurance }}</div>
+
 
             </div>
-        </div>
+            <div class="dropdown-container" v-if="show && filteredList?.length && !$props.disabled">
+                <div class="dropdown-list">
+                    <div class="dropdown-item " :dir="$dir()" v-for="insurance in filteredList" :key="insurance"
+                        @mousedown="changeInput(insurance)">{{ insurance }}</div>
 
+                </div>
+            </div>
+
+        </div>
     </div>
 </template>
 
 <style scoped lang="scss">
+.field-wrap {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    width: 100%;
+}
+
 .drpdown-btn {
     >.required {
         >.input-field {
@@ -178,6 +192,21 @@ defineExpose({
             }
             &.ctac {
                 border: 1px solid $cta;
+            }
+
+            &.has-static-label {
+                height: 4.5rem;
+                padding: 0 1.25rem;
+                cursor: pointer;
+
+                &::placeholder {
+                    color: rgba(3, 41, 46, 0.45);
+                }
+
+                @media screen and (max-width: 800px) {
+                    height: 4.375rem;
+                    padding: 0 1rem;
+                }
             }
 
         }
@@ -334,6 +363,18 @@ defineExpose({
 
         &.rtl {
             left: 3%;
+        }
+
+        // .input-field's own top-34% tuning is for the tall legacy field -
+        // recenter for the shorter static-label field height instead.
+        &.static-label {
+            top: 50%;
+            right: 1.25rem;
+            transform: translateY(-50%);
+
+            @media screen and (max-width: 800px) {
+                right: 1rem;
+            }
         }
     }
 }

@@ -154,7 +154,7 @@ h1 {
 
 @media screen and (max-width: 700px) {
   .booking-success-page {
-    padding-top: calc($navbarHeight + 2rem);
+    padding-top: calc($navbarHeight + 1rem);
   }
 
   .success-shell {

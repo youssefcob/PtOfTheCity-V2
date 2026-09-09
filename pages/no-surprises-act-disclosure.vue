@@ -40,9 +40,9 @@
 </template>
 
 <script setup>
-definePageMeta({
-  title: 'No Surprises Act & Good Faith Estimate'
-})
+import noSurprisesActSeo from '~/assets/seoMetaTags/no-surprises-act-disclosure';
+
+usePageSeo(noSurprisesActSeo);
 </script>
 
 <style lang="scss" scoped>

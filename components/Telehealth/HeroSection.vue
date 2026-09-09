@@ -207,7 +207,7 @@ onBeforeUnmount(() => {
 .telehealth-hero {
   @include pagePadding;
   min-height: auto;
-  padding-top: calc($navbarHeight + 2rem);
+  padding-top: calc($navbarHeight + 1rem);
   padding-bottom: 2rem;
   display: flex;
   flex-direction: column;

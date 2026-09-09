@@ -1,19 +1,17 @@
 export default {
-  title:
-    "Lymphedema Treatment in NYC | Reduce Swelling & Improve Circulation",
+  title: "Lymphedema Treatment in NYC | PT of the City",
   description:
-    "Get expert lymphedema treatment in NYC. Reduce swelling, improve lymphatic flow & regain comfort with personalized physical therapy. Book your appointment today.",
+    "Reduce swelling and restore comfort with expert lymphedema treatment in NYC. PT of the City provides specialized physical therapy to manage your symptoms. Book today!",
   robots: "index, follow",
+  canonical: "https://www.ptofthecity.com/service/lymphedema-treatment",
   ogType: "website",
-  ogTitle:
-    "Lymphedema Treatment in NYC | Reduce Swelling & Improve Circulation",
+  ogTitle: "Lymphedema Treatment in NYC | PT of the City",
   ogDescription:
-    "Expert lymphedema therapy in NYC to reduce swelling and improve lymphatic function. Personalized care plans designed for faster recovery.",
+    "Reduce swelling and restore comfort with expert lymphedema treatment in NYC. PT of the City provides specialized physical therapy to manage your symptoms. Book today!",
   ogUrl: "https://www.ptofthecity.com/service/lymphedema-treatment",
   twitterCard: "summary_large_image",
   twitterUrl: "https://www.ptofthecity.com/service/lymphedema-treatment",
-  twitterTitle:
-    "Lymphedema Treatment in NYC | Reduce Swelling & Improve Circulation",
+  twitterTitle: "Lymphedema Treatment in NYC | PT of the City",
   twitterDescription:
-    "Reduce swelling & improve circulation with expert lymphedema treatment in NYC. Book your personalized therapy session today.",
+    "Reduce swelling and restore comfort with expert lymphedema treatment in NYC. PT of the City provides specialized physical therapy to manage your symptoms. Book today!",
 };

@@ -10,6 +10,7 @@ import NavListHorizontal from "./NavbarComps/NavListHorizontal.vue";
 import BookNow from "./NavbarComps/BookNow.vue";
 import DropDownButton from "./ResponsiveDropDown/DropDownButton.vue";
 import User from "./NavbarComps/UserButton.vue";
+import EditableImage from "~/components/Admin/EditableImage.vue";
 
 const logoUrl = useImg('https://res.cloudinary.com/dzilc11zf/image/upload/v1778861676/LogoPt_ildwod.webp', 226);
 
@@ -83,12 +84,11 @@ const { showTopStrap } = useTopStrap();
   >
     <div class="logo">
       <NuxtLink to="/" aria-label="PT of the City home">
-        <img
-          :src="logoUrl"
-          alt="PT of the City Logo"
+        <EditableImage
+          content-key="global.nav.logo"
+          :default-src="logoUrl"
+          default-alt="PT of the City Logo"
           class="nav-logo"
-          width="226"
-          height="113"
         />
       </NuxtLink>
     </div>
@@ -101,7 +101,7 @@ const { showTopStrap } = useTopStrap();
     </div>
 
     <div class="util-wrapper">
-      <BookNow :navOnLanding="navOnLanding" />
+      <BookNow :navOnLanding="navOnLanding" compact />
       <!-- <User :navOnLanding="navOnLanding" /> -->
     </div>
   </nav>
@@ -116,23 +116,17 @@ const { showTopStrap } = useTopStrap();
     aria-label="Mobile navigation"
   >
     <div class="logo">
-      <DropDownButton @dropdown="handleDropdownUpdate" :menuState="menuState" />
-
       <NuxtLink to="/" aria-label="PT of the City home">
-        <img
-          :src="logoUrl"
-          alt="PT of the City Logo"
+        <EditableImage
+          content-key="global.nav.logo"
+          :default-src="logoUrl"
+          default-alt="PT of the City Logo"
           class="nav-logo"
-          width="226"
-          height="113"
         />
       </NuxtLink>
     </div>
 
-    <div class="util-wrapper">
-      <BookNow :navOnLanding="navOnLanding" />
-      <!-- <User :navOnLanding="navOnLanding" /> -->
-    </div>
+    <DropDownButton @dropdown="handleDropdownUpdate" :menuState="menuState" />
 
     <ResponsiveDropDown
       :navOnLanding="navOnLanding"
@@ -145,27 +139,15 @@ const { showTopStrap } = useTopStrap();
 
 <style scoped lang="scss">
 .blur-filter {
-  height: calc($navbarHeight + 2rem);
+  height: calc($navbarHeight + 1rem);
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   transition: all 0.5s ease-in-out;
   z-index: 3; // always behind navbars
-
-  &.main {
-    background-color: transparent;
-
-    @media screen and (max-width: 1100px) {
-      background-color: rgb(255, 255, 255);
-      backdrop-filter: blur(20px);
-    }
-  }
-
-  &.secondary {
-    background-color: rgba(238, 236, 237, 0.2);
-    backdrop-filter: blur(20px);
-  }
+  background-color: #ffffff;
+  box-shadow: 0 2px 12px rgba(16, 53, 53, 0.06);
 }
 
 .blur-filter.with-top-strap,
@@ -174,7 +156,7 @@ const { showTopStrap } = useTopStrap();
 }
 
 .navbar {
-  padding: 1rem 3.12rem;
+  padding: 0.6rem 3.12rem;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -183,7 +165,7 @@ const { showTopStrap } = useTopStrap();
   top: 0;
   z-index: 5; // always above blur
   transition: all 0.5s ease-in-out;
-  height: calc($navbarHeight + 2rem);
+  height: calc($navbarHeight + 1rem);
 
   &.horizontal {
     @media screen and (max-width: 1100px) {
@@ -192,7 +174,8 @@ const { showTopStrap } = useTopStrap();
   }
 
   &.mobile {
-    padding: 1rem 1rem;
+    padding: 0.6rem 1rem;
+    background-color: $primary-400;
 
     display: none;
     align-items: center;
@@ -208,32 +191,44 @@ const { showTopStrap } = useTopStrap();
   display: flex;
   align-items: center;
 
-  img {
-    height: 7rem;
+  :deep(img) {
+    height: 4.75rem;
     width: auto;
 
-    @media screen and (max-width: 950px) {
+    // 20% larger on mobile (same breakpoint the mobile bar switches on)
+    @media screen and (max-width: 1100px) {
+      height: 5.7rem;
     }
 
     @media screen and (max-width: 425px) {
-      height: 6rem;
+      height: 5.1rem;
     }
 
     @media screen and (max-width: 320px) {
-      height: 5rem;
+      height: 4.5rem;
     }
+
+    // mobile bar is on a solid $primary-400 background - force the logo to
+    // a solid white silhouette instead of its normal colors
+    @media screen and (max-width: 1100px) {
+      filter: brightness(0) invert(1);
+    }
+  }
+}
+
+// TopStrap is hidden below 1100px (see TopStrap.vue), so the navbar shouldn't
+// be pushed down to make room for it there even when with-top-strap is set
+@media screen and (max-width: 1100px) {
+  .blur-filter.with-top-strap,
+  .navbar.with-top-strap {
+    top: 0;
   }
 }
 
 @media screen and (max-width: 425px) {
   .blur-filter,
   .navbar {
-    height: calc($navbarHeight - 1rem);
-  }
-
-  .blur-filter.with-top-strap,
-  .navbar.with-top-strap {
-    top: 4rem;
+    height: calc($navbarHeight - 1.5rem);
   }
 }
 

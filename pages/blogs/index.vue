@@ -14,7 +14,9 @@
 
 <script lang="ts" setup>
 import type { Blog, PaginatedResponse } from '~/types/types'
+import blogsSeo from '~/assets/seoMetaTags/blogs';
 
+usePageSeo(blogsSeo);
 
 const route = useRoute()
 const blogs:Ref<Blog[]> = ref([])
@@ -114,34 +116,6 @@ watch(() => route.query, () => {
   fetchBlogs(query)
 }, { immediate: true, deep: true })
 
-// SEO Meta
-// useHead({
-//   title: computed(() => {
-//     let title = 'Blogs'
-//     if (currentPage.value > 1) {
-//       title += ` - Page ${currentPage.value}`
-//     }
-//     if (currentFilters.value.search) {
-//       title += ` - Search: ${currentFilters.value.search}`
-//     }
-//     return title
-//   }),
-//   meta: [
-//     {
-//       name: 'description',
-//       content: computed(() => {
-//         let desc = 'Browse our latest blog articles'
-//         if (currentFilters.value.tags.length > 0) {
-//           desc += ` about ${currentFilters.value.tags.join(', ')}`
-//         }
-//         if (currentPage.value > 1) {
-//           desc += ` - Page ${currentPage.value}`
-//         }
-//         return desc
-//       })
-//     }
-//   ]
-// })
 </script>
 
 

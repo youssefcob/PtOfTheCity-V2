@@ -1,5 +1,7 @@
 <script setup lang="ts">
 import NavBar from "~/components/NavBar/NavBar.vue";
+import StyleToolbarHost from "~/components/Admin/StyleToolbarHost.vue";
+import { useRoute } from "vue-router";
 
 const { $config } = useNuxtApp();
 const route = useRoute();
@@ -9,18 +11,6 @@ const currentUrl = `${baseUrl}${route.fullPath}`;
 useSeoMeta({
   description:
     "Premier physical therapy clinics in NYC offering personalized treatment plans, sports injury rehabilitation, and wellness programs. Book your appointment with our expert therapists today.",
-  // ogTitle: "PT of the City - NYC's Premier Physical Therapy Clinics",
-  // ogDescription:
-  //   "Transform your health with NYC's highest-rated physical therapy services. Expert care for sports injuries, chronic pain, and rehabilitation. Schedule your consultation today.",
-  // ogImage:
-  //   "https://res.cloudinary.com/dzilc11zf/image/upload/v1754150749/ptofthecity/content/careers.webp",
-  // ogUrl: currentUrl,
-  // twitterTitle: "PT of the City - Top NYC Physical Therapy",
-  // twitterDescription:
-  //   "NYC's premier physical therapy clinics. Expert treatment for injuries, pain management, and rehabilitation. Book your appointment today.",
-  // twitterImage:
-  //   "https://res.cloudinary.com/dzilc11zf/image/upload/v1754150749/ptofthecity/content/careers.webp",
-  // twitterCard: "summary_large_image",
 });
 
 useHead({
@@ -40,8 +30,6 @@ useHead({
   ],
 });
 
-import { useRoute } from "vue-router";
-
 const hideNavbarRoutes = ["/bench-craft-golf"];
 const hideNavbarPrefixes = ["/campaign/"];
 
@@ -49,8 +37,25 @@ const hideNavbar = computed(
   () => hideNavbarRoutes.includes(route.path) || hideNavbarPrefixes.some((p) => route.path.startsWith(p)),
 );
 
+// Nav/footer render on every page (via this layout, not any individual page
+// component), so their CMS content is fetched here under a "global" page key
+// and provided from this same layout instance - NavBar/Footer inject() from
+// their nearest ancestor, which is this component, not whatever page happens
+// to be in the <slot>. Skipped on hideNavbar routes since nav/footer don't
+// render there anyway.
+if (!hideNavbar.value) {
+  const {
+    contentMap: globalContentMap,
+    isContentEditor: globalIsContentEditor,
+    textStyles: globalTextStyles,
+    pageMeta: globalPageMeta,
+  } = await usePageContent("global");
+  providePageContent("global", globalContentMap, globalIsContentEditor, globalTextStyles, globalPageMeta);
+}
+
 const noPaddingTopRoutes = [
   "/",
+  "",
   // "/booking",
   "/login",
   "/register",
@@ -58,7 +63,6 @@ const noPaddingTopRoutes = [
   "/dashboard",
   "/profile",
   "/forgot-password",
-  "/referral",
   "/benchcraft",
 ];
 const noMarginBottomRoutes = [
@@ -72,6 +76,8 @@ const noMarginBottomRoutes = [
   "/teletherapy",
   "/teletherapy/booking",
   "/benchcraft",
+  "/sensory-freeway",
+  ""
 ];
 
 // Now prefixes are arrays too 👇
@@ -80,13 +86,14 @@ const noPaddingTopPrefixes = [
   "/profile/",
   "/forgot-password/",
   "/quiz/",
+
 ];
 const noMarginBottomPrefixes = [
   "/clinic/",
   "/profile/",
   "/forgot-password/",
   "/quiz/",
-  "/referral"
+  ""
 ];
 
 const paddingTop = computed(() => {
@@ -135,6 +142,10 @@ const { showTopStrap } = useTopStrap();
   <footer v-if="!hideNavbar">
     <LazyFooter />
   </footer>
+  <template v-if="!hideNavbar">
+    <AdminEditToggle />
+    <StyleToolbarHost />
+  </template>
 </template>
 
 

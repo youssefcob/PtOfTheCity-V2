@@ -14,6 +14,26 @@ const phrase: PhraseDictionary = {
     ES: 'Servicios',
     AR: 'خدمات'
   },
+  serviceAndPrograms: {
+    EN: 'Service & Programs',
+    ES: 'Servicios y Programas',
+    AR: 'الخدمات والبرامج'
+  },
+  about: {
+    EN: 'About',
+    ES: 'Acerca de',
+    AR: 'من نحن'
+  },
+  patientInfo: {
+    EN: 'Patient Info',
+    ES: 'Información del Paciente',
+    AR: 'معلومات المريض'
+  },
+  providers: {
+    EN: 'Providers',
+    ES: 'Proveedores',
+    AR: 'مقدمو الخدمة'
+  },
   insurance: {
     EN: 'Insurance',
     ES: 'Seguro',

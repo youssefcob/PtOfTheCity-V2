@@ -1,10 +1,8 @@
 <script setup lang="ts">
-import { onMounted, ref } from 'vue';
 import StaffMember from '~/components/Home/OurStaff/StaffMember.vue';
 import Carousel from '~/sharedComponents/Carousel.vue';
+import EditableText from '~/components/Admin/EditableText.vue';
 import type { Staff } from '~/types/types';
-
-
 
 const homepageData = inject('homepageData') as Ref<{
   staff: Staff[];
@@ -13,57 +11,154 @@ const homepageData = inject('homepageData') as Ref<{
 const homepagePending = inject('homepagePending');
 const homepageError = inject('homepageError');
 
-const staff = computed(()=> homepageData.value?.staff as Staff[]);
+const staff = computed(() => homepageData.value?.staff as Staff[]);
+
+const carouselRef = ref<InstanceType<typeof Carousel> | null>(null);
+const carouselIndex = ref(0);
+const carouselTotal = ref(0);
+
+const onCarouselChange = (payload: { index: number; total: number }) => {
+    carouselIndex.value = payload.index;
+    carouselTotal.value = payload.total;
+};
 </script>
 
 <template>
-    <div class="container">
-        <div class="sectionHeader-m">
-            <h1>{{$translate('meet_our_staff')}}</h1>
-            <p>{{$translate('meet_our_staff_phrase')}}</p>
+    <div class="trust-team">
+        <div class="intro-row">
+            <div class="intro">
+                <EditableText tag="p" class="overline" content-key="home.staff.overline" default="Meet Us" />
+                <EditableText tag="h2" class="heading" content-key="home.staff.heading" default="Experience You Can Trust" />
+                <EditableText tag="p" class="body" content-key="home.staff.body"
+                    default="Not sure if your insurance covers physical therapy? We'll verify your coverage and explain your options." />
+            </div>
+
+            <div class="controls" v-if="carouselTotal > 1">
+                <button class="nav-btn" type="button" aria-label="Previous staff member" @click="carouselRef?.scroll(-1)">
+                    <img src="/images/home/icon-caret-prev.svg" alt="" aria-hidden="true" />
+                </button>
+                <div class="dots">
+                    <span v-for="n in carouselTotal" :key="n" class="dot" :class="{ active: n - 1 === carouselIndex }"></span>
+                </div>
+                <button class="nav-btn active" type="button" aria-label="Next staff member" @click="carouselRef?.scroll(1)">
+                    <img src="/images/home/icon-caret-next.svg" alt="" aria-hidden="true" />
+                </button>
+            </div>
         </div>
-        <Carousel class="staffMembers">
-                <StaffMember v-for="staffMember in staff" :staffMember="staffMember" />
+
+        <Carousel ref="carouselRef" NoIndicator NoButtons class="staffMembers" @change="onCarouselChange">
+            <StaffMember v-for="staffMember in staff" :key="staffMember.id" :staffMember="staffMember" />
         </Carousel>
-      <!-- <div class="btn-wrapper">
-        <div class="btn-transparent main btnfont">Learn More</div>
-        </div> -->
     </div>
 </template>
 
 <style scoped lang="scss">
-.container {
-    // @include pagePadding;
+.trust-team {
     display: flex;
     flex-direction: column;
-    >.sectionHeader-m {
-        width:100%;
-    }
+    gap: 2rem;
+    width: 100%;
+    padding: 3.75rem 7.5rem;
+    background-color: $grey;
 
-    @media screen and (max-width: 800px) {
-        >.title-wrapper {
-            >p {
-                display: none;
-            }
-        }
-    }
-
-    .title-wrapper {
-        @include pagePadding;
-    }
-
-    .staffMembers{
-        height:30rem;
-
-        @media screen and (max-width:500px) {
-            margin-left:$resMargin;
-        }
-    }
-
-    .btn-wrapper{
-        @include pagePadding;
-        display: flex;
-        justify-content: flex-end;
+    @media screen and (max-width: 900px) {
+        padding: 2.5rem 1.5rem;
     }
 }
-</style> 
+
+.intro-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.5rem;
+    .controls{
+        align-self: flex-end;
+    }
+}
+
+.intro {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    max-width: 42rem;
+    min-width: 0;
+}
+
+.controls {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    flex-shrink: 0;
+
+    @media screen and (max-width: 700px) {
+        display: none;
+    }
+}
+
+.nav-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.75rem;
+    height: 2.75rem;
+    border-radius: 50%;
+    background-color: #ffffff;
+    border: 0.8px solid $border-gray;
+    cursor: pointer;
+
+    &.active {
+        border-color: $primary-base;
+    }
+
+    img {
+        width: 1.25rem;
+        height: 1.25rem;
+    }
+}
+
+.dots {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.dot {
+    width: 0.5rem;
+    height: 0.5rem;
+    border-radius: 50%;
+    background-color: $border-gray;
+
+    &.active {
+        width: 2rem;
+        background-color: $primary-base;
+        border-radius: 100px;
+    }
+}
+
+.overline {
+    @include type-overline;
+    color: $primary-700;
+}
+
+.heading {
+    @include type-h2;
+    text-transform: uppercase;
+    color: $primary-600;
+}
+
+.body {
+    @include type-body;
+    color: $primary-700;
+    background-color: $white;
+    padding:1rem;
+    border-radius: 1rem;
+}
+
+.staffMembers {
+    // height: 22rem;
+
+    @media screen and (max-width: 500px) {
+        margin-left: $resMargin;
+    }
+}
+</style>

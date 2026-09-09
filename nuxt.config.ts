@@ -9,6 +9,10 @@ export default defineNuxtConfig({
       meta: [
         { name: "google-site-verification", content: "S4jFKloqaY1mQkmIp7P9wCNj54n6w9s5ew2OjK6mlMg" }
       ],
+      link: [
+        { rel: 'preconnect', href: 'https://api.fontshare.com' },
+        { rel: 'stylesheet', href: 'https://api.fontshare.com/v2/css?f[]=switzer@600,700,800&display=swap' }
+      ],
       script: [
         {
           innerHTML: `(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','GTM-5JXM65ZL');`,
@@ -38,7 +42,7 @@ export default defineNuxtConfig({
 
   ssr: true,
   routeRules: {
-    '/': { swr: 3600 },
+    // '/': { swr: 3600 },
     '/telehealth': { redirect: { to: '/teletherapy', statusCode: 301 } },
     '/telehealth/**': { redirect: { to: '/teletherapy/**', statusCode: 301 } },
   },
@@ -56,8 +60,8 @@ export default defineNuxtConfig({
     
     public: {
       environment: process.env.NODE_ENV || 'development',
-      // url: 'http://localhost:8000/api',
-      url: 'https://ptofthecity-prod-85befd5a122b.herokuapp.com/api',
+      url: 'http://localhost:8000/api',
+      // url: 'https://ptofthecity-prod-85befd5a122b.herokuapp.com/api',
       // url: 'https://ptofthecity-26da1857a791.herokuapp.com/api',
       // localUrl: process.env.API_URL || 'http://localhost:8000',
       // apiStagingUrl: process.env.API_STAGING_URL || 'https://ptofthecity-26da1857a791.herokuapp.com/api/',

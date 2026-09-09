@@ -119,31 +119,35 @@ const boroughColor = (borough: string) =>
 
       <li>
         <NuxtLink class="list-item" active-class="navbar-link" @click="toggleDropDown" to="/#Services">{{
-          $translate('services') }}</NuxtLink>
+          $translate('serviceAndPrograms') }}</NuxtLink>
       </li>
       <li>
-        <NuxtLink class="list-item" active-class="navbar-link" @click="toggleDropDown" to="/insurances">Insurance
-          choices</NuxtLink>
+        <NuxtLink class="list-item" active-class="navbar-link" @click="toggleDropDown" to="/about">{{
+          $translate('about') }}</NuxtLink>
       </li>
       <li>
-        <NuxtLink class="list-item" active-class="navbar-link" @click="toggleDropDown" to="/#WhoWeAre">{{
-          $translate('whoWeAre') }}</NuxtLink>
+        <NuxtLink class="list-item" active-class="navbar-link" @click="toggleDropDown" to="/insurances">{{
+          $translate('patientInfo') }}</NuxtLink>
+      </li>
+      <li>
+        <NuxtLink class="list-item" active-class="navbar-link" @click="toggleDropDown" to="/#OurStaff">{{
+          $translate('providers') }}</NuxtLink>
+      </li>
+      <li>
+        <NuxtLink class="list-item" active-class="navbar-link" @click="toggleDropDown" to="/insurances">{{
+          $translate('insurance') }}</NuxtLink>
+      </li>
+      <li>
+        <NuxtLink class="list-item" active-class="navbar-link" @click="toggleDropDown" to="/careers">{{
+          $translate('careers') }}</NuxtLink>
+      </li>
+      <li>
+        <NuxtLink class="list-item" active-class="navbar-link" @click="toggleDropDown" to="/FAQs">{{ $translate('faqs')
+          }}</NuxtLink>
       </li>
       <li>
         <NuxtLink class="list-item" active-class="navbar-link" @click="toggleDropDown" to="/blogs">Blog</NuxtLink>
       </li>
-      <li>
-        <NuxtLink class="list-item" active-class="navbar-link" @click="toggleDropDown" to="/#Careers">{{
-          $translate('careers') }}</NuxtLink>
-      </li>
-      <li>
-        <NuxtLink class="list-item" active-class="navbar-link" @click="toggleDropDown" to="/#TrustedBy">{{
-          $translate('trustedBy') }}</NuxtLink>
-      </li>
-      <!-- <li>
-        <NuxtLink class="list-item" active-class="navbar-link" @click="toggleDropDown" to="/#FAQs">{{ $translate('faqs')
-          }}</NuxtLink>
-      </li> -->
       <li>
         <NuxtLink class="list-item" active-class="navbar-link" @click="toggleDropDown" to="/teletherapy">Teletherapy</NuxtLink>
       </li>
@@ -210,7 +214,7 @@ ul {
 }
 
 .panel-header {
-  background: linear-gradient(to right, #00000080, #00000080), linear-gradient(to right, #0284C7, #2EE5C1);
+  background-color: $primary-400;
   padding: 2rem 1rem ;
   padding-left:3rem;
   display: flex;

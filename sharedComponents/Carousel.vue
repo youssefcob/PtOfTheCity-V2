@@ -1,6 +1,6 @@
 <script setup lang="ts">
 
-import { ref, onMounted, type Ref } from 'vue';
+import { ref, onMounted, onBeforeUnmount, type Ref } from 'vue';
 
 const wheel: Ref<HTMLElement | null> = ref(null);
 
@@ -14,12 +14,35 @@ const props = defineProps({
     behavior: String,
 });
 
+const emit = defineEmits<{
+    change: [payload: { index: number; total: number }];
+}>();
+
+const setCurrentIndex = (i: number) => {
+    currentIndex.value = i;
+    emit('change', { index: currentIndex.value, total: carouselItemsNo.value });
+};
+
+let observer: MutationObserver | null = null;
+
+const syncItemCount = () => {
+    carouselItemsNo.value = wheel.value?.childElementCount || 0;
+    emit('change', { index: currentIndex.value, total: carouselItemsNo.value });
+};
+
 onMounted(() => {
     if (wheel.value) {
         wheel.value.addEventListener('scroll', updateCurrentIndexBasedOnScroll);
+        // staff/services data (and thus the slotted items) can load in after mount,
+        // so watch for children being added/removed instead of counting only once.
+        observer = new MutationObserver(syncItemCount);
+        observer.observe(wheel.value, { childList: true });
     }
-    carouselItemsNo.value = wheel.value?.childElementCount || 0;
+    syncItemCount();
+});
 
+onBeforeUnmount(() => {
+    observer?.disconnect();
 });
 
 const updateCurrentIndexBasedOnScroll = () => {
@@ -32,7 +55,7 @@ const updateCurrentIndexBasedOnScroll = () => {
     const parts = carouselItemsNo.value;
     if (!parts) return;
     const scrollPerPart = totalScroll / parts;
-    currentIndex.value = Math.min(parts - 1, Math.floor(currentScroll / scrollPerPart));
+    setCurrentIndex(Math.min(parts - 1, Math.floor(currentScroll / scrollPerPart)));
 
 };
 
@@ -46,15 +69,15 @@ const scroll = (direction: number) => {
             const isNearEnd = el.scrollLeft + threshold >= el.scrollWidth - el.clientWidth;
 
             if (direction === 1 && (isNearEnd || el.scrollLeft + el.clientWidth >= el.scrollWidth)) {
-                currentIndex.value = 0;
+                setCurrentIndex(0);
                 el.scrollTo({ left: 0, behavior: 'smooth' });
             } else {
                 if (direction === -1 && currentIndex.value === 0) {
-                    currentIndex.value = 0;
+                    setCurrentIndex(0);
                 } else if (direction === 1 && carouselItemsNo.value && currentIndex.value === carouselItemsNo.value - 1) {
-                    currentIndex.value = 0;
+                    setCurrentIndex(0);
                 } else {
-                    currentIndex.value += direction;
+                    setCurrentIndex(currentIndex.value + direction);
                 }
                 el.scrollTo({
                     left: el.scrollLeft + ((width * direction) - width / 4),

@@ -4,6 +4,9 @@
 import { ref, type Ref } from 'vue';
 import QuestionAccordion from '~/sharedComponents/FAQs/QuestionAccordion.vue';
 import ContactUsPage from '~/components/ContactUsSection/ContactUsPage.vue';
+import faqsSeo from '~/assets/seoMetaTags/faqs';
+
+usePageSeo(faqsSeo);
 
 const isFirstItem = (index: number) => {
     return (index === 0);

@@ -1,0 +1,27 @@
+// Design tokens for the PTOC-2026 Figma design system.
+// Kept separate from the legacy palette in _mixins.scss ($black, $blue, $navy, $grey, $cta),
+// which is still used by pre-existing components.
+
+$primary-700: #011417; // body text on light backgrounds
+$primary-600: #03292e; // headings on light backgrounds
+$primary-400: #15707c; // primary buttons/accents
+$primary-300: #2097a7; // borders on dark sections
+$primary-base: #2bc0d4; // bright teal
+
+$white: #ffffff; // (also aliased as legacy $white in _mixins.scss)
+
+$accent-cyan: #66e8fd; // overline labels + active dot on dark backgrounds
+$surface-cream: #f9f7f4; // section background
+$surface-mint: #f0fbfc; // featured card background
+$surface-teal-pale: #d5f2f6; // pale teal surface/hover tint
+$border-gray: #d1d5db;
+
+// Specialty-program card accent strips, cycled per card
+$accent-blue: #255bf0;
+$accent-magenta: #cb38e8;
+$accent-purple: #7f26ec;
+$accent-violet: #912ec3;
+$accent-blue-2: #2b7ad4;
+$accent-teal-dark: #0e899a;
+
+$specialty-accent-colors: $accent-blue, $accent-magenta, $accent-purple, $accent-violet, $accent-blue-2, $accent-teal-dark;

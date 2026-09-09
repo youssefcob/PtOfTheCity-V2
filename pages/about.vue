@@ -4,6 +4,9 @@ import Services from '~/components/Home/Services/Services.vue';
 import InfoSection from '~/components/WhoWeArePage/InfoSection.vue';
 import type { Service, Staff, WhoWeAre } from '~/types/types';
 import SingleStaffMember from '~/components/WhoWeArePage/SingleStaffMember.vue';
+import aboutSeo from '~/assets/seoMetaTags/about';
+
+usePageSeo(aboutSeo);
 
 type AboutPage = {
     whoweare: WhoWeAre,

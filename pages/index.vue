@@ -1,6 +1,10 @@
 <script lang="ts" setup>
 import { defineAsyncComponent } from "vue";
 import Hero from "~/components/Home/Hero/Hero.vue";
+import PartnerBanner from "~/components/Home/PartnerBanner/PartnerBanner.vue";
+import RecoveryTeam from "~/components/Home/RecoveryTeam/RecoveryTeam.vue";
+import PtSquare from "~/components/Home/PtSquare/PtSquare.vue";
+import Testimonials from "~/components/Home/Testimonials/Testimonials.vue";
 import homePageSeo from "~/assets/seoMetaTags/home";
 import type {
   Blog,
@@ -15,17 +19,9 @@ import type {
 } from "~/types/types";
 import type { FAQs } from "~/sharedComponents/FAQs/FAQs";
 
-const Conditions = defineAsyncComponent(() => import("~/components/Home/Conditions/Conditions.vue"));
 const Clinics = defineAsyncComponent(() => import("~/components/Home/Clinics/Clinics.vue"));
 const Services = defineAsyncComponent(() => import("~/components/Home/Services/Services.vue"));
-const WhoWeArePage = defineAsyncComponent(() => import("~/components/Home/WhoWeAre/WhoWeArePage.vue"));
-const Insurances = defineAsyncComponent(() => import("~/components/Home/Insurances/Insurances.vue"));
 const OurStaff = defineAsyncComponent(() => import("~/components/Home/OurStaff/OurStaff.vue"));
-const FAQsSection = defineAsyncComponent(() => import("~/components/FAQs/FAQs.vue"));
-const ContactUsPage = defineAsyncComponent(() => import("~/components/ContactUsSection/ContactUsPage.vue"));
-const Careers = defineAsyncComponent(() => import("~/components/CareersSection/Careers.vue"));
-const Blogs = defineAsyncComponent(() => import("~/components/blogs/blogs.vue"));
-const Eligibility = defineAsyncComponent(() => import("~/components/eligibility/Eligibility.vue"));
 
 type HomeData = {
   clinics: HttpClinics[];
@@ -48,21 +44,26 @@ provide("homepageData", data);
 provide("homepagePending", pending);
 provide("homepageError", error);
 
-// Preload first hero image for LCP — browser fetches it before DOM is parsed
-const firstHeroPath = data.value?.campaigns?.[0]?.images?.[0]?.path;
-if (firstHeroPath) {
-  const cw = (width: number) => useImg(firstHeroPath, width);
-  useHead({
-    link: [{
-      rel: 'preload',
-      as: 'image',
-      href: cw(800),
-      imagesrcset: `${cw(480)} 480w, ${cw(800)} 800w, ${cw(1280)} 1280w, ${cw(1920)} 1920w`,
-      imagesizes: '100vw',
-      fetchpriority: 'high'
-    }]
-  });
-}
+const {
+  contentMap: pageContentMap,
+  isContentEditor: pageIsContentEditor,
+  textStyles: pageTextStyles,
+  pageMeta: pageMetaData,
+} = await usePageContent("home");
+providePageContent("home", pageContentMap, pageIsContentEditor, pageTextStyles, pageMetaData);
+
+// Preload the static hero image for LCP — browser fetches it before DOM is parsed
+const heroImgWidth = (width: number) => useImg('careers', width);
+useHead({
+  link: [{
+    rel: 'preload',
+    as: 'image',
+    href: heroImgWidth(900),
+    imagesrcset: `${heroImgWidth(480)} 480w, ${heroImgWidth(900)} 900w, ${heroImgWidth(1280)} 1280w, ${heroImgWidth(1600)} 1600w`,
+    imagesizes: '(max-width: 900px) 100vw, 55vw',
+    fetchpriority: 'high'
+  }]
+});
 
 useHead({
   script: [
@@ -178,118 +179,42 @@ useHead({
     },
   ],
 });
-usePageSeo(homePageSeo)
+usePageSeo(homePageSeo, pageMetaData)
 </script>
 
 <template>
   <section class="landing-page-container">
     <Hero />
   </section>
-   <section class="whoWeAreSection" id="WhoWeAre">
-    <WhoWeArePage />
+  <section class="partnerBannerSection">
+    <PartnerBanner />
   </section>
-   <section class="servicesSection" id="Services">
+  <section class="recoveryTeamSection">
+    <RecoveryTeam />
+  </section>
+    <section class="servicesSection" id="Services">
     <Services />
   </section>
-    <section class="conditionsSection" id="conditions">
-    <Conditions />
-  </section>
-    <section class="insuranceSection" id="Insurance">
-    <Insurances />
-  </section>
-  <section id="eligibility">
-    <Eligibility />
-  </section>
-
-      <section class="clinicsSection" id="Clinics">
+  <section class="clinicsSection" id="Clinics">
     <Clinics />
   </section>
-  <!-- <section class="quiz">
-    <home-quiz />
-  </section>  -->
+
+  <section class="ptSquareSection">
+    <PtSquare />
+  </section>
   <section class="ourStaffSection" id="OurStaff">
     <OurStaff />
   </section>
-
-  <section class="careersSection" id="Careers">
-    <Careers />
-  </section>
-
-  <section class="trustedBySection" id="TrustedBy">
-    <TrustedBy />
-  </section>
-
-  <section
-    class="FAQsSection"
-    id="FAQs"
-    aria-label="Learn more about frequently asked questions"
-    title="Frequently Asked Questions"
-  >
-    <FAQsSection />
-  </section>
-
-  <section class="ContactUsSection" id="ContactUs">
-    <ContactUsPage />
-  </section>
-    <section class="conditionsSection" id="blogs">
-    <Blogs />
-  </section>
-
+  <!-- <section class="testimonialsSection">
+    <Testimonials />
+  </section> -->
 </template>
 
 <style scoped lang="scss">
-section {
-  margin: 12.5rem 0;
-
-  &:first-child {
-    margin: 0;
-  }
-
-  &:last-child {
-    margin-bottom: 0;
-  }
-
-  &.TrustedBySection {
-    margin: 0 0 !important;
-  }
-
-  &.conditionsSection {
-    margin: $firstSectionGap 0;
-  }
-
-  // @include sectionMargin;
-}
-
+// PTOC-2026 sections sit flush against each other; each manages its own
+// internal padding rather than relying on a shared inter-section margin.
 .landing-page-container {
   width: 100%;
-  // height: 100vh;
   margin-bottom: 0;
-}
-
-.insuranceSection {
-  width: 100%;
-  // min-height:160vh;
-}
-
-.ourStaffSection {
-  width: 100%;
-  margin-top: 12.5rem;
-}
-
-.clinicsSection {
-  margin-top: 7.5rem;
-  // @media screen and (max-width: 500px){
-  //     margin-top:10vh;
-
-  // }
-}
-
-.FAQsSection {
-  // margin-top: 12.5rem;
-  height: fit-content;
-}
-
-.ContactUsSection {
-  margin-top: 12.5rem;
 }
 </style>

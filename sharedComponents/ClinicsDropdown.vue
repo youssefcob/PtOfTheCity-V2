@@ -13,6 +13,7 @@ const props = defineProps<{
     default?: string;
     background?: string;
     NoLabel?: boolean;
+    label?: string;
 }>();
 
 defineOptions({ inheritAttrs: false });
@@ -135,53 +136,64 @@ defineExpose({ clear, defaultValue });
             </div>
         </DropDownModal>
 
-        <div v-bind="$attrs" :class="`booking-input-field ${props.disabled ? 'disabled' : ''}`" @click="openModal">
-            <span>{{ displayValue || placeHolder || 'Select' }}</span>
-            <span v-if="props.required && !selected" class="required-asterisk">*</span>
-            <span class="arrow-down">
-                <svg xmlns="http://www.w3.org/2000/svg" width="12" height="13" viewBox="0 0 12 7" fill="none">
-                    <path d="M1 1L6 6L11 1" stroke="black" stroke-width="0.5" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
-            </span>
+        <div class="field-wrap">
+            <label v-if="label" class="field-label">
+                {{ label }}<span v-if="props.required" class="field-label-required">&nbsp;*</span>
+            </label>
+            <div v-bind="$attrs" :class="`booking-input-field ${label ? 'has-static-label' : ''} ${props.disabled ? 'disabled' : ''}`" @click="openModal">
+                <span>{{ displayValue || placeHolder || 'Select' }}</span>
+                <span v-if="props.required && !selected && !label" class="required-asterisk">*</span>
+                <span class="arrow-down">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="12" height="13" viewBox="0 0 12 7" fill="none">
+                        <path d="M1 1L6 6L11 1" stroke="black" stroke-width="0.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </span>
+            </div>
         </div>
     </template>
 
     <!-- ── DESKTOP ── -->
     <template v-else>
-        <div ref="dropdownRef" class="drpdown-btn" v-bind="$attrs" @click="showDropDown">
-            <div class="required">
-                <input
-                    readonly
-                    :value="displayValue"
-                    :disabled="props.disabled"
-                    class="input-field"
-                    :style="`width:100%;${props.error ? 'border-color:red' : ''};${props.background ? `background-color:${props.background}` : 'white'}`"
-                    type="text"
-                />
-                <label ref="asterisk" :class="`asterisk ${props.NoLabel ? 'invis' : ''}`">
-                    {{ props.placeHolder }}<span v-if="props.required" style="color:red">&nbsp;*</span>
-                </label>
-                <label class="arrowdown">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="12" height="13" viewBox="0 0 12 7" fill="none">
-                        <path d="M1 1L6 6L11 1" stroke="black" stroke-width="0.5" stroke-linecap="round" stroke-linejoin="round"/>
-                    </svg>
-                </label>
-            </div>
+        <div class="field-wrap">
+            <label v-if="label" class="field-label">
+                {{ label }}<span v-if="props.required" class="field-label-required">&nbsp;*</span>
+            </label>
+            <div ref="dropdownRef" class="drpdown-btn" v-bind="$attrs" @click="showDropDown">
+                <div class="required">
+                    <input
+                        readonly
+                        :value="displayValue"
+                        :disabled="props.disabled"
+                        :class="`input-field ${label ? 'has-static-label' : ''}`"
+                        :placeholder="label ? placeHolder : undefined"
+                        :style="`width:100%;${props.error ? 'border-color:red' : ''};${props.background ? `background-color:${props.background}` : 'white'}`"
+                        type="text"
+                    />
+                    <label v-if="!label" ref="asterisk" :class="`asterisk ${props.NoLabel ? 'invis' : ''}`">
+                        {{ props.placeHolder }}<span v-if="props.required" style="color:red">&nbsp;*</span>
+                    </label>
+                    <label :class="`arrowdown ${label ? 'static-label' : ''}`">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="12" height="13" viewBox="0 0 12 7" fill="none">
+                            <path d="M1 1L6 6L11 1" stroke="black" stroke-width="0.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </label>
+                </div>
 
-            <div class="dropdown-container" v-if="show && !props.disabled">
-                <div class="dropdown-list">
-                    <template v-for="(clinics, city) in groupedClinics" :key="city">
-                        <div class="city-header-desktop">{{ city }}</div>
-                        <div
-                            class="dropdown-item"
-                            v-for="clinic in clinics"
-                            :key="clinic.id"
-                            :class="{ active: selected?.id === clinic.id }"
-                            @mousedown.prevent="update(clinic)"
-                        >
-                            {{ clinic.name }}
-                        </div>
-                    </template>
+                <div class="dropdown-container" v-if="show && !props.disabled">
+                    <div class="dropdown-list">
+                        <template v-for="(clinics, city) in groupedClinics" :key="city">
+                            <div class="city-header-desktop">{{ city }}</div>
+                            <div
+                                class="dropdown-item"
+                                v-for="clinic in clinics"
+                                :key="clinic.id"
+                                :class="{ active: selected?.id === clinic.id }"
+                                @mousedown.prevent="update(clinic)"
+                            >
+                                {{ clinic.name }}
+                            </div>
+                        </template>
+                    </div>
                 </div>
             </div>
         </div>
@@ -189,11 +201,26 @@ defineExpose({ clear, defaultValue });
 </template>
 
 <style scoped lang="scss">
+.field-wrap {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    width: 100%;
+}
+
 /* ── Mobile trigger ── */
 .booking-input-field {
     position: relative;
     display: flex;
     align-items: center;
+
+    &.has-static-label {
+        height: 4.375rem;
+        padding: 0 1rem;
+        border-radius: 0;
+        border: 1.5px solid rgba(3, 41, 46, 0.13);
+        background: #ffffff;
+    }
 
     .required-asterisk {
         color: red;
@@ -253,6 +280,20 @@ defineExpose({ clear, defaultValue });
                 background-color: $grey;
                 opacity: 0.3;
                 cursor: not-allowed;
+            }
+
+            &.has-static-label {
+                height: 4.5rem;
+                padding: 0 1.25rem;
+
+                &::placeholder {
+                    color: rgba(3, 41, 46, 0.45);
+                }
+
+                @media screen and (max-width: 800px) {
+                    height: 4.375rem;
+                    padding: 0 1rem;
+                }
             }
         }
     }
@@ -341,6 +382,16 @@ defineExpose({ clear, defaultValue });
         display: flex;
         right: 3%;
         top: 34%;
+
+        &.static-label {
+            top: 50%;
+            right: 1.25rem;
+            transform: translateY(-50%);
+
+            @media screen and (max-width: 800px) {
+                right: 1rem;
+            }
+        }
     }
 }
 </style>

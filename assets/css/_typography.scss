@@ -1,0 +1,211 @@
+// Type scale for the PTOC-2026 Figma design system (Type/Desktop/* + Type/Mobile/*).
+// Poppins is self-hosted via @nuxtjs/google-fonts (nuxt.config.ts).
+// Switzer is loaded via Fontshare's stylesheet link (also in nuxt.config.ts) - it now
+// requests weight 800 too, since the mobile Display style needs Switzer Extrabold.
+//
+// Font-size and line-height scale fluidly with the viewport, interpolating between the
+// mobile guide's values (at a 390px reference viewport) and the desktop guide's values
+// (assumed at a 1440px reference viewport - the guide doesn't state one, so adjust
+// $type-max-vw if the designer confirms a different desktop frame width).
+// Font-weight / letter-spacing / text-transform switch once at $type-breakpoint instead
+// of interpolating, since those change as discrete design decisions between the two
+// guides rather than scaling smoothly (e.g. Overline goes SemiBold on mobile -> Medium
+// on desktop; Display goes Extrabold on mobile -> Bold on desktop).
+//
+// NOTE: these mixins use px (not rem) for font-size/line-height on purpose. The site's
+// <html> font-size (assets/css/global.scss) is `clamp(10px, 0.7vw, 17px)`, which sits at
+// its 10px floor on effectively every viewport under ~2285px wide - so rem-based sizing
+// would silently shrink to ~0.625x the intended value on ordinary screens. Letter-spacing
+// stays in em, since that's relative to the element's own font-size, not the root.
+
+@use "sass:math";
+
+$font-poppins: "Poppins", sans-serif;
+$font-switzer: "Switzer", sans-serif;
+
+$type-min-vw: 390; // mobile guide reference viewport
+$type-max-vw: 1440; // assumed desktop guide reference viewport (see note above)
+$type-breakpoint: 800px; // viewport at which weight/tracking switch mobile -> desktop
+
+// Fluid clamp between a mobile px value and a desktop px value.
+// Usage: fluid(44, 88) => clamp(44px, ...vw math..., 88px)
+@function fluid($min, $max, $min-vw: $type-min-vw, $max-vw: $type-max-vw) {
+  @if $min == $max {
+    @return #{$min}px;
+  }
+
+  $slope: math.div($max - $min, $max-vw - $min-vw);
+  $intercept: $min - $slope * $min-vw;
+
+  @return clamp(#{$min}px, #{$intercept}px + #{$slope * 100}vw, #{$max}px);
+}
+
+@mixin type-display {
+  // mobile: 44/48/0%, Switzer Extrabold(800) · desktop: 88/96/-2%, Switzer Bold(700)
+  font-family: $font-switzer;
+  font-weight: 800;
+  font-size: fluid(44, 88);
+  line-height: fluid(48, 96);
+  letter-spacing: 0em;
+
+  @media screen and (min-width: $type-breakpoint) {
+    font-weight: 700;
+    letter-spacing: -0.02em;
+  }
+}
+
+@mixin type-h1 {
+  // mobile: 32/38/0%, Bold(700) · desktop: 64/72/-2%, Bold(700)
+  font-family: $font-switzer;
+  font-weight: 700;
+  font-size: fluid(32, 64);
+  line-height: fluid(38, 72);
+  letter-spacing: 0em;
+
+  @media screen and (min-width: $type-breakpoint) {
+    letter-spacing: -0.02em;
+  }
+}
+
+@mixin type-h2 {
+  // mobile: 36/44/-0.5%, Semibold(600) · desktop: 48/56/-1%, Bold(700)
+  font-family: $font-switzer;
+  font-weight: 600;
+  font-size: fluid(36, 48);
+  line-height: fluid(44, 56);
+  letter-spacing: -0.005em;
+
+  @media screen and (min-width: $type-breakpoint) {
+    font-weight: 700;
+    letter-spacing: -0.01em;
+  }
+}
+
+@mixin type-h3 {
+  // mobile: 22/28/0%, Semibold(600) · desktop: 36/44/-0.5%, Semibold(600)
+  font-family: $font-switzer;
+  font-weight: 600;
+  font-size: fluid(22, 36);
+  line-height: fluid(28, 44);
+  letter-spacing: 0em;
+
+  @media screen and (min-width: $type-breakpoint) {
+    letter-spacing: -0.005em;
+  }
+}
+
+@mixin type-h4 {
+  // mobile only: 20/auto/0%, Bold(700) - no desktop value in the guide, held fixed
+  font-family: $font-switzer;
+  font-weight: 700;
+  font-size: 20px;
+  line-height: normal;
+  letter-spacing: 0em;
+}
+
+@mixin type-large {
+  // mobile "Body Large": 18/30/0% · desktop "Large": 20/36/0%, both Poppins Regular(400)
+  font-family: $font-poppins;
+  font-weight: 400;
+  font-size: fluid(18, 20);
+  line-height: fluid(30, 36);
+  letter-spacing: 0em;
+}
+
+@mixin type-body {
+  // mobile: 16/26/0% · desktop: 18/30/0%, both Poppins Regular(400)
+  font-family: $font-poppins;
+  font-weight: 400;
+  font-size: fluid(16, 18);
+  line-height: fluid(26, 30);
+  letter-spacing: 0em;
+}
+
+@mixin type-button {
+  // 18/24/0.5% on both mobile and desktop, Poppins SemiBold(600)
+  font-family: $font-poppins;
+  font-weight: 600;
+  font-size: 18px;
+  line-height: 24px;
+  letter-spacing: 0.005em;
+}
+
+@mixin type-overline {
+  // mobile: 16/auto/4%, SemiBold(600) · desktop: 16/18/8%, Medium(500)
+  font-family: $font-poppins;
+  font-weight: 600;
+  font-size: 16px;
+  line-height: normal;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+
+  @media screen and (min-width: $type-breakpoint) {
+    font-weight: 500;
+    line-height: 18px;
+    letter-spacing: 0.08em;
+  }
+}
+
+@mixin type-label {
+  // mobile only: 16/auto/0%, Medium(500) - no desktop value in the guide, held fixed
+  font-family: $font-poppins;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: normal;
+  letter-spacing: 0em;
+}
+
+@mixin type-caption {
+  // 14/22/0.5% on both mobile and desktop, Poppins Regular(400)
+  font-family: $font-poppins;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 22px;
+  letter-spacing: 0.005em;
+}
+
+// Utility classes - apply directly (e.g. <h2 class="type-h2">) as an alternative to
+// `@include type-*` inside a component's <style> block.
+.type-display {
+  @include type-display;
+}
+
+.type-h1 {
+  @include type-h1;
+}
+
+.type-h2 {
+  @include type-h2;
+}
+
+.type-h3 {
+  @include type-h3;
+}
+
+.type-h4 {
+  @include type-h4;
+}
+
+.type-large {
+  @include type-large;
+}
+
+.type-body {
+  @include type-body;
+}
+
+.type-button {
+  @include type-button;
+}
+
+.type-overline {
+  @include type-overline;
+}
+
+.type-label {
+  @include type-label;
+}
+
+.type-caption {
+  @include type-caption;
+}

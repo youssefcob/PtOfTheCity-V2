@@ -46,7 +46,10 @@ $pageMargin:11rem;
 $pagePadding:0 $pageMargin;
 $pagePaddingRes: 0 $resMargin;
 
-$navbarHeight: calc(10vh + 1rem);
+// actual value (desktop calc / mobile 8rem) lives on --navbar-height in assets/css/main.scss,
+// which is loaded once globally - keeping it out of _mixins.scss avoids this getting
+// duplicated (and mis-scoped) into every component that @imports "global" for its scoped styles.
+$navbarHeight: var(--navbar-height);
 
 $section-margin:12.5rem;
 

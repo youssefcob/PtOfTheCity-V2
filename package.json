@@ -33,6 +33,7 @@
   },
   "devDependencies": {
     "@nuxtjs/sitemap": "^7.6.0",
+    "@types/node": "^26.2.0",
     "sass": "^1.89.2",
     "vue-tsc": "^2.2.10"
   }

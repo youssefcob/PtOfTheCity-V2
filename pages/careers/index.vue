@@ -4,8 +4,9 @@ import { onMounted, ref, type Ref } from 'vue';
 import type { Job } from '~/types/types';
 import CareerForm from '~/components/Career/careerForm.vue';
 import CareerOptions from '~/components/Career/careerOptions.vue';
+import careersSeo from '~/assets/seoMetaTags/careers';
 
-
+usePageSeo(careersSeo);
 
 const careerFormRef = ref<InstanceType<typeof CareerForm> | null>(null);
 const route = useRoute();

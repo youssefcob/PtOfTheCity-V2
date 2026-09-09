@@ -2,6 +2,12 @@
 import { ref, onMounted, onUnmounted } from 'vue';
 import type { Ref } from 'vue';
 
+defineProps({
+    dark: {
+        type: Boolean,
+        default: false
+    }
+});
 
 const show: Ref<boolean> = ref(false);
 const lang: Ref<string> = ref(localStorage.getItem('lang') || 'EN');
@@ -34,11 +40,16 @@ onUnmounted(() => {
 
 
 <template>
-    <div class="language-dropdown">
+    <div class="language-dropdown" :class="{ dark }">
         <div class="language-btn" @click="show = !show">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                :stroke="dark ? 'white' : 'black'" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="9" />
+                <path d="M3 12h18M12 3c2.4 2.6 3.6 5.7 3.6 9s-1.2 6.4-3.6 9c-2.4-2.6-3.6-5.7-3.6-9s1.2-6.4 3.6-9z" />
+            </svg>
             <span>{{ lang }}</span>
             <svg xmlns="http://www.w3.org/2000/svg" width="12" height="7" viewBox="0 0 12 7" fill="none">
-                <path d="M1 1L6 6L11 1" stroke="black" stroke-width="1.5" stroke-linecap="round"
+                <path d="M1 1L6 6L11 1" :stroke="dark ? 'white' : 'black'" stroke-width="1.5" stroke-linecap="round"
                     stroke-linejoin="round" />
             </svg>
 
@@ -64,6 +75,7 @@ onUnmounted(() => {
         display: flex;
         align-items: center;
         justify-content: space-between;
+        gap: 0.4rem;
         padding: 0rem 1rem;
         height: 100%;
         width: 5.3rem;
@@ -77,6 +89,35 @@ onUnmounted(() => {
         }
 
 
+    }
+
+    &.dark {
+        .language-btn {
+            width: auto;
+            padding: 0;
+            gap: 0.35rem;
+            color: #ffffff;
+            font-size: 0.875rem;
+
+            span {
+                color: inherit;
+                font-size: inherit;
+            }
+        }
+
+        .language-list {
+            background-color: #ffffff;
+            top: calc(100% + 0.5rem);
+
+            .language-item {
+                color: #103535;
+
+                &:hover {
+                    background-color: #103535;
+                    color: #ffffff;
+                }
+            }
+        }
     }
 
     .language-list {

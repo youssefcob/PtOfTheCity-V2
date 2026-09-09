@@ -15,6 +15,7 @@ const props = defineProps<{
     NoLabel?: boolean;
     class?: string;
     cta?: boolean;
+    label?: string;
 }>();
 
 defineOptions({
@@ -88,15 +89,20 @@ defineExpose({ clear, defaultValue });
             </div>
         </DropDownModal>
 
-        <div v-bind="$attrs" :class="`booking-input-field ${cta?'ctac':''} ${props.disabled ? 'disabled' : ''}`" @click="openModal">
-            <span>{{ selected || placeHolder || 'Select' }}</span>
-            <span v-if="props.required && !selected" class="required-asterisk">*</span>
-            <span class="arrow-down">
-                <svg xmlns="http://www.w3.org/2000/svg" width="12" height="13" viewBox="0 0 12 7" fill="none">
-                    <path d="M1 1L6 6L11 1" stroke="black" stroke-width="0.5" stroke-linecap="round"
-                        stroke-linejoin="round" />
-                </svg>
-            </span>
+        <div class="field-wrap">
+            <label v-if="label" class="field-label">
+                {{ label }}<span v-if="props.required" class="field-label-required">&nbsp;*</span>
+            </label>
+            <div v-bind="$attrs" :class="`booking-input-field ${cta?'ctac':''} ${label ? 'has-static-label' : ''} ${props.disabled ? 'disabled' : ''}`" @click="openModal">
+                <span>{{ selected || placeHolder || 'Select' }}</span>
+                <span v-if="props.required && !selected && !label" class="required-asterisk">*</span>
+                <span class="arrow-down">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="12" height="13" viewBox="0 0 12 7" fill="none">
+                        <path d="M1 1L6 6L11 1" stroke="black" stroke-width="0.5" stroke-linecap="round"
+                            stroke-linejoin="round" />
+                    </svg>
+                </span>
+            </div>
         </div>
     </template>
 
@@ -104,10 +110,17 @@ defineExpose({ clear, defaultValue });
     <template v-else>
         <DropDownInputField v-bind="$attrs" ref="desktopDropdown" :list="list" :placeHolder="placeHolder"
             :required="required" :disabled="disabled" :error="error" :default="default" :background="background"
-            :NoLabel="NoLabel" :cta="cta" @update:modelValue="update" @input="$emit('input', $event)" />
+            :NoLabel="NoLabel" :cta="cta" :label="label" @update:modelValue="update" @input="$emit('input', $event)" />
     </template>
 </template>
 <style scoped lang='scss'>
+.field-wrap {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    width: 100%;
+}
+
 .booking-input-field {
     position: relative;
     display: flex;
@@ -119,6 +132,14 @@ defineExpose({ clear, defaultValue });
      &.ctac {
             border: 1px solid $cta;
         }
+
+    &.has-static-label {
+        height: 4.375rem;
+        padding: 0 1rem;
+        border-radius: 0;
+        border: 1.5px solid rgba(3, 41, 46, 0.13);
+        background: #ffffff;
+    }
 
     .required-asterisk {
         color: red;

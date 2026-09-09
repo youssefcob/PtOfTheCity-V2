@@ -1,19 +1,19 @@
 <script setup lang="ts">
 import { useRoute } from "vue-router";
+import LanguageDropDown from "./NavBar/NavbarComps/LanguageDropDown.vue";
 </script>
 
 <template>
-  <!--  <p>
-      <span class="desktop-text">Now Open: Visit our
-        <span style="color: #2ee5c1">new Belmont clinic</span> at 4533 Third Avenue!</span>
-      <span class="mobile-text">New <span style="color: #2ee5c1">Belmont clinic</span> now open!</span>
-      <NuxtLink to="/clinic/belmont">Click here for details</NuxtLink>
-    </p> -->
   <div class="top-strap">
-    <p>
-      <span class="text">Referring Physicians</span>
-      <NuxtLink to="/referral">Click here for details</NuxtLink>
-    </p>
+    <NuxtLink to="/physicians-referral" class="referring">Referring Physicians</NuxtLink>
+
+    <div class="top-strap__right">
+      <a href="tel:+17186480888" class="contact" aria-label="Call PT of the City at (718) 648-0888">
+        <span class="contact-label">Contact Us</span>
+        <span class="contact-number">(718) 648-0888</span>
+      </a>
+      
+    </div>
   </div>
 </template>
 
@@ -21,57 +21,62 @@ import { useRoute } from "vue-router";
 .top-strap {
   width: 100%;
   height: 2.5rem;
-  background-color: #103535;
+  background-color: $primary-400;
   color: #ffffff;
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: space-between;
   font-size: 0.875rem;
   position: fixed;
   top: 0;
   left: 0;
   z-index: 50;
-  padding: 0 1rem;
-  text-align: center;
+  padding: 0 3.12rem;
 
-  p {
+  .referring {
     color: #ffffff;
-    margin: 0;
-    line-height: 1.4;
-  }
-
-  span {
-    color: inherit;
-  }
-
-  .mobile-text {
-    display: none;
-  }
-
-  a {
-    color: #ffffff;
-    text-decoration: underline;
-    font-weight: 600;
-    margin-left: 0.5rem;
-    transition: opacity 0.2s ease;
+    text-decoration: none;
+    font-weight: 500;
 
     &:hover {
       opacity: 0.8;
-      text-decoration: none;
     }
   }
 
-  @media screen and (max-width: 425px) {
-    font-size: 0.75rem;
-    height: 4rem;
+  &__right {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+  }
 
-    .desktop-text {
-      display: none;
-    }
+  .contact {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: #ffffff;
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 0.875rem;
 
-    .mobile-text {
-      display: inline;
+    &:hover {
+      opacity: 0.8;
     }
+  }
+
+  .contact-label,
+  .contact-number {
+    color: inherit;
+    font-size: inherit;
+  }
+
+  .contact-number {
+    font-weight: 600;
+  }
+
+  // hidden alongside the desktop navbar (NavBar.vue switches to its mobile
+  // bar at the same breakpoint, which resets the with-top-strap offset to 0)
+  @media screen and (max-width: 1100px) {
+    display: none;
   }
 }
 </style>

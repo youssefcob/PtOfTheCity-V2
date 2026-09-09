@@ -1,5 +1,7 @@
 @import "variables";
 @import 'mixins';
+@import 'colors';
+@import 'typography';
 
 body {
   // max-width:100vw;
@@ -526,4 +528,29 @@ input[type="text"] {
   line-height: 1.7;
   color: #4a5a5a;
   margin: 0;
+}
+
+// Static field label for form inputs (PTOC-2026 booking redesign) - used by
+// InputField/DropDownInputField/DropDownResponsive/ClinicsDropdown when given
+// a `label` prop, replacing their legacy floating-placeholder-as-label
+// pattern. Mobile is Poppins SemiBold 18px, sentence case (type-button);
+// desktop is Poppins Regular fluid 18-20px, uppercase (type-large) - same
+// weight/case hard-swap at $type-breakpoint the rest of the type scale uses,
+// layered on top of type-large's fluid sizing since the two sizes coincide.
+.field-label {
+  @include type-large;
+  display: block;
+  color: $primary-700;
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+  text-transform: none;
+
+  @media screen and (min-width: $type-breakpoint) {
+    font-weight: 400;
+    text-transform: uppercase;
+  }
+
+  .field-label-required {
+    color: #ff282b;
+  }
 }

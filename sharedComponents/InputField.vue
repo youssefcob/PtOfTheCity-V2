@@ -22,8 +22,13 @@ const props = defineProps({
     background: String,
     default: String,
     type: String,
-    NoLabel:Boolean,
-    cta:Boolean,
+    NoLabel: Boolean,
+    cta: Boolean,
+    // When set, renders a real static label above the field (via the shared
+    // .field-label class) instead of the legacy placeholder-that-floats-up
+    // pattern below - placeHolder then becomes the native input placeholder
+    // hint text instead of doing double duty as the label.
+    label: String,
 });
 
 const clear = () => {
@@ -141,26 +146,37 @@ onMounted(() => {
 </script>
 
 <template>
-    <div class="required" :dir="$dir()">
-        <input :id="placeHolder" :disabled="$props.disabled" :class="`input-field ${cta?'ctac':''}`" v-if="!$props.height"
-            :style="`width:100%; ${CalcHeight()};${($props.error) ? 'border-color:red' : ''};${props.background ? `background-color:${props.background}` : 'white'}`"
-            v-maska="mask" :type="props.type || 'text'" v-model="input">
+    <div class="field-wrap">
+        <label v-if="label" :for="placeHolder" class="field-label">
+            {{ label }}<span v-if="props.required" class="field-label-required">&nbsp;*</span>
+        </label>
+        <div class="required" :dir="$dir()">
+            <input :id="placeHolder" :disabled="$props.disabled"
+                :class="`input-field ${cta ? 'ctac' : ''} ${label ? 'has-static-label' : ''}`" v-if="!$props.height"
+                :placeholder="label ? placeHolder : undefined"
+                :style="`width:100%; ${CalcHeight()};${($props.error) ? 'border-color:red' : ''};${props.background ? `background-color:${props.background}` : 'white'}`"
+                v-maska="mask" :type="props.type || 'text'" v-model="input">
 
-        <textarea :id="placeHolder" :disabled="$props.disabled" :class="`input-field ${cta?'ctac':''}`" v-if="$props.height"
-            :style="`width:100%;resize:none; ${CalcHeight()};${($props.error) ? 'border-color:red' : ''}`" type="text"
-            v-model="input"></textarea>
+                <textarea :id="placeHolder" :disabled="$props.disabled"
+                    :class="`input-field ${cta ? 'ctac' : ''} ${label ? 'has-static-label' : ''}`" v-if="$props.height"
+                    :placeholder="label ? placeHolder : undefined"
+                    :style="`width:100%;resize:none; ${CalcHeight()};${($props.error) ? 'border-color:red' : ''}`"
+                    type="text" v-model="input"></textarea>
 
-        <label :for="placeHolder" :class="`asterisk ${NoLabel ? 'invis' : ''}`" ref="asterisk" :style="`${CalcTop()};`">{{ $props.placeHolder }}<span
-                style="color:red" v-if="props.required">
-                &nbsp;*</span> <span class='ps' v-if="$props.optional">(Optional)</span></label>
-
-        <!-- <label class="asterisk" ref="asterisk" 
-            :style="`${CalcTop()};${$dir() === 'ltr' ? 'left:1.25rem' : 'right:1.25rem'};`">{{ $props.placeHolder }}<span
-                :style="props.required ? `color:red` : `color:transparent`">
-                *</span> <span class='ps' v-if="$props.optional">(Optional)</span></label> -->
+                <label v-if="!label" :for="placeHolder" :class="`asterisk ${NoLabel ? 'invis' : ''}`" ref="asterisk"
+                    :style="`${CalcTop()};`">{{ $props.placeHolder }}<span style="color:red" v-if="props.required">
+                        &nbsp;*</span> <span class='ps' v-if="$props.optional">(Optional)</span></label>
+        </div>
     </div>
 </template>
 <style scoped lang="scss">
+.field-wrap {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    width: 100%;
+}
+
 .required {
     position: relative;
 
@@ -171,8 +187,9 @@ onMounted(() => {
         &[disabled] {
             background-color: $grey;
             opacity: 0.3;
-            cursor:not-allowed;
+            cursor: not-allowed;
         }
+
         &.ctac {
             border: 1px solid $cta;
         }
@@ -182,6 +199,34 @@ onMounted(() => {
             // padding: 18px;
         }
 
+        // Figma's static-label field size (56px desktop / 54px mobile) -
+        // the extra class beats the plain `.input-field` rule above on
+        // specificity so it doesn't need !important.
+        &.has-static-label {
+            height: 4.5rem;
+            padding: 0 1.25rem;
+
+
+            &::placeholder {
+                color: rgba(3, 41, 46, 0.45);
+            }
+
+            @media screen and (max-width: 800px) {
+                height: 4.375rem;
+                padding: 0 1rem;
+            }
+        }
+    }
+
+    // A single-line <input> gets its text vertically centered by the browser
+    // regardless of top/bottom padding, but a <textarea> (rendered when a
+    // `height` prop turns this into a multi-line field) always starts its
+    // content flush at the top - it needs real padding-top of its own or the
+    // placeholder sits right against the border.
+    // (three classes here, not two - has to match `.required > .input-field.has-static-label`'s
+    // specificity above plus the element selector, or that rule's padding wins the tie)
+    textarea.input-field.has-static-label {
+        padding: 1rem 1.25rem;
     }
 
     .asterisk {
@@ -214,7 +259,8 @@ onMounted(() => {
             // background-color: white;
             transition: all 0.3s ease-in-out;
             font-size: 0.9rem;
-             &.invis {
+
+            &.invis {
                 display: none;
             }
         }

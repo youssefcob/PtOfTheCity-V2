@@ -3,6 +3,13 @@ import BookingFormNew from '~/components/booking/BookingFormNew.vue';
 
 import bookingSeo from "~/assets/seoMetaTags/booking";
 
+const {
+  contentMap: pageContentMap,
+  isContentEditor: pageIsContentEditor,
+  textStyles: pageTextStyles,
+  pageMeta: pageMetaData,
+} = await usePageContent("booking");
+providePageContent("booking", pageContentMap, pageIsContentEditor, pageTextStyles, pageMetaData);
 
   useHead({
     script: [
@@ -63,9 +70,23 @@ import bookingSeo from "~/assets/seoMetaTags/booking";
       },
     ],
   });
-  usePageSeo(bookingSeo)
+  usePageSeo(bookingSeo, pageMetaData)
 </script>
 
 <template>
+  <div class="booking">
   <BookingFormNew  />
+  </div>
 </template>
+
+<style scoped lang="scss">
+/* body is #eeeced site-wide - override just this page rather than touching
+   the global default other pages rely on. */
+.booking {
+  @media screen and (min-width: 900px) {
+  background-color: #ffffff;
+    
+  }
+}
+</style>
+
