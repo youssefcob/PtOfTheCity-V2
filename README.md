@@ -2,6 +2,14 @@
 
 Look at the [Nuxt documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
 
+## Docker
+
+Build and run the app in a container (serves on `http://localhost:3000`):
+
+```bash
+docker compose up --build
+```
+
 ## Setup
 
 Make sure to install dependencies:
