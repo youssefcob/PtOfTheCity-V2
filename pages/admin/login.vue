@@ -15,7 +15,10 @@ const onSubmit = async () => {
     // freshly-stored admin token and picks up isContentEditor: true.
     window.location.href = '/';
   } catch (err: any) {
-    errorMessage.value = err?.data?.message || err?.message || 'Login failed';
+    const message =
+      err?.data?.message || err?.message || 'Login failed';
+    errorMessage.value = message;
+    useToast().error({ message });
   } finally {
     loading.value = false;
   }

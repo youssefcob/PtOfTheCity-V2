@@ -1,6 +1,5 @@
 <template>
   <div v-if="images.length" class="gallery-section">
-    <h2 class="section-title">Gallery</h2>
     <div class="gallery-grid">
       <div
         v-for="(item, index) in images"
@@ -75,22 +74,16 @@ onUnmounted(() => { window.removeEventListener('keydown', onKey); document.body.
 </script>
 
 <style scoped lang="scss">
-.section-title {
-  color: $navy;
-  font-weight: 700;
-  margin-bottom: 2rem;
-}
-
 .gallery-section {
   @include pagePadding();
-  padding-top: 1rem;
+  padding-top: 2rem;
   padding-bottom: 3rem;
 }
 
 .gallery-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 0.75rem;
+  gap: 1.5rem;
 
   @media screen and (max-width: 900px) {
     grid-template-columns: repeat(3, 1fr);
@@ -102,15 +95,15 @@ onUnmounted(() => { window.removeEventListener('keydown', onKey); document.body.
 }
 
 .gallery-item {
-  aspect-ratio: 4 / 3;
-  border-radius: 0.75rem;
+  aspect-ratio: 4 / 5;
   background-size: cover;
   background-position: center;
+  background-color: $surface-teal-pale;
   cursor: pointer;
   transition: opacity 0.15s;
 
   &:hover {
-    opacity: 0.85;
+    opacity: 0.9;
   }
 }
 

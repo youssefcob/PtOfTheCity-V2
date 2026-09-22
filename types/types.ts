@@ -175,8 +175,35 @@ export type Clinic = {
     user_ratings_total: number,
     image: string,
     slug: string,
+    // PTOC-2026: per-clinic fields added to /web/clinic/<slug>.filtered_clinic.
+    // All nullable - null until an admin fills them in.
+    fax?: string | null,
+    email?: string | null,
+    referral_email?: string | null,
+    languages_spoken?: string[] | null,
+    subway_lines?: SubwayLine[] | null,
     // }
     // ]
+}
+
+export type SubwayLine = {
+    line: string,
+    color?: string,
+}
+
+// Shape of GET /web/clinic/<slug>
+export type ClinicResponse = {
+    filtered_clinic: Clinic,
+    clinics: Clinic[],
+    // Full site-wide in-network insurance list (same data as /web/home.insurances).
+    // No `description` column - path (Cloudinary id) + title only.
+    insurances?: InsuranceImage[],
+}
+
+export type InsuranceImage = {
+    id: number,
+    path: string,
+    title: string,
 }
 
 export type WhoWeAre = {

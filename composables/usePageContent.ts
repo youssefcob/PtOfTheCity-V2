@@ -25,6 +25,9 @@ export const PAGE_CONTENT_META_KEY = 'pageContentMeta';
 // right after awaiting this.
 export const usePageContent = async (page: string) => {
   const { fetchBootstrap } = useContentApi();
+  // Captured before the await below so its useCookie() binding keeps Nuxt
+  // context (see the note above about provide() after await).
+  const { isLoggedIn } = useAdminAuth();
 
   const { data, pending, error, refresh } = await useAsyncData(
     `page-bootstrap-${page}`,
@@ -38,6 +41,16 @@ export const usePageContent = async (page: string) => {
       }),
     },
   );
+
+  // The bootstrap fetch runs during SSR, where the admin_token cookie doesn't
+  // always reach the cross-origin API call (fresh login + hard redirect, or a
+  // context-timing quirk) - so an admin can land with isContentEditor: false
+  // and no CMS toolbar. If we're holding an admin token on the client but the
+  // SSR result says we're not an editor, refetch once here where the token is
+  // guaranteed to be sent.
+  if (import.meta.client && isLoggedIn() && !data.value?.isContentEditor) {
+    await refresh();
+  }
 
   const contentMap = computed(() => data.value?.content ?? {});
   const isContentEditor = computed(() => data.value?.isContentEditor ?? false);

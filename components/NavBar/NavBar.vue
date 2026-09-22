@@ -147,7 +147,7 @@ const { showTopStrap } = useTopStrap();
   transition: all 0.5s ease-in-out;
   z-index: 3; // always behind navbars
   background-color: #ffffff;
-  box-shadow: 0 2px 12px rgba(16, 53, 53, 0.06);
+  box-shadow: 0 3px 10px rgba(16, 53, 53, .2);
 }
 
 .blur-filter.with-top-strap,
