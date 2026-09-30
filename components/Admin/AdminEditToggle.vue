@@ -4,12 +4,17 @@ import { useInjectedPageContent } from '~/composables/usePageContent';
 
 const { isContentEditor } = useInjectedPageContent();
 const { editModeEnabled, toggleEditMode } = useEditorState();
+// Opens PageMetaPanel for the current URL (rendered by the layout).
+const metaPanelOpen = useState<boolean>('cms-meta-panel-open', () => false);
 </script>
 
 <template>
   <div v-if="isContentEditor" class="cms-toolbar-strip">
     <NuxtLink v-if="FEATURES.textStyles" to="/admin/text-styles" class="cms-strip-link">Manage Styles</NuxtLink>
-    <NuxtLink v-if="FEATURES.metaTags" to="/admin/meta-tags" class="cms-strip-link">Manage Meta Tags</NuxtLink>
+    <NuxtLink to="/admin/redirects" class="cms-strip-link">Redirects &amp; Sitemap</NuxtLink>
+    <button v-if="FEATURES.metaTags" type="button" class="cms-strip-link" @click="metaPanelOpen = true">
+      Manage Meta Tags
+    </button>
     <button
       type="button"
       class="cms-edit-toggle"
@@ -33,6 +38,8 @@ const { editModeEnabled, toggleEditMode } = useEditorState();
 }
 
 .cms-strip-link {
+  border: none;
+  cursor: pointer;
   padding: 0.7rem 1.1rem;
   border-radius: 80px;
   background-color: #16344a;

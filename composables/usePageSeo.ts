@@ -1,6 +1,9 @@
 import { FEATURES } from '~/config/features';
 import type { PageMeta } from '~/types/content';
 
+// Per-URL meta set from a page's "Manage Meta Tags" panel is applied on top
+// of all this by useRouteMeta (layouts/default.vue) at higher priority.
+//
 // Admin-editable SEO overrides layer on top of the existing static seo
 // objects (assets/seoMetaTags/*) rather than replacing them - the CMS page
 // meta (title/description/canonical/og image/custom tags) wins when set,

@@ -66,6 +66,16 @@ export interface PageMeta {
   customTags: PageMetaCustomTag[];
 }
 
+// A row in GET /page-meta/index: one page key that has custom meta.
+export interface PageMetaIndexRow {
+  page: string;
+  title: string | null;
+  description: string | null;
+  has_og_image: boolean;
+  custom_tag_count: number;
+  updated_at: string | null;
+}
+
 export interface PageBootstrapResponse {
   content: PageContentMap;
   isContentEditor: boolean;
@@ -76,4 +86,61 @@ export interface PageBootstrapResponse {
 export interface ImageUploadResponse {
   url: string;
   public_id: string;
+}
+
+// Admin-managed redirects (API: /admin/redirects).
+export interface RedirectRule {
+  id: number;
+  source: string;
+  destination: string;
+  status_code: 301 | 302;
+  enabled: boolean;
+  hits: number;
+  last_hit_at: string | null;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface RedirectInput {
+  source: string;
+  destination: string;
+  status_code?: 301 | 302;
+  enabled?: boolean;
+}
+
+export type SitemapChangefreq = 'always' | 'hourly' | 'daily' | 'weekly' | 'monthly' | 'yearly' | 'never';
+
+// A sitemap override or manual url (API: /admin/sitemap-entries).
+export interface SitemapEntry {
+  id: number;
+  url: string;
+  priority: number | null;
+  changefreq: SitemapChangefreq | null;
+  lastmod: string | null;
+  excluded: boolean;
+  is_manual: boolean;
+}
+
+export interface SitemapEntryInput {
+  url: string;
+  priority?: number | null;
+  changefreq?: SitemapChangefreq | null;
+  lastmod?: string | null;
+  excluded?: boolean;
+  is_manual?: boolean;
+}
+
+// A row from /api/__sitemap__/manage (Nuxt): every sitemap url with its
+// effective settings and, for automatic pages, the defaults.
+export interface SitemapManageRow {
+  url: string;
+  source: 'auto' | 'manual';
+  priority: number;
+  changefreq: SitemapChangefreq;
+  lastmod: string | null;
+  excluded: boolean;
+  entryId: number | null;
+  defaults: { priority: number; changefreq: SitemapChangefreq; lastmod: string | null; excluded: boolean } | null;
+  // raw admin-set values; null = follows the default
+  override: { priority: number | null; changefreq: SitemapChangefreq | null; lastmod: string | null };
 }

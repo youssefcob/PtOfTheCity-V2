@@ -85,10 +85,16 @@ export default defineNuxtConfig({
     inject: true
   },
 
+  // The sitemap is built only from our own source (server/utils/sitemap.ts):
+  // static pages from modules/sitemap-pages.ts + API records, with the
+  // overrides admins set at /admin/sitemap. Nuxt's automatic page discovery
+  // is off so /admin/* and internal pages never leak in. Admin changes show
+  // up within the 10-minute cache.
   sitemap: {
-  sources: ['/api/__sitemap__/urls'],
-  cacheMaxAgeSeconds: 60 * 60 * 24, 
-},
+    sources: ['/api/__sitemap__/urls'],
+    excludeAppSources: true,
+    cacheMaxAgeSeconds: 60 * 10,
+  },
 
   modules: [['nuxt-delay-hydration', { mode: 'mount' }], 'nuxt-toast', '@nuxtjs/google-fonts', '@nuxt/image', "@nuxtjs/cloudinary", '@nuxtjs/sitemap']
 }) 

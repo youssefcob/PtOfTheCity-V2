@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import NavBar from "~/components/NavBar/NavBar.vue";
 import StyleToolbarHost from "~/components/Admin/StyleToolbarHost.vue";
+import PageMetaPanel from "~/components/Admin/PageMetaPanel.vue";
 import { useRoute } from "vue-router";
 
 const { $config } = useNuxtApp();
@@ -41,17 +42,19 @@ const hideNavbar = computed(
 // component), so their CMS content is fetched here under a "global" page key
 // and provided from this same layout instance - NavBar/Footer inject() from
 // their nearest ancestor, which is this component, not whatever page happens
-// to be in the <slot>. Skipped on hideNavbar routes since nav/footer don't
-// render there anyway.
-if (!hideNavbar.value) {
-  const {
-    contentMap: globalContentMap,
-    isContentEditor: globalIsContentEditor,
-    textStyles: globalTextStyles,
-    pageMeta: globalPageMeta,
-  } = await usePageContent("global");
-  providePageContent("global", globalContentMap, globalIsContentEditor, globalTextStyles, globalPageMeta);
-}
+// to be in the <slot>. Also loaded on hideNavbar routes (campaigns etc.):
+// it tells the editor toolbar whether the visitor is a content editor, and
+// those pages need the toolbar for their meta tags too.
+const {
+  contentMap: globalContentMap,
+  isContentEditor: globalIsContentEditor,
+  textStyles: globalTextStyles,
+  pageMeta: globalPageMeta,
+} = await usePageContent("global");
+providePageContent("global", globalContentMap, globalIsContentEditor, globalTextStyles, globalPageMeta);
+
+// Per-URL meta tags set from each page's "Manage Meta Tags" panel.
+await useRouteMeta();
 
 const noPaddingTopRoutes = [
   "/",
@@ -143,10 +146,9 @@ const { showTopStrap } = useTopStrap();
   <footer v-if="!hideNavbar">
     <LazyFooter />
   </footer>
-  <template v-if="!hideNavbar">
-    <AdminEditToggle />
-    <StyleToolbarHost />
-  </template>
+  <AdminEditToggle />
+  <StyleToolbarHost />
+  <PageMetaPanel v-if="globalIsContentEditor" />
 </template>
 
 

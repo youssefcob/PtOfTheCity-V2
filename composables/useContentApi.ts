@@ -5,6 +5,11 @@ import type {
   PageBootstrapResponse,
   PageMeta,
   PageMetaCustomTag,
+  PageMetaIndexRow,
+  RedirectInput,
+  RedirectRule,
+  SitemapEntry,
+  SitemapEntryInput,
   TextStyle,
 } from '~/types/content';
 import type { Partner } from '~/types/types';
@@ -106,6 +111,17 @@ export const useContentApi = () => {
     return call(`/text-styles/${id}`, { method: 'DELETE' });
   };
 
+  // Meta for a single URL path ("/about", "/clinic/brooklyn-heights"), or
+  // null when that URL has no custom meta. Public.
+  const fetchPageMeta = (page: string) => {
+    return call('/page-meta', { query: { page } }) as Promise<PageMeta | null>;
+  };
+
+  // Every page key with custom meta, for the /admin/meta-tags index. Editors only.
+  const fetchPageMetaIndex = () => {
+    return call('/page-meta/index') as Promise<PageMetaIndexRow[]>;
+  };
+
   const savePageMeta = (page: string, fields: { title?: string; description?: string; canonical?: string }) => {
     return call('/page-meta', { method: 'POST', body: { page, ...fields } }) as Promise<PageMeta>;
   };
@@ -135,6 +151,24 @@ export const useContentApi = () => {
     return call(`/page-meta/custom-tags/${id}`, { method: 'DELETE' });
   };
 
+  // --- redirects (/admin/redirects) ---
+  const listRedirects = () => call('/admin/redirects') as Promise<RedirectRule[]>;
+
+  const createRedirect = (body: RedirectInput) =>
+    call('/admin/redirects', { method: 'POST', body }) as Promise<RedirectRule>;
+
+  const updateRedirect = (id: number, body: Partial<RedirectInput>) =>
+    call(`/admin/redirects/${id}`, { method: 'PUT', body }) as Promise<RedirectRule>;
+
+  const deleteRedirect = (id: number) => call(`/admin/redirects/${id}`, { method: 'DELETE' });
+
+  // --- sitemap overrides (/admin/sitemap) ---
+  // Upserts by url; only the fields sent change (null resets to the default).
+  const saveSitemapEntry = (body: SitemapEntryInput) =>
+    call('/admin/sitemap-entries', { method: 'POST', body }) as Promise<SitemapEntry>;
+
+  const deleteSitemapEntry = (id: number) => call(`/admin/sitemap-entries/${id}`, { method: 'DELETE' });
+
   // Partners are managed in Filament; editors can reorder them from the
   // /partnerships page. Send every partner id in the new order.
   const reorderPartners = (ids: number[]) => {
@@ -143,6 +177,8 @@ export const useContentApi = () => {
 
   return {
     fetchBootstrap,
+    fetchPageMeta,
+    fetchPageMetaIndex,
     saveText,
     saveImage,
     createTextStyle,
@@ -154,5 +190,11 @@ export const useContentApi = () => {
     updateCustomTag,
     deleteCustomTag,
     reorderPartners,
+    listRedirects,
+    createRedirect,
+    updateRedirect,
+    deleteRedirect,
+    saveSitemapEntry,
+    deleteSitemapEntry,
   };
 };
