@@ -120,7 +120,7 @@ async function subscribe() {
         <EditableText tag="p" class="links-heading" content-key="global.footer.heading.company" default="Company" />
         <div class="links-list">
           <NuxtLink v-for="link in companyLinks" :key="link.label" :to="link.to" >
-            <EditableText tag="span" :content-key="linkKey('company', link.to)" class="links-item" default="link.label" />
+            <EditableText tag="span" :content-key="linkKey('company', link.to)" class="links-item" :default="link.label" />
           </NuxtLink>
         </div>
       </div>
@@ -352,12 +352,19 @@ async function subscribe() {
   font-size: 14px;
   line-height: 22px;
   letter-spacing: 0.005em;
-  color: $surface-cream;
+  color: $surface-cream !important;
   opacity: 0.8;
   transition: opacity 0.2s ease-in-out;
 
   &:hover {
     opacity: 1;
+  }
+
+  // EditableText wraps the text in an inner <span>, and _classes.scss's
+  // `span { color: #2C3233 }` (injected into every component via additionalData)
+  // targets that span directly - so the color above never reached it.
+  :deep(span) {
+    color: inherit !important;
   }
 }
 

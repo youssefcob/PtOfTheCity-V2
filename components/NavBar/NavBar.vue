@@ -191,7 +191,16 @@ const { showTopStrap } = useTopStrap();
   display: flex;
   align-items: center;
 
-  :deep(img) {
+  // EditableImage's own scoped `.cms-editable-image img { width/height: 100% }`
+  // has the same specificity as a bare :deep(img), so which one wins depended
+  // on stylesheet load order - the logo painted oversized, then snapped down
+  // (CLS). Targeting through .cms-editable-image makes these rules always win.
+  :deep(.cms-editable-image) {
+    width: auto;
+    height: auto;
+  }
+
+  :deep(.cms-editable-image img) {
     height: 4.75rem;
     width: auto;
 
@@ -225,7 +234,7 @@ const { showTopStrap } = useTopStrap();
   }
 }
 
-@media screen and (max-width: 425px) {
+@media screen and (max-width: 900px) {
   .blur-filter,
   .navbar {
     height: calc($navbarHeight - 1.5rem);
