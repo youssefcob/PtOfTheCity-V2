@@ -7,6 +7,7 @@ import type {
   PageMetaCustomTag,
   TextStyle,
 } from '~/types/content';
+import type { Partner } from '~/types/types';
 
 export interface SaveTextOptions {
   textStyleId?: number | null;
@@ -134,6 +135,12 @@ export const useContentApi = () => {
     return call(`/page-meta/custom-tags/${id}`, { method: 'DELETE' });
   };
 
+  // Partners are managed in Filament; editors can reorder them from the
+  // /partnerships page. Send every partner id in the new order.
+  const reorderPartners = (ids: number[]) => {
+    return call('/partners/reorder', { method: 'POST', body: { ids } }) as Promise<Partner[]>;
+  };
+
   return {
     fetchBootstrap,
     saveText,
@@ -146,5 +153,6 @@ export const useContentApi = () => {
     saveCustomTag,
     updateCustomTag,
     deleteCustomTag,
+    reorderPartners,
   };
 };

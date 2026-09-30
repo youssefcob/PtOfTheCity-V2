@@ -290,3 +290,16 @@ export type User = {
     last_name: string;
     email: string;
 }
+
+export type PartnerCategory = 'clinical' | 'wellness' | 'operational';
+
+// GET /web/partners — managed in Filament, ordered by sort_order.
+export type Partner = {
+    id: number;
+    name: string;
+    logo: string | null;
+    category: PartnerCategory | null;
+    description: string | null;
+    website_url: string | null;
+    sort_order: number;
+}
