@@ -117,6 +117,35 @@ const timeSlots = [
   "4:30 PM - 5:00 PM",
 ];
 
+const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+const allowedImageTypes = ["image/jpeg", "image/png"];
+
+const isValidPhoneNumber = (value: string) => {
+  const digits = value.replace(/\D/g, "");
+  return digits.length === 10 || (digits.length === 11 && digits.startsWith("1"));
+};
+
+const isValidInsuranceCard = (file: File | null) =>
+  !!file && allowedImageTypes.includes(file.type) && file.size <= 2 * 1024 * 1024;
+
+const trackingRoot = ref<HTMLElement | null>(null);
+
+const tracking = useBookingTracking({
+  formType: "teletherapy",
+  container: trackingRoot,
+  isFieldValid: (field) => {
+    switch (field) {
+      case "email": return emailPattern.test(form.email);
+      case "phoneNumber": return isValidPhoneNumber(form.phoneNumber);
+      case "zipCode": return /^\d+$/.test(form.zipCode);
+      case "preferredDate": return !!form.preferredDate && form.preferredDate >= today;
+      case "dateOfBirth": return !!form.dateOfBirth && form.dateOfBirth <= maxDateOfBirth;
+      case "insuranceCard": return isValidInsuranceCard(form.insuranceCard);
+      default: return !!form[field as keyof typeof form];
+    }
+  },
+});
+
 const handleInsuranceCardUpload = (event: Event) => {
   const target = event.target as HTMLInputElement;
   form.insuranceCard = target.files?.[0] || null;
@@ -181,9 +210,6 @@ const enforcePhoneNumberInput = (event: Event) => {
 
 const validateForm = () => {
   const errors: string[] = [];
-  const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  const phoneDigits = form.phoneNumber.replace(/\D/g, "");
-  const allowedImageTypes = ["image/jpeg", "image/png"];
 
   if (!form.service) errors.push("Please select a service");
   if (!form.patientType) errors.push("Please select if this is your first time with us");
@@ -214,10 +240,7 @@ const validateForm = () => {
     errors.push("Please enter a valid email address");
   }
 
-  if (
-    form.phoneNumber &&
-    !(phoneDigits.length === 10 || (phoneDigits.length === 11 && phoneDigits.startsWith("1")))
-  ) {
+  if (form.phoneNumber && !isValidPhoneNumber(form.phoneNumber)) {
     errors.push("Please enter a valid phone number");
   }
 
@@ -285,6 +308,7 @@ const handleSubmit = async () => {
       body: payload,
     });
 
+    tracking.markSubmitted();
     await navigateTo("/telehealth/success");
   } catch (error: any) {
     toast.error({
@@ -306,8 +330,8 @@ const handleSubmit = async () => {
     </section>
 
     <section class="booking-form-section">
-      <form class="booking-form" @submit.prevent="handleSubmit">
-        <div class="field full">
+      <form ref="trackingRoot" class="booking-form" @submit.prevent="handleSubmit">
+        <div class="field full" data-track-field="service">
           <label for="service-selection">How can we help you today?<span>*</span></label>
           <div class="select-wrap">
             <select id="service-selection" v-model="form.service">
@@ -319,7 +343,7 @@ const handleSubmit = async () => {
           </div>
         </div>
 
-        <div class="radio-row full">
+        <div class="radio-row full" data-track-field="patientType">
           <span class="radio-label">Is this your first time with us? <span>*</span></span>
           <label class="radio-option">
             <input
@@ -339,7 +363,7 @@ const handleSubmit = async () => {
           </label>
         </div>
 
-        <div class="field">
+        <div class="field" data-track-field="state">
           <label for="state">State of Residence<span>*</span></label>
           <div class="select-wrap">
             <select id="state" v-model="form.state">
@@ -350,7 +374,7 @@ const handleSubmit = async () => {
           </div>
         </div>
 
-        <div class="field">
+        <div class="field" data-track-field="zipCode">
           <label for="zip-code">Zip Code</label>
           <input
             id="zip-code"
@@ -362,7 +386,7 @@ const handleSubmit = async () => {
           />
         </div>
 
-        <div class="field full">
+        <div class="field full" data-track-field="address">
           <label for="address">Home Address</label>
           <input
             id="address"
@@ -372,7 +396,7 @@ const handleSubmit = async () => {
           />
         </div>
 
-        <div class="field">
+        <div class="field" data-track-field="preferredDate">
           <label for="preferred-date">Preferred date<span>*</span></label>
           <input
             id="preferred-date"
@@ -383,7 +407,7 @@ const handleSubmit = async () => {
           <small>Select a day that works best for your virtual visit.</small>
         </div>
 
-        <div class="field">
+        <div class="field" data-track-field="timeSlot">
           <label for="time-slot">Available Time Slots<span>*</span></label>
           <div class="select-wrap">
             <select id="time-slot" v-model="form.timeSlot">
@@ -396,7 +420,7 @@ const handleSubmit = async () => {
           <small>All times are shown in Eastern Time (ET) - New York.</small>
         </div>
 
-        <div class="field">
+        <div class="field" data-track-field="firstName">
           <label for="first-name">First Name <span>*</span></label>
           <input
             id="first-name"
@@ -406,7 +430,7 @@ const handleSubmit = async () => {
           />
         </div>
 
-        <div class="field">
+        <div class="field" data-track-field="lastName">
           <label for="last-name">Last Name <span>*</span></label>
           <input
             id="last-name"
@@ -416,7 +440,7 @@ const handleSubmit = async () => {
           />
         </div>
 
-        <div class="field">
+        <div class="field" data-track-field="dateOfBirth">
           <label for="date-of-birth">Date of Birth<span>*</span></label>
           <input
             id="date-of-birth"
@@ -426,7 +450,7 @@ const handleSubmit = async () => {
           />
         </div>
 
-        <div class="field">
+        <div class="field" data-track-field="legalGender">
           <label for="legal-gender">Legal Gender<span>*</span></label>
           <div class="select-wrap">
             <select id="legal-gender" v-model="form.legalGender">
@@ -438,7 +462,7 @@ const handleSubmit = async () => {
           </div>
         </div>
 
-        <div class="field">
+        <div class="field" data-track-field="phoneNumber">
           <label for="phone-number">Phone Number<span>*</span></label>
           <input
             id="phone-number"
@@ -450,7 +474,7 @@ const handleSubmit = async () => {
           />
         </div>
 
-        <label class="consent full sms-consent">
+        <label class="consent full sms-consent" data-track-field="smsConsent">
           <input v-model="form.smsConsent" type="checkbox" />
           <span>
             I agree to receive SMS reminders and updates regarding my
@@ -458,7 +482,7 @@ const handleSubmit = async () => {
           </span>
         </label>
 
-        <div class="field full">
+        <div class="field full" data-track-field="email">
           <label for="email-address">Email Address<span>*</span></label>
           <input
             id="email-address"
@@ -473,7 +497,7 @@ const handleSubmit = async () => {
           </small>
         </div>
 
-        <div class="radio-row full payment-row">
+        <div class="radio-row full payment-row" data-track-field="paymentMethod">
           <span class="radio-label">How would you like to cover your visit?<span>*</span></span>
           <label class="radio-option">
             <input v-model="form.paymentMethod" type="radio" value="Insurance" />
@@ -490,7 +514,7 @@ const handleSubmit = async () => {
         </div>
 
         <template v-if="form.paymentMethod === 'Insurance'">
-          <div class="field full">
+          <div class="field full" data-track-field="insuranceProvider">
             <label for="insurance-provider">Insurance Provider Name<span>*</span></label>
             <div class="select-wrap">
               <select id="insurance-provider" v-model="form.insuranceProvider">
@@ -506,7 +530,7 @@ const handleSubmit = async () => {
             </div>
           </div>
 
-          <div class="field">
+          <div class="field" data-track-field="memberId">
             <label for="member-id">Member ID / Policy Number<span>*</span></label>
             <input
               id="member-id"
@@ -516,7 +540,7 @@ const handleSubmit = async () => {
             />
           </div>
 
-          <div class="field">
+          <div class="field" data-track-field="insuranceCard">
             <label for="insurance-card">Upload Insurance Card<span>*</span></label>
             <input
               id="insurance-card"

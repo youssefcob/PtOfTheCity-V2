@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { nextTick, onMounted, reactive, ref, type Ref } from "vue";
+import { nextTick, onMounted, reactive, ref, watch, type Ref } from "vue";
 import DropDownInputField from "~/sharedComponents/DropDownInputField.vue";
 import InputField from "~/sharedComponents/InputField.vue";
 import RadioInputField from "~/sharedComponents/RadioInputField.vue";
@@ -329,6 +329,28 @@ const validate = () => {
   return v.isValid;
 };
 
+const trackingRoot: Ref<HTMLElement | null> = ref(null);
+
+const isFieldValid = (field: string) => {
+  if (!form[field as keyof typeof form]) return false;
+  const rules = (formValidation.value as Record<string, any>)[field];
+  if (!rules) return true;
+  const v = new validation({ [field]: rules }, form);
+  v.validate();
+  return v.isValid;
+};
+
+const tracking = useBookingTracking({
+  formType: "in_clinic",
+  container: trackingRoot,
+  isFieldValid,
+});
+
+// Custom dropdowns, radios and the date picker don't blur like inputs do,
+// so they count as completed as soon as a valid value is picked
+(["service", "location", "returning", "gender", "payment", "insurance", "date", "preferred_time", "heardAboutUs", "marketing_consent"] as const)
+  .forEach((field) => watch(() => form[field], () => tracking.checkField(field)));
+
 const successModal: Ref<InstanceType<typeof Modal> | null> = ref(null);
 
 const confirmSuccess = () => {
@@ -385,6 +407,7 @@ const submit = async () => {
           currency: 'USD',
         })
       }
+      tracking.markSubmitted();
       navigateTo('/success/booking');
     } catch (e: any) {
       console.error("Full error object:", e);
@@ -501,7 +524,7 @@ const isSelfPay = () => {
 </script>
 
 <template>
-  <div class="booking-container">
+  <div class="booking-container" ref="trackingRoot">
     <!-- <div @click="recaptcha('smth')" class="btn responsive">Book Appointment</div> -->
     <Loading v-if="isLoading" />
     <Modal ref="successModal">
@@ -524,20 +547,20 @@ const isSelfPay = () => {
 
         <div class="form-layout">
           <div class="form-main">
-            <div class="field coverage">
+            <div class="field coverage" data-track-field="returning">
               <RadioInputField pill @change="assignReturning($event)" style="width: 100%"
                 title="Have you visited us before?"
                 :options="[{ label: 'Yes, Existing Patient', value: 'Yes' }, { label: 'No, New Patient', value: 'No' }]"
                 :checked="'No'" id="returning" :error="formErrors.returning" />
             </div>
 
-            <div>
+            <div data-track-field="service">
               <DropDownResponsive cta id="service" ref="serviceComp" :list="servicesList" label="Service"
                 placeHolder="Select a service" v-model="form.service" @input="clearClinic()" required
                 :error="formErrors.service" />
               <div class="ps">What do you need?</div>
             </div>
-            <div>
+            <div data-track-field="location">
               <ClinicsDropdown ref="locationComp" :list="locations" label="Clinic Location"
                 placeHolder="Select nearest clinic" :required="true"
                 @update:modelValue="(val) => (form.location = val)" />
@@ -549,41 +572,41 @@ const isSelfPay = () => {
 
             <div>
               <div class="split name">
-                <InputField cta required class="field" label="First Name" placeHolder="e.g. Jane" id="firstName"
+                <InputField cta required class="field" label="First Name" placeHolder="e.g. Jane" id="firstName" data-track-field="firstName"
                   @input="form.firstName = $event" :error="formErrors.firstName" lettersOnly />
-                <InputField cta required class="field" label="Last Name" placeHolder="e.g. Doe" id="lastName"
+                <InputField cta required class="field" label="Last Name" placeHolder="e.g. Doe" id="lastName" data-track-field="lastName"
                   @input="form.lastName = $event" :error="formErrors.lastName" lettersOnly />
               </div>
               <div class="ps">Your legal name as shown in the photo ID</div>
             </div>
             <div class="split">
-              <div class="field">
+              <div class="field" data-track-field="dob">
                 <InputField cta label="Date of Birth" placeHolder="MM-DD-YYYY" mask="##-##-####" id="dob" required
                   @input="form.dob = $event" :error="formErrors.dob" date minYear="-100" maxYear="+10" />
               </div>
-              <div class="field">
+              <div class="field" data-track-field="gender">
                 <DropDownResponsive cta :list="['Male', 'Female', 'Other', 'Prefer not to say']" required id="gender"
                   label="Gender" placeHolder="Select gender" @input="form.gender = $event" :error="formErrors.gender" />
               </div>
             </div>
             <div class="split reverse">
-              <div class="field">
+              <div class="field" data-track-field="phone">
                 <InputField cta label="Phone Number" placeHolder="(555) 000-0000" mask="(###) ###-####" id="phone"
                   required @input="form.phone = $event" :error="formErrors.phone" />
               </div>
-              <div class="field">
+              <div class="field" data-track-field="email">
                 <InputField cta label="Email Address" placeHolder="jane.doe@example.com" id="email" required
                   @input="form.email = $event" :error="formErrors.email" />
               </div>
             </div>
 
             <div class="split">
-              <div class="field">
+              <div class="field" data-track-field="date">
                 <DateField label="Appointment Date" placeHolder="Select a date" required
                   @input="form.date = $event" :error="formErrors.date" :schedule="selectedClinic?.schedule"
                   :holidays="selectedClinic?.holidays" />
               </div>
-              <div class="field">
+              <div class="field" data-track-field="preferred_time">
                 <DropDownResponsive cta @input="form.preferred_time = $event" id="preferred_time" :list="[
                   'Anytime',
                   'Morning (7:00 AM – 12:00 PM)',
@@ -594,61 +617,65 @@ const isSelfPay = () => {
               </div>
             </div>
 
-            <div class="field coverage">
+            <div class="field coverage" data-track-field="payment">
               <RadioInputField pill @change="assignPayment($event)" style="width: 100%" title="Coverage"
                 :options="['Insurance', 'Self Pay', 'Workers Compensation']" :checked="'Insurance'" id="payment"
                 :error="formErrors.payment" />
             </div>
-            <DropDownResponsive cta v-if="
-              !(
-                form.returning == 'Yes' ||
-                form.payment == 'Workers Compensation'
-              )
-            " id="insurance" :list="insurancesList" label="Insurance Provider" placeHolder="Select your insurance"
-              @input="form.insurance = $event" :disabled="isSelfPay()" :error="formErrors.insurance" />
+            <div class="track-field" data-track-field="insurance">
+              <DropDownResponsive cta v-if="
+                !(
+                  form.returning == 'Yes' ||
+                  form.payment == 'Workers Compensation'
+                )
+              " id="insurance" :list="insurancesList" label="Insurance Provider" placeHolder="Select your insurance"
+                @input="form.insurance = $event" :disabled="isSelfPay()" :error="formErrors.insurance" />
+            </div>
             <InputField cta v-if="
               !(
                 form.returning == 'Yes' ||
                 form.payment == 'Workers Compensation'
               )
-            " @input="form.memberId = $event" label="Member ID" placeHolder="e.g. A1B2C3D4" id="MemberId"
+            " @input="form.memberId = $event" label="Member ID" placeHolder="e.g. A1B2C3D4" id="MemberId" data-track-field="memberId"
               :disabled="isSelfPay()" :error="formErrors.memberId" />
 
             <!-- WorkersCompensation -->
             <div class="split">
               <div class="field">
-                <InputField cta v-if="form.payment === 'Workers Compensation'" @input="form.date_of_accident = $event"
+                <InputField cta v-if="form.payment === 'Workers Compensation'" @input="form.date_of_accident = $event" data-track-field="date_of_accident"
                   label="Date of Accident" placeHolder="MM-DD-YYYY" mask="##-##-####" id="date_of_accident"
                   :error="formErrors.date_of_accident" date required min-year="-50" max-year="+0" />
               </div>
               <div class="field">
-                <InputField cta v-if="form.payment === 'Workers Compensation'" @input="form.case_number = $event"
+                <InputField cta v-if="form.payment === 'Workers Compensation'" @input="form.case_number = $event" data-track-field="case_number"
                   label="Case Number" placeHolder="e.g. WC-123456" id="case_number" :error="formErrors.case_number"
                   required />
               </div>
             </div>
             <div class="split">
               <div class="field">
-                <InputField cta v-if="form.payment === 'Workers Compensation'" @input="form.lawyer_name = $event"
+                <InputField cta v-if="form.payment === 'Workers Compensation'" @input="form.lawyer_name = $event" data-track-field="lawyer_name"
                   label="Lawyer Name" placeHolder="e.g. Jane Smith" id="lawyer_name" :error="formErrors.lawyer_name"
                   letterOnly required />
               </div>
               <div class="field">
                 <InputField cta v-if="form.payment === 'Workers Compensation'"
-                  @input="form.lawyer_phone_number = $event" label="Lawyer Phone Number"
+                  @input="form.lawyer_phone_number = $event" data-track-field="lawyer_phone_number" label="Lawyer Phone Number"
                   placeHolder="(555) 000-0000" id="lawyer_phone_number" :error="formErrors.lawyer_phone_number"
                   mask="(###) ###-####" required />
               </div>
             </div>
 
-            <InputField cta @input="form.pain = $event" height="9.75rem" label="Briefly describe your symptoms"
+            <InputField cta @input="form.pain = $event" data-track-field="pain" height="9.75rem" label="Briefly describe your symptoms"
               placeHolder="Type your symptoms here..." id="pain" :error="formErrors.pain" />
 
-            <DropDownResponsive cta @input="form.heardAboutUs = $event" id="heardAboutUs"
-              :list="heardAboutUsOptions" label="How did you hear about PTOC" placeHolder="Select option" />
+            <div class="track-field" data-track-field="heardAboutUs">
+              <DropDownResponsive cta @input="form.heardAboutUs = $event" id="heardAboutUs"
+                :list="heardAboutUsOptions" label="How did you hear about PTOC" placeHolder="Select option" />
+            </div>
 
             <div class="form-footer">
-              <div class="consent-checkbox">
+              <div class="consent-checkbox" data-track-field="marketing_consent">
                 <!-- EditableText can't render as a <label> itself, so the checkbox and
                      text are nested inside a plain <label> instead - clicking the text
                      still toggles the checkbox via normal implicit label association. -->
@@ -726,6 +753,11 @@ const isSelfPay = () => {
 
 <style scoped lang="scss">
 $gap: 2rem;
+
+// Wrapper that only exists to mark a field for tracking; keeps layout unchanged
+.track-field {
+  display: contents;
+}
 .submit-label{
   color:$white;
   font-weight:600;

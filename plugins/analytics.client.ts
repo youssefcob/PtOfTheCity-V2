@@ -1,11 +1,17 @@
 export default defineNuxtPlugin(() => {
+  // Google Analytics + Ads (single gtag.js handles all configs). The queue is
+  // set up immediately so events fired on page load (booking funnel) aren't
+  // lost; only the script download is deferred.
+  ;(window as any).dataLayer = (window as any).dataLayer || []
+  ;(window as any).gtag = function() { (window as any).dataLayer.push(arguments) }
+  ;(window as any).gtag('js', new Date())
+  ;(window as any).gtag('config', 'G-E66E47L4WE')
+  if (isProdHost()) {
+    ;(window as any).gtag('config', 'G-DF0X75KZCC')
+  }
+  ;(window as any).gtag('config', 'AW-10835639583')
+
   const loadGA = () => {
-    // Google Analytics + Ads (single gtag.js handles both configs)
-    ;(window as any).dataLayer = (window as any).dataLayer || []
-    ;(window as any).gtag = function() { (window as any).dataLayer.push(arguments) }
-    ;(window as any).gtag('js', new Date())
-    ;(window as any).gtag('config', 'G-E66E47L4WE')
-    ;(window as any).gtag('config', 'AW-10835639583')
     const gaScript = document.createElement('script')
     gaScript.async = true
     gaScript.src = 'https://www.googletagmanager.com/gtag/js?id=G-E66E47L4WE'
@@ -40,4 +46,10 @@ export default defineNuxtPlugin(() => {
   }
 
   setTimeout(loadSocial, 3000)
+
+  // Remembers the page type the user was on before reaching a booking form
+  // (booking funnel entry_point)
+  const router = useRouter()
+  recordPageView(router.currentRoute.value.path)
+  router.afterEach((to) => recordPageView(to.path))
 })

@@ -52,7 +52,8 @@ export const useAdminAuth = () => {
     // content-editor access - the CMS toolbar (isContentEditor from
     // /page-bootstrap) would never show, so reject it here rather than land
     // the user on a page with no editing controls and no explanation.
-    if (!res.user?.is_content_editor) {
+    // Super admins always have it, matching the backend's ContentEditorToken.
+    if (res.user?.role !== 'super_admin' && !res.user?.is_content_editor) {
       throw new Error(
         'This account does not have content editor access. Ask a super admin to enable it.',
       );

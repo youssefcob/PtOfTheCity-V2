@@ -60,7 +60,9 @@ export default defineNuxtConfig({
     
     public: {
       environment: process.env.NODE_ENV || 'development',
-      url: 'http://localhost:8000/api',
+      url: process.env.NODE_ENV === 'production' && process.env.URL
+        ? process.env.URL
+        : 'http://localhost:8000/api',
       // url: 'https://ptofthecity-prod-85befd5a122b.herokuapp.com/api',
       // url: 'https://ptofthecity-26da1857a791.herokuapp.com/api',
       // localUrl: process.env.API_URL || 'http://localhost:8000',

@@ -7,4 +7,5 @@ services:
       - .env
     environment:
       NODE_ENV: production
+      NUXT_PUBLIC_URL: ${URL}
     restart: unless-stopped
