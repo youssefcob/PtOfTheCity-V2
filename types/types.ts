@@ -242,11 +242,29 @@ export type HttpReview = {
 }
 
 
+export type JobHiringStatus = 'hiring' | 'soon';
+
+// A hiring position from GET /web/careers. The fields after isAvailable were
+// added for the 2026 careers redesign and may be null on older rows.
 export type Job = {
     id: number;
+    slug?: string | null;
     title: string;
-    description: string;
-    isAvailable: number;
+    description: string | null;
+    isAvailable: boolean | number;
+    hiring_status?: JobHiringStatus | null;
+    specialty?: string | null;
+    location?: string | null;
+    job_type?: string | null;
+    setting?: string | null;
+    start_date?: string | null;
+    sort_order?: number | null;
+    responsibilities?: string[] | null;
+    requirements?: string[] | null;
+    benefits?: string[] | null;
+    contact_address?: string | null;
+    contact_phone?: string | null;
+    contact_email?: string | null;
     created_at: string;
     updated_at: string;
 }

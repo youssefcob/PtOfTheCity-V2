@@ -1,79 +1,64 @@
+<template>
+  <div class="careers-page">
+    <CareersHero />
+    <CareersWhyJoin class="why-join-section" />
+    <CareersGrow class="grow-section" />
+    <CareersPositions class="positions-section" :jobs="data || []" :pending="pending" :error="!!error" />
+  </div>
+</template>
+
 <script setup lang="ts">
-
-import { onMounted, ref, type Ref } from 'vue';
-import type { Job } from '~/types/types';
-import CareerForm from '~/components/Career/careerForm.vue';
-import CareerOptions from '~/components/Career/careerOptions.vue';
+import CareersHero from '~/components/Careers/CareersHero.vue';
+import CareersWhyJoin from '~/components/Careers/CareersWhyJoin.vue';
+import CareersGrow from '~/components/Careers/CareersGrow.vue';
+import CareersPositions from '~/components/Careers/CareersPositions.vue';
 import careersSeo from '~/assets/seoMetaTags/careers';
+import type { Job } from '~/types/types';
 
-usePageSeo(careersSeo);
+const { data, pending, error } = await useFetch<Job[]>(`${useUrl()}/web/careers`);
 
-const careerFormRef = ref<InstanceType<typeof CareerForm> | null>(null);
-const route = useRoute();
+const {
+  contentMap: pageContentMap,
+  isContentEditor: pageIsContentEditor,
+  textStyles: pageTextStyles,
+  pageMeta: pageMetaData,
+} = await usePageContent('careers');
+providePageContent('careers', pageContentMap, pageIsContentEditor, pageTextStyles, pageMetaData);
 
-const { data, pending, error } = await useFetch<Job[]>(`${useUrl()}/web/careers`)
-const allJobs = computed(()=>{
-    return data.value || []
-})
-const availableJobs = computed(()=>{
-    return data.value?.filter((job: any) => job.isAvailable == true).map((job: any) => job.title) || []
-})
+usePageSeo(careersSeo, pageMetaData);
+</script>
 
-const assignJob = (j:string) => {
-    if (careerFormRef.value) {
-        careerFormRef.value.selectCareer(j);
-    }
+<style scoped lang="scss">
+// Vertical rhythm between sections, from the Figma frame
+.careers-page {
+  width: 100%;
+  overflow: hidden;
+  padding-bottom: 12rem;
+
+  // the mobile Figma sits the white sections on a cream page
+  @media screen and (max-width: 900px) {
+    padding-bottom: 0;
+    background-color: $surface-cream;
+  }
 }
 
-onMounted(() => {
-    if (route.query.apply) {
-        assignJob(route.query.apply as string);
-    }
-})
-</script>
-<template>
-    <div class="Ccontainer">
-        <div class="sectionHeader">
-            <h1 class="pageHeader">Join our team</h1>
-            <p>We Are Always Hiring</p>
-        </div>
-        <div class="careers-container">
+.why-join-section {
+  margin-top: 1.5rem;
+}
 
-            <CareerForm ref="careerFormRef" :jobs="availableJobs"/>
-            <CareerOptions :jobs="allJobs"/>
+.grow-section {
+  margin-top: 6rem;
+}
 
+.positions-section {
+  margin-top: 11.8rem;
+}
 
-        </div>
-    </div>
-</template>
-<style scoped lang="scss">
-$formgap: 1.25rem;
-
-.Ccontainer {
-    @include pagePadding();
-    padding-top: calc(8vh + 7.5vh);
-
-    @media screen and (max-width: 800px) {
-        padding-top: 10vh;
-
-    }
-
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-
-    .careers-container {
-        display: flex;
-        width: 100%;
-        gap: 5rem;
-
-        @media screen and (max-width: 800px) {
-            flex-direction: column;
-
-        }
-
-
-
-    }
+@media screen and (max-width: 900px) {
+  .why-join-section,
+  .grow-section,
+  .positions-section {
+    margin-top: 0;
+  }
 }
 </style>
