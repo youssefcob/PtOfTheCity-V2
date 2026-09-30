@@ -320,6 +320,13 @@ function setHidden(value: boolean) {
   @include type-body;
   color: $primary-700;
 
+  // the question's EditableText root is a <span>, which the global `span`
+  // rule in _classes.scss would otherwise shrink to 14px
+  > span:first-child {
+    font: inherit;
+    color: inherit;
+  }
+
   .icon {
     flex-shrink: 0;
     display: flex;
