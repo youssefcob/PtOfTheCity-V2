@@ -77,6 +77,7 @@ const noMarginBottomRoutes = [
   "/teletherapy/booking",
   "/benchcraft",
   "/sensory-freeway",
+  "/about",
   ""
 ];
 

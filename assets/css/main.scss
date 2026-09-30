@@ -73,3 +73,48 @@ html {
   min-height: 100vh;
   background-color: #ffffff;
 }
+// Entrance animations applied by the v-reveal directive (composables/useScrollReveal.ts).
+// Motion follows the PTOC-2026 Figma prototype, sped up for the live site.
+[data-reveal]:not(.is-revealed) {
+  opacity: 0;
+}
+
+[data-reveal='slide-in'] {
+  transition: opacity 0.3s cubic-bezier(0.5, 0, 0.5, 1), transform 0.35s ease-out;
+
+  &:not(.is-revealed) {
+    transform: translateX(-30rem);
+  }
+}
+
+[data-reveal='rise'] {
+  transition: opacity 0.25s ease-out 0.05s, transform 0.4s ease-out 0.05s;
+
+  &:not(.is-revealed) {
+    transform: translateY(4rem);
+  }
+}
+
+[data-reveal='drop'] {
+  transition: opacity 0.25s ease-out, transform 0.4s ease-out;
+
+  &:not(.is-revealed) {
+    transform: translateY(-3rem);
+  }
+}
+
+// On narrow screens a full-distance slide would start the element entirely
+// off-screen, where IntersectionObserver never sees it and it never reveals.
+@media screen and (max-width: 900px) {
+  [data-reveal='slide-in']:not(.is-revealed) {
+    transform: translateX(-4rem);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-reveal] {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+}

@@ -1,12 +1,16 @@
 <script setup lang="ts">
 import EditableText from '~/components/Admin/EditableText.vue';
+import EditableImage from '~/components/Admin/EditableImage.vue';
 
 // Reusable dark "Find a Clinic Near You" CTA band. `pageKey` scopes the
 // editable copy so each page can tune it (defaults match the Figma).
+// `imageSrc` adds the Figma's optional right-hand illustration (editable too).
 const props = withDefaults(
   defineProps<{
     pageKey?: string;
     to?: string;
+    imageSrc?: string;
+    imageAlt?: string;
   }>(),
   { pageKey: 'shared', to: '/clinics/all' },
 );
@@ -42,6 +46,10 @@ const ck = (s: string) => `${props.pageKey}.find_clinic.${s}`;
           <polyline points="7 7 17 7 17 17" />
         </svg>
       </NuxtLink>
+    </div>
+    <div v-if="imageSrc" class="illustration">
+      <EditableImage :content-key="ck('image')" :default-src="imageSrc" :default-alt="imageAlt"
+        default-object-fit="cover" default-object-position="center bottom" />
     </div>
   </section>
 </template>
@@ -89,6 +97,23 @@ const ck = (s: string) => `${props.pageKey}.find_clinic.${s}`;
   color: #ffffff;
   opacity: 0.9;
   margin: 0;
+}
+
+.illustration {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: $pageMargin;
+  width: 50.4rem;
+
+  :deep(img) {
+    display: block;
+  }
+
+  // the copy needs the full width on smaller screens
+  @media screen and (max-width: 1100px) {
+    display: none;
+  }
 }
 
 .link {

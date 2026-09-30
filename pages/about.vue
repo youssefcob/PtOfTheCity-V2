@@ -1,111 +1,77 @@
-<script setup lang="ts">
-import Carousel from '~/sharedComponents/Carousel.vue';
-import Services from '~/components/Home/Services/Services.vue';
-import InfoSection from '~/components/WhoWeArePage/InfoSection.vue';
-import type { Service, Staff, WhoWeAre } from '~/types/types';
-import SingleStaffMember from '~/components/WhoWeArePage/SingleStaffMember.vue';
-import aboutSeo from '~/assets/seoMetaTags/about';
-
-usePageSeo(aboutSeo);
-
-type AboutPage = {
-    whoweare: WhoWeAre,
-    services: Service[],
-    staff: Staff[]
-}
-
-const { data, pending, error } = await useFetch<AboutPage>(`${useUrl()}/web/about`)
-
-provide('homepageData', data);
-provide('homepagePending', pending);
-provide('homepageError', error);
-
-const staff = computed(() => data.value?.staff || [])
-
-
-
-
-</script>
-
 <template>
-    <div class="whoWeAre-container">
-        <InfoSection />
-        <div class="service">
-            <h3 class="header-t">Our Services</h3>
-            <Services NoTitle />
-        </div>
-        <Carousel NoIndicator class="carousel">
-            <SingleStaffMember class="s-staff" v-for="member in staff" :staffMember="member" />
-        </Carousel>
-        <div class="btns-container">
-            <NuxtLink active-class="navbar-link" class="btn btnfont" to="/booking">
-                {{ $translate('book_now') }}
-            </NuxtLink>
-            <NuxtLink active-class="navbar-link" class="btn transparent btnfont" to="/">
-                Back to Home Page
-            </NuxtLink>
-        </div>
-    </div>
+  <div class="about-page">
+    <AboutHero />
+    <AboutValues class="values-section" />
+    <AboutLeadership class="leadership-section" />
+    <AboutPrograms class="programs-section" :services="data?.services || []" />
+    <AboutCommunity class="community-section" />
+    <FindClinicBand class="find-clinic-section" page-key="about" to="/clinics/all"
+      image-src="/images/about/nyc-street-signs.webp"
+      image-alt="New York street signs for The Bronx, Brooklyn, Queens and Manhattan" />
+  </div>
 </template>
 
+<script setup lang="ts">
+import AboutHero from '~/components/About/AboutHero.vue';
+import AboutValues from '~/components/About/AboutValues.vue';
+import AboutLeadership from '~/components/About/AboutLeadership.vue';
+import AboutPrograms from '~/components/About/AboutPrograms.vue';
+import AboutCommunity from '~/components/About/AboutCommunity.vue';
+import FindClinicBand from '~/components/shared/FindClinicBand.vue';
+import aboutSeo from '~/assets/seoMetaTags/about';
+import type { Service } from '~/types/types';
+
+type AboutPage = {
+  services: Service[];
+};
+
+const { data } = await useFetch<AboutPage>(`${useUrl()}/web/about`);
+
+const {
+  contentMap: pageContentMap,
+  isContentEditor: pageIsContentEditor,
+  textStyles: pageTextStyles,
+  pageMeta: pageMetaData,
+} = await usePageContent('about');
+providePageContent('about', pageContentMap, pageIsContentEditor, pageTextStyles, pageMetaData);
+
+usePageSeo(aboutSeo, pageMetaData);
+</script>
+
 <style scoped lang="scss">
-.whoWeAre-container {
-    width: 100%;
-    padding-top: 2vh;
-    overflow: hidden;
+// Vertical rhythm between sections, from the Figma frame
+.about-page {
+  width: 100%;
+  overflow: hidden;
+}
 
-    padding-top: calc($navbarHeight + 2vh);
+.values-section {
+  margin-top: 13.8rem;
+}
 
-    .header-t {
-        margin-bottom: 1.25rem;
-    }
+.leadership-section {
+  margin-top: 12.4rem;
+}
 
-    .service {
-        >.header-t {
-            @include padding(left);
-        }
+.programs-section {
+  margin-top: 4.7rem;
+}
 
-        margin-top: 3rem;
-    }
+.community-section {
+  margin-top: 10.4rem;
+}
 
-    .carousel {
-        margin-top: 3rem;
-        height: 300px;
-        width: 100%;
+.find-clinic-section {
+  margin-top: 11.8rem;
+}
 
-        @media screen and (max-width: 500px) {
-            margin-left: $resMargin;
-        }
-
-        .s-staff {
-            @include carouselItem2(7);
-
-            @media screen and (max-width: 1024px) {
-                @include carouselItem2(4);
-            }
-
-            @media screen and (max-width: 800px) {
-                @include carouselItem2(3);
-            }
-
-            @media screen and (max-width: 500px) {
-                @include carouselItem2(2.8);
-            }
-        }
-    }
-
-    .btns-container {
-        @include pagePadding;
-        width: 50%;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        gap: 1rem;
-        margin-top: 3rem;
-
-        @media screen and (max-width: 500px) {
-            display: none;
-        }
-    }
+@media screen and (max-width: 900px) {
+  .values-section,
+  .leadership-section,
+  .programs-section,
+  .community-section,
+  .find-clinic-section {
+    margin-top: 6.4rem;
+  }
 }
 </style>
