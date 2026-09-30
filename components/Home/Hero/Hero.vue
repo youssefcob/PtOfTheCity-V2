@@ -192,7 +192,8 @@ const heroImg = (width: number) => useImg('careers', width);
         background-color: $primary-400;
         color: #ffffff;
 
-        // padding: rem 10rem;
+        padding-left:  4rem;
+        padding-right: 4rem;
 
         &:hover {
             background-color: $primary-300;
@@ -201,10 +202,12 @@ const heroImg = (width: number) => useImg('careers', width);
 
     .btn-primary-text{
         color: #ffffff;
-
+        font-weight: 600;
     }
 
     .btn-secondary-text {
+        font-weight: 600;
+
         @media screen and (max-width: 900px) {
             color: #ffffff;
         }
