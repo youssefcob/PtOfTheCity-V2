@@ -1,6 +1,6 @@
 <template>
   <section class="heroSection">
-    <ReferralHero page-key="new-patients-guide" eyebrow-default="New Patients Guide"
+    <ReferralHero full-height page-key="new-patients-guide" eyebrow-default="New Patients Guide"
       title-default="Your First Visit Starts Here."
       description-default="Starting physical therapy is an important step toward feeling better. From scheduling your first appointment to beginning your personalized treatment plan, we're here to guide you through every step of the journey."
       cta-label-default="Schedule Your First Visit" cta-target="/booking" />

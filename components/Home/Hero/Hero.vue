@@ -32,7 +32,7 @@ const heroImg = (width: number) => useImg('careers', width);
                 </NuxtLink>
                 <NuxtLink to="/insurances#eligibility" class="btn-secondary"
                     aria-label="Check your insurance eligibility">
-                    <EditableText tag="span" content-key="home.hero.cta_secondary_label" default="Check Eligibility" />
+                    <EditableText tag="span" content-key="home.hero.cta_secondary_label" class="btn-secondary-text" default="Check Eligibility" />
                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                         stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                         <line x1="7" y1="17" x2="17" y2="7" />
@@ -55,7 +55,11 @@ const heroImg = (width: number) => useImg('careers', width);
     display: flex;
     align-items: stretch;
     width: 100%;
-    min-height: 50rem;
+    // fill the window below the navbar clearance (same offset as margin-top).
+    // svh = height with the mobile address bar showing, so it fits on load
+    // without resizing on scroll; the vh line is the fallback.
+    min-height: calc(100vh - (2.5rem + $navbarHeight + 1rem));
+    min-height: calc(100svh - (2.5rem + $navbarHeight + 1rem));
     margin-top: calc(2.5rem + $navbarHeight + 1rem);
     background: #ffffff;
     position: relative;
@@ -67,7 +71,8 @@ const heroImg = (width: number) => useImg('careers', width);
     // adjusted its clearance yet.
     @media screen and (max-width: 1100px) {
         margin-top: calc($navbarHeight + 1rem);
-
+        min-height: calc(100vh - ($navbarHeight + 1rem));
+        min-height: calc(100svh - ($navbarHeight + 1rem));
     }
 
     // mobile: the image becomes a full-bleed background with the copy overlaid
@@ -75,15 +80,14 @@ const heroImg = (width: number) => useImg('careers', width);
     @media screen and (max-width: 900px) {
         position: relative;
         display: block;
-        // min-height: calc(100vh - $navbarHeight);
-        min-height: calc(100vh - $navbarHeight + 1.6rem);
-
         overflow: hidden;
     }
 
     // NavBar.vue's own height shrinks by 1.5rem below 425px - match it here too
     @media screen and (max-width: 425px) {
         margin-top: calc($navbarHeight - 1.5rem);
+        min-height: calc(100vh - ($navbarHeight - 1.5rem));
+        min-height: calc(100svh - ($navbarHeight - 1.5rem));
     }
 }
 
@@ -198,6 +202,12 @@ const heroImg = (width: number) => useImg('careers', width);
     .btn-primary-text{
         color: #ffffff;
 
+    }
+
+    .btn-secondary-text {
+        @media screen and (max-width: 900px) {
+            color: #ffffff;
+        }
     }
 
     .btn-secondary {

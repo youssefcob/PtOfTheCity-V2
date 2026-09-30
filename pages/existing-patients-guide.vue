@@ -1,6 +1,6 @@
 <template>
   <section class="heroSection">
-    <ReferralHero page-key="existing-patients-guide" eyebrow-default="Existing Patients"
+    <ReferralHero full-height page-key="existing-patients-guide" eyebrow-default="Existing Patients"
       title-default="Everything You Need for Your Next Visit."
       description-default="Whether you're continuing treatment or preparing for your next appointment, we're here to make every visit smooth, convenient, and focused on your recovery."
       cta-label-default="Manage Your Appointment" cta-target="/booking" />

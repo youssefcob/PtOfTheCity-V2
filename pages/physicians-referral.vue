@@ -1,6 +1,6 @@
 <template>
   <section class="heroSection">
-    <ReferralHero page-key="physicians-referral" eyebrow-default="For Referring Physicians"
+    <ReferralHero full-height page-key="physicians-referral" eyebrow-default="For Referring Physicians"
       title-default="Together, we get patients better."
       description-default="When you refer a patient to PT of the City, you're partnering with a team committed to timely communication, evidence-based treatment, and exceptional patient care. From referral to recovery, we keep you informed every step of the way."
       cta-label-default="Refer a Patient" cta-target="#form" />

@@ -1,6 +1,6 @@
 <template>
   <section class="heroSection">
-    <ReferralHero page-key="patients-referral" eyebrow-default="Patient Referrals"
+    <ReferralHero full-height page-key="patients-referral" eyebrow-default="Patient Referrals"
       title-default="Need a Referral? We'll Help You Get Started."
       description-default="Some insurance plans require a physician referral before beginning physical therapy. Our team is here to guide you through the process and help you take the next step toward recovery." />
   </section>

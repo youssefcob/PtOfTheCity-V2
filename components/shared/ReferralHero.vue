@@ -9,13 +9,15 @@ const props = defineProps<{
   descriptionDefault: string;
   ctaLabelDefault?: string;
   ctaTarget?: string;
+  // Fill the browser window instead of the default fixed minimum height.
+  fullHeight?: boolean;
 }>();
 
 const heroImg = (width: number) => useImg('careers', width);
 </script>
 
 <template>
-  <div class="hero">
+  <div class="hero" :class="{ 'full-height': fullHeight }">
     <div class="hero-content">
       <EditableText tag="span" class="eyebrow" :content-key="`${pageKey}.hero.eyebrow`" :default="eyebrowDefault" />
       <EditableText tag="h1" class="title" :content-key="`${pageKey}.hero.title`" :default="titleDefault" />
@@ -61,6 +63,15 @@ const heroImg = (width: number) => useImg('careers', width);
     min-height: calc(100vh - $navbarHeight + 1.6rem);
     overflow: hidden;
     padding: 0;
+  }
+
+  // The navbar and top strap are position: fixed, so the only thing above the
+  // hero is default.vue's 8vh padding-top on <main>. The hero's own navbar
+  // padding sits inside its border-box height. svh = height with the mobile
+  // address bar showing, so it fits on load; the vh line is the fallback.
+  &.full-height {
+    min-height: calc(100vh - 8vh);
+    min-height: calc(100svh - 8vh);
   }
 }
 
@@ -129,6 +140,13 @@ const heroImg = (width: number) => useImg('careers', width);
 
     @media screen and (max-width: 900px) {
       color: #ffffff;
+
+      // The label is an EditableText (a span wrapping an inner span), and
+      // _classes.scss's `span { color: #2C3233 }` targets those spans directly,
+      // so the white above never reached the text.
+      :deep(span) {
+        color: inherit !important;
+      }
     }
   }
 }
