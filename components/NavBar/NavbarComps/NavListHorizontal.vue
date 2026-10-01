@@ -58,7 +58,6 @@ const aboutLinks = [
 
 const patientInfoLinks = [
     { label: 'Insurance', to: '/insurances' },
-    { label: 'FAQs', to: '/FAQs' },
     { label: 'Teletherapy', to: '/teletherapy' },
     { label: 'Blog', to: '/blogs' },
 ];

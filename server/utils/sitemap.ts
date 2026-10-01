@@ -55,7 +55,7 @@ const DEFAULT_EXCLUDED = new Set([
 ]);
 
 const KEY_PAGES = new Set([
-  '/about', '/careers', '/contact', '/insurances', '/partnerships', '/booking', '/blogs', '/FAQs', '/conditions',
+  '/about', '/careers', '/contact', '/insurances', '/partnerships', '/booking', '/blogs', '/conditions',
   '/new-patients-guide', '/existing-patients-guide', '/patients-referral', '/physicians-referral', '/teletherapy',
 ]);
 
