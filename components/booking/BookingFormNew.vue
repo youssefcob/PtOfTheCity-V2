@@ -108,8 +108,17 @@ const { data, pending, error } = await useFetch<BookingData>(
 const servicesData = computed(() => data.value?.services || []);
 const insurancesData = computed(() => data.value?.insurances || []);
 
+// Programs and services share one table (told apart by `type`); the dropdown
+// lists programs first, then services, each under its own heading.
+const serviceGroups = computed(() =>
+  [
+    { label: "Programs", items: servicesData.value.filter((s) => s.type === "program").map((s) => s.title) },
+    { label: "Services", items: servicesData.value.filter((s) => s.type !== "program").map((s) => s.title) },
+  ].filter((group) => group.items.length > 0),
+);
+
 const servicesList = computed(() => {
-  return data.value?.services.map((service) => service.title) || [];
+  return serviceGroups.value.flatMap((group) => group.items);
   // formValidation.service.rules[1] = { dropdown: s };
 });
 
@@ -212,8 +221,8 @@ const formValidation = computed(() => ({
   service: {
     rules: ["required", { dropdown: servicesList.value }],
     message: {
-      required: "Please select a service",
-      dropdown: "Please select a valid service",
+      required: "Please select a service or program",
+      dropdown: "Please select a valid service or program",
     },
   },
   gender: {
@@ -532,8 +541,8 @@ const isSelfPay = () => {
             </div>
 
             <div>
-              <DropDownResponsive cta id="service" ref="serviceComp" :list="servicesList" label="Service"
-                placeHolder="Select a service" v-model="form.service" @input="clearClinic()" required
+              <DropDownResponsive cta id="service" ref="serviceComp" :list="servicesList" :groups="serviceGroups" label="Service or Program"
+                placeHolder="Select a service or program" v-model="form.service" @input="clearClinic()" required
                 :error="formErrors.service" />
               <div class="ps">What do you need?</div>
             </div>

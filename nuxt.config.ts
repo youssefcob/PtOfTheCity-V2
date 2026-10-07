@@ -45,6 +45,8 @@ export default defineNuxtConfig({
     // '/': { swr: 3600 },
     '/telehealth': { redirect: { to: '/teletherapy', statusCode: 301 } },
     '/telehealth/**': { redirect: { to: '/teletherapy/**', statusCode: 301 } },
+    '/blogs': { redirect: { to: '/articles', statusCode: 301 } },
+    '/blogs/**': { redirect: { to: '/articles/**', statusCode: 301 } },
   },
   experimental: {
     defaults: {
@@ -57,7 +59,11 @@ export default defineNuxtConfig({
     compressPublicAssets: { gzip: true, brotli: true },
   },
   runtimeConfig: {
-    
+    // Studio (headless CMS) render envelopes, read server-side only by
+    // server/api/studio. CDN copy first, Studio itself as the fallback.
+    studioCdnUrl: process.env.STUDIO_CDN_URL || '',
+    studioUrl: process.env.STUDIO_URL || '',
+
     public: {
       environment: process.env.NODE_ENV || 'development',
       url: 'http://localhost:8000/api',

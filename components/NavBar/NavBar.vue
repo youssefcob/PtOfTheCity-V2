@@ -52,14 +52,10 @@ watch(() => route.path, updateNavState);
 
 const { data, pending, error } = await useFetch<Nav>(`${useUrl()}/web/nav`);
 const clinics = computed(() => data.value?.clinics);
-// const services = computed(() => data.value?.services)
-
-const services = computed(
-  () =>
-    (data.value?.services || []).filter(
-      (service) => service.toLowerCase() !== "initial check-up",
-    ) || [],
-    // console.log("services", data.value?.services)
+const serviceItems = computed(() =>
+  (data.value?.service_items || []).filter(
+    (item) => item.title.toLowerCase() !== "initial check-up",
+  ),
 );
 
 const { showTopStrap } = useTopStrap();
@@ -95,7 +91,7 @@ const { showTopStrap } = useTopStrap();
     <div class="navlist">
       <NavListHorizontal
         :clinics="clinics"
-        :services="services"
+        :serviceItems="serviceItems"
         :navOnLanding="navOnLanding"
       />
     </div>

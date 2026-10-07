@@ -38,10 +38,10 @@ const companyLinks = [
 // tips, and guides content) isn't built yet either - routed to the existing
 // blog for now since that's the closest live equivalent.
 const resourceLinks = [
-  { label: 'Knowledge Hub', to: '/blogs' },
-  { label: 'Back & Spine', to: '/blogs' },
-  { label: 'Recovery Tips', to: '/blogs' },
-  { label: 'Free Guides', to: '/blogs' },
+  { label: 'Knowledge Hub', to: '/articles' },
+  { label: 'Back & Spine', to: '/articles' },
+  { label: 'Recovery Tips', to: '/articles' },
+  { label: 'Free Guides', to: '/articles' },
 ];
 
 // Stable content key derived from the link's own destination rather than its
@@ -120,7 +120,7 @@ async function subscribe() {
         <EditableText tag="p" class="links-heading" content-key="global.footer.heading.company" default="Company" />
         <div class="links-list">
           <NuxtLink v-for="link in companyLinks" :key="link.label" :to="link.to" >
-            <EditableText tag="span" :content-key="linkKey('company', link.to)" class="links-item" default="link.label" />
+            <EditableText tag="span" :content-key="linkKey('company', link.to)" class="links-item" :default="link.label" />
           </NuxtLink>
         </div>
       </div>

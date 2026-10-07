@@ -46,7 +46,7 @@ const formatText = (text: string | undefined): string => {
           <p class="text-s" v-html="formatText(staffMember?.bio)"></p>
         </ClientOnly>
       </div>
-      <NuxtLink :to="`/blogs?author=${staffMember.full_name.replaceAll(' ', '+')}`" class="btn main">Articles</NuxtLink>
+      <NuxtLink :to="`/articles?author=${staffMember.full_name.replaceAll(' ', '+')}`" class="btn main">Articles</NuxtLink>
 
 
     </div>

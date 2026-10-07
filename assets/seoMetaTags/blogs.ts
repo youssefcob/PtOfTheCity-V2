@@ -3,14 +3,14 @@ export default {
   description:
     "Read the latest physical therapy blog posts from PT of the City. Discover expert health tips, injury recovery advice, and rehab insights for NYC patients.",
   robots: "index, follow",
-  canonical: "https://www.ptofthecity.com/blogs",
+  canonical: "https://www.ptofthecity.com/articles",
   ogType: "website",
   ogTitle: "Physical Therapy Blog & Health Tips | PT of the City",
   ogDescription:
     "Read the latest physical therapy blog posts from PT of the City. Discover expert health tips, injury recovery advice, and rehab insights for NYC patients.",
-  ogUrl: "https://www.ptofthecity.com/blogs",
+  ogUrl: "https://www.ptofthecity.com/articles",
   twitterCard: "summary_large_image",
-  twitterUrl: "https://www.ptofthecity.com/blogs",
+  twitterUrl: "https://www.ptofthecity.com/articles",
   twitterTitle: "Physical Therapy Blog & Health Tips | PT of the City",
   twitterDescription:
     "Read the latest physical therapy blog posts from PT of the City. Discover expert health tips, injury recovery advice, and rehab insights for NYC patients.",

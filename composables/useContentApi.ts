@@ -134,9 +134,14 @@ export const useContentApi = () => {
     return call(`/page-meta/custom-tags/${id}`, { method: 'DELETE' });
   };
 
+  const setServiceType = (id: string | number, type: 'program' | 'service') => {
+    return call(`/services/${id}/type`, { method: 'PATCH', body: { type } });
+  };
+
   return {
     fetchBootstrap,
     saveText,
+    setServiceType,
     saveImage,
     createTextStyle,
     updateTextStyle,

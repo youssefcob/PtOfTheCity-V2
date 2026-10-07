@@ -1,14 +1,15 @@
 <script setup lang="ts">
 import { computed, reactive, ref } from 'vue';
-import type { Clinic, HttpClinics } from '~/types/types';
+import type { Clinic, HttpClinics, NavServiceItem } from '~/types/types';
 
 const props = defineProps({
     navOnLanding: {
         type: Boolean,
         required: true
     },
-    services: {
-        type: Object as () => string[]
+    serviceItems: {
+        type: Array as () => NavServiceItem[],
+        default: () => []
     },
     clinics: {
         type: Object as () => HttpClinics
@@ -48,6 +49,11 @@ const rearrangedClinicsNames = computed(() => {
     });
 });
 
+const serviceGroups = computed(() => [
+    { label: 'Programs', color: BOROUGH_COLORS[0], items: props.serviceItems.filter(s => s.type === 'program') },
+    { label: 'Services', color: BOROUGH_COLORS[1], items: props.serviceItems.filter(s => s.type === 'service') },
+].filter(group => group.items.length > 0));
+
 type DropdownKey = 'clinics' | 'services' | 'about' | 'patientInfo';
 
 const aboutLinks = [
@@ -60,7 +66,7 @@ const patientInfoLinks = [
     { label: 'Insurance', to: '/insurances' },
     { label: 'FAQs', to: '/FAQs' },
     { label: 'Teletherapy', to: '/teletherapy' },
-    { label: 'Blog', to: '/blogs' },
+    { label: 'Articles', to: '/articles' },
 ];
 
 // Dropdown states
@@ -123,13 +129,24 @@ function cancelClose(type: DropdownKey) {
         </li>
 
         <teleport to="body">
-            <div v-if="dropdownOpen.services" class="dropdown-content" :style="dropdownStyle.services" role="menu"
-                aria-label="Available services"
+            <div v-if="dropdownOpen.services && serviceGroups.length > 0" class="dropdown-content clinics"
+                :style="dropdownStyle.services" role="menu" aria-label="Programs and services"
                 @mouseenter="() => cancelClose('services')" @mouseleave="() => closeDropdown('services')">
-                <NuxtLink class="dropdown-item" v-for="(service, index) in services" :key="index"
-                    :to="`/service/${createSlug(service)}`" role="menuitem">
-                    {{ service }}
-                </NuxtLink>
+                <div class="clinics-header">
+                    <div class="clinics-header__left">Programs &amp; Services</div>
+                </div>
+                <div class="clinics-body">
+                    <div class="borough-col" v-for="group in serviceGroups" :key="group.label">
+                        <div class="borough-heading" :style="{ color: group.color, borderColor: group.color }">
+                            <span class="borough-dot" :style="{ background: group.color }" />
+                            <strong role="presentation">{{ group.label }}</strong>
+                        </div>
+                        <NuxtLink class="dropdown-item" v-for="item in group.items" :key="item.id"
+                            :to="servicePath(item)" role="menuitem">
+                            {{ item.title }}
+                        </NuxtLink>
+                    </div>
+                </div>
             </div>
         </teleport>
 

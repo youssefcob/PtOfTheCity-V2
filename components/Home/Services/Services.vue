@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { Service } from '~/types/types';
+import type { Service, ServiceType } from '~/types/types';
 import EditableText from '~/components/Admin/EditableText.vue';
 import EditableImage from '~/components/Admin/EditableImage.vue';
 import { FEATURES } from '~/config/features';
@@ -13,17 +13,17 @@ const pending = inject('homepagePending');
 const error = inject('homepageError');
 
 const { contentMap, page, isContentEditor } = useInjectedPageContent();
-const { saveText } = useContentApi();
+const { saveText, setServiceType } = useContentApi();
 const { editModeEnabled } = useEditorState();
 
 const canManageServices = computed(() => isContentEditor.value && editModeEnabled.value && FEATURES.serviceOrdering);
 
-// Admin-set hide/placement/order for each service, persisted through the same
+// Admin-set hide/order for each service, persisted through the same
 // generic page-content key/value store EditableText/EditableImage already
 // use (service.{id}.{field}) rather than a dedicated backend endpoint.
 // Layered in a local ref on top of contentMap so button clicks re-sort
 // instantly instead of waiting on a refetch.
-type ServiceMetaField = 'hidden' | 'placement' | 'order';
+type ServiceMetaField = 'hidden' | 'order';
 const localOverrides = ref<Record<string, string>>({});
 
 const metaKey = (id: string, field: ServiceMetaField) => `service.${id}.${field}`;
@@ -58,37 +58,29 @@ const visibleServices = computed(() => allServices.value.filter(s => !isHidden(s
 // order from the API) until an admin explicitly reorders it. The featured
 // card used to be auto-picked from this list (pediatric if present, else the
 // last one) - now it's fully admin-authored via home.services.featured.*
-// content keys, independent of any real Service, so every service is fair
-// game for the grid/chips.
+// content keys, independent of any real Service.
 const resolveOrder = (service: Service) => {
     const raw = getMeta(service.id, 'order');
     if (raw !== undefined && raw !== '' && Number.isFinite(Number(raw))) return Number(raw);
     return visibleServices.value.findIndex(s => s.slug === service.slug);
 };
 
-// A single order sequence shared by both the grid and "more services" chips,
-// so swapping two services' order values reorders them within whichever
-// bucket they land in without disturbing anyone else's position.
+// A single order sequence shared by both the programs grid and the services
+// chips, so swapping two entries' order values reorders them within their own
+// bucket without disturbing anyone else's position.
 const orderedRemaining = computed(() =>
     [...visibleServices.value].sort((a, b) => resolveOrder(a) - resolveOrder(b))
 );
 
-const MAX_GRID_SERVICES = 6;
+// Programs (grid) and services (chips) share the services table and are told
+// apart by its `type` column. typeOverrides layers an admin's just-clicked
+// move on top so the UI re-buckets without waiting on a refetch.
+const typeOverrides = ref<Record<string, ServiceType>>({});
 
-const gridServices = computed(() => {
-    const result: Service[] = [];
-    for (const service of orderedRemaining.value) {
-        const placement = getMeta(service.id, 'placement');
-        if (placement === 'chip') continue;
-        if (placement === 'grid' || result.length < MAX_GRID_SERVICES) result.push(service);
-    }
-    return result;
-});
+const resolveType = (service: Service): ServiceType => typeOverrides.value[service.id] ?? service.type;
 
-const chipServices = computed(() => {
-    const gridSlugs = new Set(gridServices.value.map(s => s.slug));
-    return orderedRemaining.value.filter(s => !gridSlugs.has(s.slug));
-});
+const gridServices = computed(() => orderedRemaining.value.filter(s => resolveType(s) === 'program'));
+const chipServices = computed(() => orderedRemaining.value.filter(s => resolveType(s) === 'service'));
 
 const moveService = (bucket: Service[], service: Service, direction: -1 | 1) => {
     const idx = bucket.findIndex(s => s.slug === service.slug);
@@ -101,7 +93,16 @@ const moveService = (bucket: Service[], service: Service, direction: -1 | 1) => 
     setMeta(other.id, 'order', String(serviceOrder));
 };
 
-const moveToBucket = (service: Service, bucket: 'grid' | 'chip') => setMeta(service.id, 'placement', bucket);
+const moveToBucket = async (service: Service, type: ServiceType) => {
+    const previous = resolveType(service);
+    typeOverrides.value = { ...typeOverrides.value, [service.id]: type };
+    try {
+        await setServiceType(service.id, type);
+    } catch (err) {
+        console.error('Failed to save service type', service.id, err);
+        typeOverrides.value = { ...typeOverrides.value, [service.id]: previous };
+    }
+};
 const hideService = (service: Service) => setMeta(service.id, 'hidden', 'true');
 const unhideService = (service: Service) => setMeta(service.id, 'hidden', 'false');
 
@@ -148,7 +149,7 @@ const cardAccentColors = [
                     <NuxtLink
                         v-for="(service, index) in gridServices"
                         :key="service.slug"
-                        :to="`/service/${service.slug}`"
+                        :to="servicePath(service)"
                         class="program-card"
                     >
                         <div class="program-card-body">
@@ -168,7 +169,7 @@ const cardAccentColors = [
                             <button type="button" class="admin-btn" :disabled="index === gridServices.length - 1"
                                 @click="moveService(gridServices, service, 1)" aria-label="Move down">↓</button>
                             <button type="button" class="admin-btn admin-btn--wide"
-                                @click="moveToBucket(service, 'chip')">Move to More Services</button>
+                                @click="moveToBucket(service, 'service')">Move to Services</button>
                             <button type="button" class="admin-btn admin-btn--danger"
                                 @click="hideService(service)">Hide</button>
                         </div>
@@ -200,7 +201,7 @@ const cardAccentColors = [
                 <EditableText tag="h3" class="more-services-title" content-key="home.services.more_heading"
                     default="More Services Provided" />
                 <div class="chip-row">
-                    <NuxtLink v-for="(service, index) in chipServices" :key="service.slug" :to="`/service/${service.slug}`" class="chip">
+                    <NuxtLink v-for="(service, index) in chipServices" :key="service.slug" :to="servicePath(service)" class="chip">
                         <EditableText tag="span" :content-key="`service.${service.id}.title`" :default="service.title" />
 
                         <div v-if="canManageServices" class="admin-controls admin-controls--chip" @click.stop.prevent>
@@ -209,7 +210,7 @@ const cardAccentColors = [
                             <button type="button" class="admin-btn" :disabled="index === chipServices.length - 1"
                                 @click="moveService(chipServices, service, 1)" aria-label="Move down">↓</button>
                             <button type="button" class="admin-btn admin-btn--wide"
-                                @click="moveToBucket(service, 'grid')">Move to Grid</button>
+                                @click="moveToBucket(service, 'program')">Move to Programs</button>
                             <button type="button" class="admin-btn admin-btn--danger"
                                 @click="hideService(service)">Hide</button>
                         </div>

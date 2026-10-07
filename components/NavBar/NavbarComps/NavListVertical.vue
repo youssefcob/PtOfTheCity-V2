@@ -146,7 +146,7 @@ const boroughColor = (borough: string) =>
           }}</NuxtLink>
       </li>
       <li>
-        <NuxtLink class="list-item" active-class="navbar-link" @click="toggleDropDown" to="/blogs">Blog</NuxtLink>
+        <NuxtLink class="list-item" active-class="navbar-link" @click="toggleDropDown" to="/articles">Articles</NuxtLink>
       </li>
       <li>
         <NuxtLink class="list-item" active-class="navbar-link" @click="toggleDropDown" to="/teletherapy">Teletherapy</NuxtLink>

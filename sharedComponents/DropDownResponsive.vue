@@ -16,6 +16,7 @@ const props = defineProps<{
     class?: string;
     cta?: boolean;
     label?: string;
+    groups?: { label: string; items: string[] }[];
 }>();
 
 defineOptions({
@@ -82,7 +83,16 @@ defineExpose({ clear, defaultValue });
     <template v-if="isMobile">
         <DropDownModal ref="modal">
             <div class="dropdown-wrapper" :class="props.class">
-                <div class="element" v-for="(item, index) in list" :key="index" :class="{ active: selected === item }"
+                <template v-if="groups">
+                    <template v-for="group in groups" :key="group.label">
+                        <p class="group-label">{{ group.label }}</p>
+                        <div class="element" v-for="item in group.items" :key="item"
+                            :class="{ active: selected === item }" @click="update(item)">
+                            <p class="element-p">{{ item }}</p>
+                        </div>
+                    </template>
+                </template>
+                <div v-else class="element" v-for="(item, index) in list" :key="index" :class="{ active: selected === item }"
                     @click="update(item)">
                     <p class="element-p">{{ item }}</p>
                 </div>
@@ -110,10 +120,19 @@ defineExpose({ clear, defaultValue });
     <template v-else>
         <DropDownInputField v-bind="$attrs" ref="desktopDropdown" :list="list" :placeHolder="placeHolder"
             :required="required" :disabled="disabled" :error="error" :default="default" :background="background"
-            :NoLabel="NoLabel" :cta="cta" :label="label" @update:modelValue="update" @input="$emit('input', $event)" />
+            :NoLabel="NoLabel" :cta="cta" :label="label" :groups="groups" @update:modelValue="update" @input="$emit('input', $event)" />
     </template>
 </template>
 <style scoped lang='scss'>
+.dropdown-wrapper .group-label {
+    padding: 1rem 1rem 0.25rem;
+    font-size: 0.85em;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: rgba(3, 41, 46, 0.55);
+}
+
 .field-wrap {
     display: flex;
     flex-direction: column;

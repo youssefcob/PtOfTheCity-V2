@@ -18,7 +18,10 @@
     </div>
     <!-- <p class="title">{{ data?.title }}</p> -->
 
-    <ClientOnly>
+    <!-- Studio owns the article body; html_content is the fallback for
+         articles that have no Studio doc published yet. -->
+    <StudioContent v-if="doc" class="studio-article" :doc="doc" />
+    <ClientOnly v-else>
       <div class="content" v-html="data?.html_content"></div>
     </ClientOnly>
 
@@ -39,6 +42,7 @@
 <script lang="ts" setup>
 import { NuxtImg } from '#components';
 import type { Blog } from '~/types/types';
+import StudioContent from '~/components/shared/StudioContent.vue';
 
 definePageMeta({
   middleware: ['slug-redirect']
@@ -51,26 +55,42 @@ const blogName = decodeURIComponent(route.params.name as string).toLowerCase()
     .replace(/-+/g, '-');
 
 const { data, pending, error } = await useFetch<Blog>(`${useUrl()}/blogs/title/${blogName}`)
+
+// The API answers an unknown slug with 200 and an empty object.
+if (!data.value?.id) {
+  throw createError({ statusCode: 404, statusMessage: 'Article not found', fatal: true })
+}
 const router = useRouter()
 
 const constructMetas = () => {
   let metas: Record<string, string> = {};
-  let metasParsedArray = JSON.parse(data.value?.metas as string); 
-  
-  metasParsedArray.forEach((item: any) => {
-    metas[item.key] = item.value;
-  });
-  
+  try {
+    const metasParsedArray = JSON.parse(data.value?.metas as string) || [];
+    metasParsedArray.forEach((item: any) => {
+      metas[item.key] = item.value;
+    });
+  } catch {
+    // no usable metas on this row
+  }
+
   return metas;
 }
 
 useSeoMeta(constructMetas());
+
+// Applied after the row's own metas so Studio's head wins when a doc exists.
+const { doc } = await useStudioDoc('articles', () => data.value?.cms_slug || blogName);
 
 
 
 </script>
 
 <style scoped lang="scss">
+// the article container already clears the navbar
+.studio-article {
+  padding-top: 0;
+}
+
 .container {
   @include pagePadding();
   padding-top: calc($navbarHeight * 0.7) !important;

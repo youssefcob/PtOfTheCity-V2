@@ -16,7 +16,7 @@ const emits = defineEmits(['navigate']);
 <template>
 
 
-    <NuxtLink :to="`/service/${props.service?.slug}`" class="card"
+    <NuxtLink :to="props.service ? servicePath(props.service) : undefined" class="card"
         :aria-label="`Learn more about ${props.service?.title}`" :title="`${props.service?.title} Service`">
         <div class="image" :style="{ backgroundImage: `url(${useImg(props.service?.path)})` }" />
         <h3 class="title">{{ $props.service?.title }}</h3>

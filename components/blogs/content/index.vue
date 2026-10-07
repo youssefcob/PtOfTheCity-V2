@@ -1,7 +1,7 @@
 <template>
   <div class="blogs-grid">
     <template v-for="blog in blogs">
-      <NuxtLink :to="`/blogs/${blog.title}`">
+      <NuxtLink :to="`/articles/${blog.title}`">
         <blogs-content-blog-card :blog="blog" />
       </NuxtLink>
     </template>

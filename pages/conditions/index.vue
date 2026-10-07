@@ -22,6 +22,11 @@
                 </div>
             </div>
         </div>
+        <div v-if="conditions?.length" class="conditions-links">
+            <NuxtLink v-for="condition in conditions" :key="condition.id" :to="`/conditions/${condition.slug}`"
+                class="condition-link">{{ condition.title }}</NuxtLink>
+        </div>
+
         <div class="body-parts-wrapper desktop">
             <template v-for="(part, index) in Object.entries(conditionsInfo)" :key="part[0]">
                 <BodyPart :content="part[1]" :mirrored="(index % 2) ? false : true" :img="part[0]" />
@@ -41,8 +46,12 @@ import BodyPart from '~/components/Conditions/BodyPart.vue';
 import BodyPartMobile from '~/components/Conditions/BodyPartMobile.vue';
 import { conditionsInfo } from '~/mixins/Conditions';
 import { ref } from 'vue';
+import type { Condition } from '~/types/types';
 
 const parts = Object.keys(conditionsInfo);
+
+// Conditions that have their own detail page (/conditions/<slug>).
+const { data: conditions } = await useFetch<Condition[]>(`${useUrl()}/web/conditions`);
 
 // Set page title
 useHead({
@@ -65,6 +74,27 @@ useHead({
 <style scoped lang="scss">
 .blog-container {
     padding-top: 2vh;
+
+    .conditions-links {
+        @include pagePadding;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+        margin-bottom: 6rem;
+
+        .condition-link {
+            padding: 0.6rem 1rem;
+            border: 1.5px solid $primary-400;
+            border-radius: 1.2rem;
+            background: #ffffff;
+            @include type-body;
+            color: $primary-700;
+
+            &:hover {
+                background-color: $surface-mint;
+            }
+        }
+    }
 
     .body-health {
         @include pagePadding;

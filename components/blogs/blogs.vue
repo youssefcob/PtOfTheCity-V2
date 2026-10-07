@@ -31,7 +31,7 @@ const error = inject('homepageError');
     <Carousel v-else-if="blogs && blogs.length" NoIndicator class="carousel">
 
       <template v-for="blog in blogs">
-        <NuxtLink class="singleBlog" :to="`/blogs/${blog.title}`">
+        <NuxtLink class="singleBlog" :to="`/articles/${blog.title}`">
           <blogs-content-blog-card :blog="blog" />
         </NuxtLink>
       </template>
