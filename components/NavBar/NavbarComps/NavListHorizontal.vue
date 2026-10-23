@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { computed, reactive, ref } from 'vue';
 import type { Clinic, HttpClinics, NavServiceItem } from '~/types/types';
+import { bodyParts, bodyPartPath } from '~/mixins/Conditions';
 
 const props = defineProps({
     navOnLanding: {
@@ -28,12 +29,8 @@ const clinicsData = computed(() => props.clinics);
 const clinicsLocations = computed(() =>
     clinicsData.value ? Object.keys(clinicsData.value) : []
 );
-const clinicsCount = computed(() =>
-    clinicsData.value ? Object.values(clinicsData.value).reduce((sum, arr) => sum + arr.length, 0) : 0
-);
 
 const BOROUGH_ORDER = ['Manhattan', 'Brooklyn', 'The Bronx', 'Queens'];
-const BOROUGH_COLORS = ['#1A56A0', '#2E7D32', '#6A1B9A', '#C62828', '#E65100'];
 
 const rearrangedClinicsNames = computed(() => {
     if (!clinicsLocations.value || !Array.isArray(clinicsLocations.value)) {
@@ -49,24 +46,33 @@ const rearrangedClinicsNames = computed(() => {
     });
 });
 
+const toItems = (items: NavServiceItem[]) =>
+    items.map(s => ({ id: s.id, title: s.title, to: servicePath(s) }));
+
 const serviceGroups = computed(() => [
-    { label: 'Programs', color: BOROUGH_COLORS[0], items: props.serviceItems.filter(s => s.type === 'program') },
-    { label: 'Services', color: BOROUGH_COLORS[1], items: props.serviceItems.filter(s => s.type === 'service') },
+    { label: 'Programs', items: toItems(props.serviceItems.filter(s => s.type === 'program')) },
+    { label: 'Services', items: toItems(props.serviceItems.filter(s => s.type === 'service')) },
+    { label: 'Conditions', items: bodyParts.map(p => ({ id: p.label, title: p.label, to: bodyPartPath(p) })) },
 ].filter(group => group.items.length > 0));
 
-type DropdownKey = 'clinics' | 'services' | 'about' | 'patientInfo';
+type DropdownKey = 'clinics' | 'services' | 'about' | 'patientInfo' | 'providers';
 
 const aboutLinks = [
-    { label: 'About Us', to: '/about' },
-    { label: 'Careers', to: '/careers' },
-    { label: 'Trusted By', to: '/#TrustedBy' },
+    { label: 'Who We Are', to: '/who-we-are' },
+    { label: 'Partnerships', to: '/partnerships' },
+    { label: 'Contact Us', to: '/contact-us' },
+    { label: 'Blog', to: '/articles' },
 ];
 
 const patientInfoLinks = [
-    { label: 'Insurance', to: '/insurances' },
+    { label: 'New Patients', to: '/new-patients-guide' },
+    { label: 'Existing Patients', to: '/existing-patients-guide' },
     { label: 'FAQs', to: '/FAQs' },
-    { label: 'Teletherapy', to: '/teletherapy' },
-    { label: 'Articles', to: '/articles' },
+];
+
+const providersLinks = [
+    { label: 'Careers', to: '/careers' },
+    { label: 'Referring Physicians', to: '/physicians-referral' },
 ];
 
 // Dropdown states
@@ -75,12 +81,14 @@ const dropdownOpen = reactive<Record<DropdownKey, boolean>>({
     services: false,
     about: false,
     patientInfo: false,
+    providers: false,
 });
 const dropdownStyle = reactive<Record<DropdownKey, Record<string, string>>>({
     clinics: {},
     services: {},
     about: {},
     patientInfo: {},
+    providers: {},
 });
 
 const closeTimeouts: Partial<Record<DropdownKey, number>> = {};
@@ -132,19 +140,16 @@ function cancelClose(type: DropdownKey) {
             <div v-if="dropdownOpen.services && serviceGroups.length > 0" class="dropdown-content clinics"
                 :style="dropdownStyle.services" role="menu" aria-label="Programs and services"
                 @mouseenter="() => cancelClose('services')" @mouseleave="() => closeDropdown('services')">
-                <div class="clinics-header">
-                    <div class="clinics-header__left">Programs &amp; Services</div>
-                </div>
                 <div class="clinics-body">
-                    <div class="borough-col" v-for="group in serviceGroups" :key="group.label">
-                        <div class="borough-heading" :style="{ color: group.color, borderColor: group.color }">
-                            <span class="borough-dot" :style="{ background: group.color }" />
-                            <strong role="presentation">{{ group.label }}</strong>
+                    <div class="borough-col" :class="{ wide: group.label === 'Conditions' }"
+                        v-for="group in serviceGroups" :key="group.label">
+                        <strong class="borough-heading" role="presentation">{{ group.label }}</strong>
+                        <div class="borough-items">
+                            <NuxtLink class="dropdown-item" v-for="item in group.items" :key="item.id"
+                                :to="item.to" role="menuitem">
+                                {{ item.title }}
+                            </NuxtLink>
                         </div>
-                        <NuxtLink class="dropdown-item" v-for="item in group.items" :key="item.id"
-                            :to="servicePath(item)" role="menuitem">
-                            {{ item.title }}
-                        </NuxtLink>
                     </div>
                 </div>
             </div>
@@ -172,19 +177,9 @@ function cancelClose(type: DropdownKey) {
 
                 >
 
-                <div class="clinics-header">
-                    <div class="clinics-header__left">
-                        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><g clip-path="url(#clip0_6084_16577)"><path d="M13.3332 6.66671C13.3332 9.99537 9.6405 13.462 8.4005 14.5327C8.28499 14.6196 8.14437 14.6665 7.99984 14.6665C7.85531 14.6665 7.71469 14.6196 7.59917 14.5327C6.35917 13.462 2.6665 9.99537 2.6665 6.66671C2.6665 5.25222 3.22841 3.89567 4.2286 2.89547C5.2288 1.89528 6.58535 1.33337 7.99984 1.33337C9.41433 1.33337 10.7709 1.89528 11.7711 2.89547C12.7713 3.89567 13.3332 5.25222 13.3332 6.66671Z" stroke="white" stroke-width="1.33333" stroke-linecap="round" stroke-linejoin="round"/><path d="M8 8.66663C9.10457 8.66663 10 7.7712 10 6.66663C10 5.56206 9.10457 4.66663 8 4.66663C6.89543 4.66663 6 5.56206 6 6.66663C6 7.7712 6.89543 8.66663 8 8.66663Z" stroke="white" stroke-width="1.33333" stroke-linecap="round" stroke-linejoin="round"/></g><defs><clipPath id="clip0_6084_16577"><rect width="16" height="16" fill="white"/></clipPath></defs></svg>
-                        Our Clinic Locations
-                    </div>
-                    <span class="clinics-header__count">{{ clinicsCount }} locations across NYC</span>
-                </div>
                 <div class="clinics-body">
                     <div class="borough-col" v-for="(location, index) in rearrangedClinicsNames" :key="index">
-                        <div class="borough-heading" :style="{ color: BOROUGH_COLORS[index], borderColor: BOROUGH_COLORS[index] }">
-                            <span class="borough-dot" :style="{ background: BOROUGH_COLORS[index] }" />
-                            <strong role="presentation">{{ location }}</strong>
-                        </div>
+                        <strong class="borough-heading" role="presentation">{{ location }}</strong>
                         <NuxtLink v-if="clinicsData" class="dropdown-item"
                             v-for="c in clinicsData[location as keyof typeof clinicsData]" :key="(c as Clinic).id"
                             :to="`/clinic/${createSlug((c))}`" role="menuitem">
@@ -226,8 +221,8 @@ function cancelClose(type: DropdownKey) {
 
         <!-- Patient Info Dropdown -->
         <li class="dropdown" role="none">
-            <NuxtLink class="list-item dropbtn" to="/insurances" role="menuitem" aria-haspopup="true"
-                :aria-expanded="dropdownOpen.patientInfo" aria-label="Patient Info - insurance, FAQs, teletherapy"
+            <NuxtLink class="list-item dropbtn" to="/new-patients-guide" role="menuitem" aria-haspopup="true"
+                :aria-expanded="dropdownOpen.patientInfo" aria-label="Patient Info - new patients, existing patients, FAQs"
                 @mouseenter="(e: any) => openDropdown('patientInfo', e)" @mouseleave="() => closeDropdown('patientInfo')">
                 {{ $translate('patientInfo') }}
                 <svg class="chevron" width="10" height="6" viewBox="0 0 10 6" fill="none">
@@ -247,13 +242,28 @@ function cancelClose(type: DropdownKey) {
             </div>
         </teleport>
 
-        <!-- Providers -->
-        <li role="none">
-            <NuxtLink class="list-item" active-class="navbar-link" to="/#OurStaff" role="menuitem"
-                aria-label="Meet our providers">
+        <!-- Providers Dropdown -->
+        <li class="dropdown" role="none">
+            <NuxtLink class="list-item dropbtn" to="/physicians-referral" role="menuitem" aria-haspopup="true"
+                :aria-expanded="dropdownOpen.providers" aria-label="Providers - careers, referring physicians"
+                @mouseenter="(e: any) => openDropdown('providers', e)" @mouseleave="() => closeDropdown('providers')">
                 {{ $translate('providers') }}
+                <svg class="chevron" width="10" height="6" viewBox="0 0 10 6" fill="none">
+                    <path d="M1 1L5 5L9 1" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
             </NuxtLink>
         </li>
+
+        <teleport to="body">
+            <div v-if="dropdownOpen.providers" class="dropdown-content" :style="dropdownStyle.providers" role="menu"
+                aria-label="Providers"
+                @mouseenter="() => cancelClose('providers')" @mouseleave="() => closeDropdown('providers')">
+                <NuxtLink class="dropdown-item" v-for="link in providersLinks" :key="link.label"
+                    :to="link.to" role="menuitem">
+                    {{ link.label }}
+                </NuxtLink>
+            </div>
+        </teleport>
 
         <!-- Insurance -->
         <li role="none">
@@ -339,37 +349,10 @@ ul {
         }
     }
 
+    // sectioned variant (clinics, programs & services): same card and items as the
+    // plain dropdowns above, split into columns with a gray label on each
     &.clinics {
-        border: 1px solid #F3F4F6;
-        padding: 0;
-        overflow: hidden;
         width: max-content;
-        height: auto;
-
-        .clinics-header {
-            background: linear-gradient(to right, #00000080, #00000080), linear-gradient(to right, #0284C7, #2EE5C1);
-            padding: 1rem 1.5rem;
-            color: #fff;
-            font-size: 1.3rem;
-            font-weight: 600;
-            letter-spacing: 0.01em;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-
-            &__left {
-                display: flex;
-                align-items: center;
-                gap: 0.6rem;
-            }
-
-            &__count {
-                font-size: 1.1rem;
-                font-weight: 400;
-                color: #fff;
-                opacity: 0.85;
-            }
-        }
 
         .clinics-body {
             display: grid;
@@ -378,69 +361,49 @@ ul {
         }
 
         .borough-col {
-            border-right: 0.8px solid #F3F4F6;
             display: flex;
             flex-direction: column;
-            gap: 0.15rem;
-            >.dropdown-item{
-                padding: 0.4rem 1.5rem;
+            gap: 0.25rem;
+            padding: 0 0.75rem;
+
+            & + .borough-col {
+                border-left: 1px solid #F3F4F6;
             }
+        }
+
+        .borough-items {
+            display: flex;
+            flex-direction: column;
+            gap: 0.25rem;
+        }
+
+        // conditions are short labels in a long list, so lay them out two-across
+        .borough-col.wide .borough-items {
+            display: grid;
+            grid-template-columns: repeat(2, max-content);
+            column-gap: 1.5rem;
+            row-gap: 0.25rem;
         }
 
         .borough-heading {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            padding:.5rem 2rem ;
-            border-bottom: 2px solid;
-            margin-bottom: 1rem;
-
-            strong {
-                font-weight: 700;
-                font-size: 1.2rem;
-            }
-        }
-
-        .borough-dot {
-            width: 10px;
-            height: 10px;
-            border-radius: 50%;
-            flex-shrink: 0;
-        }
-
-        .dropdown-item {
-            color: #374151;
-            font-size: 1.2rem;
-
-            &:hover {
-                background-color: #F3F4F6;
-                color: #111827;
-            }
+            padding: 0.5rem;
+            color: #6A7282;
+            font-size: 0.9rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
         }
 
         .clinics-footer {
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: 0.85rem 1.5rem;
+            gap: 1rem;
+            margin-top: 0.5rem;
+            padding: 0.75rem 0.5rem 0;
             border-top: 1px solid #F3F4F6;
-            background: #F9FAFB;
-            font-size: 1.1rem;
+            font-size: 1rem;
             color: #6A7282;
-
-            .dropdown-item {
-                color: #155DFC;
-                font-size: 1.1rem;
-                padding: 0;
-                background: none;
-                font-weight: 500;
-
-                &:hover {
-                    background: none;
-                    color: #1245c7;
-                    text-decoration: underline;
-                }
-            }
         }
     }
 }

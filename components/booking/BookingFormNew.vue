@@ -735,6 +735,8 @@ const isSelfPay = () => {
 
 <style scoped lang="scss">
 $gap: 2rem;
+// vertical spacing between form rows; $gap stays the horizontal gap inside a .split
+$row-gap: 1.25rem;
 .submit-label{
   color:$white;
   font-weight:600;
@@ -814,7 +816,7 @@ $gap: 2rem;
     min-width: 0;
     display: flex;
     flex-direction: column;
-    gap: $gap;
+    gap: $row-gap;
 
     .split {
       display: flex;
@@ -835,6 +837,7 @@ $gap: 2rem;
 
       @media screen and (max-width: 800px) {
         flex-direction: column;
+        gap: $row-gap;
 
         >.field {
           width: 100%;

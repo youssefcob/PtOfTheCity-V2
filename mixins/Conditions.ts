@@ -844,4 +844,22 @@ const conditionsInfo: ConditionsInfo = {
         ]
     }
 }
-export { conditionsInfo, type ConditionsInfoDetail };
+// body parts shown as links to /conditions sections: the homepage "Where Does It Hurt?"
+// chips (RecoveryTeam.vue) and the navbar Service & Programs dropdown both use this.
+// anchor is a conditionsInfo key; empty when there's no section for it yet
+const bodyParts: { label: string; anchor: string }[] = [
+    { label: "Lower Back", anchor: "lowerBack" },
+    { label: "Wrist/Hand", anchor: "hands" },
+    { label: "Neck Pain", anchor: "neck" },
+    { label: "Ankle & Foot", anchor: "feet" },
+    { label: "Pelvic Floor", anchor: "abdomen" },
+    { label: "Shoulder", anchor: "shoulder" },
+    { label: "Hip Pain", anchor: "" },
+    { label: "Elbow", anchor: "elbows" },
+    { label: "Knee Pain", anchor: "knees" },
+];
+
+const bodyPartPath = (part: { anchor: string }) =>
+    part.anchor ? `/conditions#${part.anchor}` : '/conditions';
+
+export { conditionsInfo, bodyParts, bodyPartPath, type ConditionsInfoDetail };
