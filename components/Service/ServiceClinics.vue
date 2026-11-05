@@ -12,109 +12,170 @@ const props = defineProps({
   }
 });
 
-// Helper function to create URL-friendly clinic names
-const createSlug = (title: string) => {
-  return title.toLowerCase().replace(/[^a-z0-9]/g, '-').replace(/-+/g, '-').replace(/^-|-$/g, '');
+// street_address is a single Google-formatted string ("17 W 125th St, New York,
+// NY 10027, United States"); show the street on one line and the rest below,
+// without the redundant country.
+const addressLines = (clinic: Clinic) => {
+  const parts = (clinic.street_address || '')
+    .split(',')
+    .map(p => p.trim())
+    .filter(p => p && !/^(united states|usa)$/i.test(p));
+  if (parts.length <= 1) return parts;
+  return [parts[0], parts.slice(1).join(', ')];
 };
+
+const bookingTarget = (clinic: Clinic) => ({
+  path: '/booking',
+  query: { clinic: clinic.name, service: props.serviceName },
+});
 </script>
 
 <template>
-  <div v-if="clinics && clinics.length > 0" class="service-clinics">
-    <!-- <h3>Available at:</h3>
-    <div class="clinics-list">
-      <NuxtLink 
-        v-for="clinic in clinics" 
-        :key="clinic.id"
-        :to="`/clinic/${createSlug(clinic.name)}`"
-        class="clinic-link"
-      >
-        {{ clinic.name }}
-      </NuxtLink>
-    </div> -->
-
-    <h3>Book Now At Your Nearest Clinic.</h3>
-
-    <div class="results-wrapper">
-      <!-- <NuxtLink :to="`/booking/${clinic?.name}/${props.serviceName}`" class="single-result"
-        v-for="(clinic, index) in props.clinics">
-        <span class="name"> {{ clinic.name }} </span>
-        <br>
-        <span class="address ps"> {{ clinic.street_address }}</span>
-      </NuxtLink> -->
-
-
-      <NuxtLink :to="{ path: '/booking', query: { clinic: clinic?.name, service: props.serviceName } }"
-        class="single-result" v-for="(clinic, index) in props.clinics">
-        <span class="name"> {{ clinic.name }} </span>
-        <br>
-        <span class="address ps"> {{ clinic.street_address }}</span>
-      </NuxtLink>
+  <section v-if="clinics && clinics.length > 0" class="service-clinics">
+    <div class="header">
+      <p class="overline">Book an appointment</p>
+      <h2 class="heading">Book now at your nearest clinic</h2>
     </div>
-  </div>
+
+    <ul class="clinic-grid">
+      <li v-for="clinic in props.clinics" :key="clinic.id">
+        <NuxtLink :to="bookingTarget(clinic)" class="clinic-card"
+          :aria-label="`Request a ${serviceName} appointment at ${clinic.name}`">
+          <div class="clinic-copy">
+            <span class="clinic-name">{{ clinic.name }}</span>
+            <address class="clinic-address">
+              <span v-for="(line, i) in addressLines(clinic)" :key="i">{{ line }}</span>
+            </address>
+          </div>
+          <span class="clinic-cta">
+            Request appointment
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+              stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <line x1="7" y1="17" x2="17" y2="7" />
+              <polyline points="7 7 17 7 17 17" />
+            </svg>
+          </span>
+        </NuxtLink>
+      </li>
+    </ul>
+  </section>
 </template>
 
 <style scoped lang="scss">
 .service-clinics {
-  margin-top: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 2.4rem;
+  margin-top: 2rem;
+}
 
+.header {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+}
 
-  h3 {
-    font-size: 2.2rem;
-    font-weight: 600;
-    color: $navy;
+// Two-class selectors: _classes.scss's bare h2/p/span rules are injected into
+// every scoped block and would otherwise outrank a single class.
+.header .overline {
+  @include type-overline;
+  color: $primary-400;
+  margin: 0;
+}
+
+.header .heading {
+  @include type-h3;
+  text-transform: uppercase;
+  color: $primary-600;
+  margin: 0;
+}
+
+.service-clinics .clinic-grid {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(26rem, 1fr));
+  gap: 1.6rem;
+
+  @media screen and (max-width: 640px) {
+    grid-template-columns: minmax(0, 1fr);
   }
 
+  li {
+    display: flex;
+    margin: 0; // global li margin
+  }
+}
 
-  .results-wrapper {
-    margin-top: 0.5rem;
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(22%, 1fr));
-    grid-auto-rows: 1fr;
-    gap: 0.5rem;
+.clinic-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 2rem;
+  width: 100%;
+  padding: 2rem 2.4rem;
+  background: $white;
+  border: 1px solid $border-gray;
+  border-left: 3px solid $primary-400;
+  border-radius: 1.2rem;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04);
+  color: $primary-700;
+  text-decoration: none;
+  transition: transform 0.2s ease-in-out, background-color 0.2s ease-in-out, border-color 0.2s ease-in-out;
 
-    width: 100%;
+  &:hover {
+    transform: translateY(-2px);
+    background-color: $surface-mint;
+    border-color: $primary-400;
 
-
-    .single-result {
-      background-color: $light-green;
-      flex-grow: 1;
-      padding: 0.5rem 1rem;
-      border-radius: 1rem;
-      cursor: pointer;
-
-      &:hover {
-        background-color: darken($light-green, 10%);
-      }
-
-      .name {
-        font-weight: 600
-      }
-
-      .address.ps {
-        margin: 0;
-        font-weight: 500;
-        color: $black;
-
-      }
-
-      @media screen and (min-width: 768px) {
-        max-width: 25rem;
-
-      }
+    .clinic-cta svg {
+      transform: translate(2px, -2px);
     }
   }
 
-  @media screen and (max-width: 768px) {
+  &:focus-visible {
+    outline: 2px solid $primary-400;
+    outline-offset: 2px;
+  }
+}
 
-    .results-wrapper {
-      grid-template-columns: 1fr;
+.clinic-copy {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
 
-      .single-result {
-        padding: 1.2rem;
+.clinic-card .clinic-name {
+  @include type-button;
+  text-transform: uppercase;
+  color: $primary-600;
+}
 
-      }
-    }
+.clinic-card .clinic-address {
+  @include type-caption;
+  font-style: normal;
+  color: $primary-700;
+  display: flex;
+  flex-direction: column;
 
+  span {
+    font: inherit;
+    color: inherit;
+  }
+}
+
+.clinic-card .clinic-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  @include type-caption;
+  font-weight: 600;
+  color: $primary-400;
+
+  svg {
+    flex-shrink: 0;
+    transition: transform 0.2s ease-in-out;
   }
 }
 </style>
