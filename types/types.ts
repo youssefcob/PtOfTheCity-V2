@@ -9,7 +9,52 @@ export interface Service {
     list: string[];
     clinics: Clinic[];
     slug: string;
+    type: ServiceType;
+    // Slug of this row's page in Studio (the headless CMS); null/absent
+    // means "same as slug".
+    cms_slug?: string | null;
 
+}
+
+export type StudioFolder = 'services' | 'programs' | 'conditions' | 'articles';
+
+// A published Studio document as rendered for consumers.
+export interface StudioEnvelope {
+    html: string;
+    assets?: { css?: string; js?: string };
+    head?: {
+        title?: string;
+        description?: string;
+        canonical?: string;
+        meta?: { name: string; value: string }[];
+        jsonLd?: unknown[];
+    };
+    theme?: {
+        vars: Record<string, string>;
+        fontFamily?: string | null;
+        googleFontsUrl?: string | null;
+        fontStylesheets: string[];
+    } | null;
+    renderVersion?: string | number;
+    renderedAt?: string;
+}
+
+export interface Condition {
+    id: number;
+    title: string;
+    slug: string;
+    cms_slug?: string | null;
+    summary?: string | null;
+    image?: string | null;
+}
+
+export type ServiceType = 'program' | 'service';
+
+export interface NavServiceItem {
+    id: number | string;
+    title: string;
+    slug: string;
+    type: ServiceType;
 }
 
 
@@ -28,6 +73,7 @@ export type Blog = {
     title: string
     metas: string // JSON string
     html_content: string
+    cms_slug?: string | null
     staff_id: number
     is_highlighted: number
     main_image: string
@@ -71,7 +117,8 @@ export interface TrustedBy {
 
 export type Nav = {
     clinics: HttpClinics,
-    services: string[]
+    services: string[],
+    service_items?: NavServiceItem[]
 }
 
 export type Career = {

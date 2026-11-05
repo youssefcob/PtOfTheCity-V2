@@ -19,7 +19,7 @@ const services = computed<Service[]>(() => props.clinic.services ?? []);
     />
     <ul class="grid">
       <li v-for="service in services" :key="service.id">
-        <NuxtLink v-if="service.slug" :to="`/service/${service.slug}`">{{ service.title }}</NuxtLink>
+        <NuxtLink v-if="service.slug" :to="servicePath(service)">{{ service.title }}</NuxtLink>
         <span v-else>{{ service.title }}</span>
       </li>
     </ul>

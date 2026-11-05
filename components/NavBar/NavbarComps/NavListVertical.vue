@@ -142,6 +142,10 @@ const boroughColor = (borough: string) =>
           $translate('careers') }}</NuxtLink>
       </li>
       <li>
+        <NuxtLink class="list-item" active-class="navbar-link" @click="toggleDropDown" to="/FAQs">{{ $translate('faqs')
+          }}</NuxtLink>
+      </li>
+      <li>
         <NuxtLink class="list-item" active-class="navbar-link" @click="toggleDropDown" to="/blogs">Blog</NuxtLink>
       </li>
       <li>

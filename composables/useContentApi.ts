@@ -175,11 +175,16 @@ export const useContentApi = () => {
     return call('/partners/reorder', { method: 'POST', body: { ids } }) as Promise<Partner[]>;
   };
 
+  const setServiceType = (id: string | number, type: 'program' | 'service') => {
+    return call(`/services/${id}/type`, { method: 'PATCH', body: { type } });
+  };
+
   return {
     fetchBootstrap,
     fetchPageMeta,
     fetchPageMetaIndex,
     saveText,
+    setServiceType,
     saveImage,
     createTextStyle,
     updateTextStyle,

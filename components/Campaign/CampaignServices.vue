@@ -31,7 +31,7 @@ const services = computed(() => clinic.value?.services || []);
         <NuxtLink
           v-for="service in services"
           :key="service.id"
-          :to="`/service/${service.slug}`"
+          :to="servicePath(service)"
           class="service-card reveal"
         >
           <div class="service-media">

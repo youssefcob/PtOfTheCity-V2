@@ -2,7 +2,7 @@
 
 <script setup lang="ts">
 
-import { ref, watch, onMounted, onUnmounted, type Ref } from 'vue';
+import { ref, computed, watch, onMounted, onUnmounted, type Ref } from 'vue';
 
 const props = defineProps({
     required: Boolean,
@@ -18,8 +18,17 @@ const props = defineProps({
     // See InputField.vue's `label` prop for the rationale - same opt-in
     // static-label pattern, shared .field-label class.
     label: String,
+    // Optional category headings for the list - items keep coming from
+    // `list`, this only says which heading each one sits under.
+    groups: Array as () => { label: string; items: string[] }[],
 });
 let filteredList = ref(props.list);
+
+const filteredGroups = computed(() =>
+    (props.groups || [])
+        .map(group => ({ label: group.label, items: group.items.filter(item => filteredList.value?.includes(item)) }))
+        .filter(group => group.items.length > 0)
+);
 
 let inputField = ref(null);
 const dropdownRef: Ref<HTMLElement | null> = ref(null);
@@ -153,7 +162,14 @@ defineExpose({
 
             </div>
             <div class="dropdown-container" v-if="show && filteredList?.length && !$props.disabled">
-                <div class="dropdown-list">
+                <div v-if="groups" class="dropdown-list">
+                    <template v-for="group in filteredGroups" :key="group.label">
+                        <div class="dropdown-group-label" :dir="$dir()">{{ group.label }}</div>
+                        <div class="dropdown-item " :dir="$dir()" v-for="item in group.items" :key="item"
+                            @mousedown="changeInput(item)">{{ item }}</div>
+                    </template>
+                </div>
+                <div v-else class="dropdown-list">
                     <div class="dropdown-item " :dir="$dir()" v-for="insurance in filteredList" :key="insurance"
                         @mousedown="changeInput(insurance)">{{ insurance }}</div>
 
@@ -213,6 +229,16 @@ defineExpose({
     }
 
     position: relative;
+
+    .dropdown-group-label {
+        padding: 0.75rem 1rem 0.25rem;
+        font-size: 0.85em;
+        font-weight: 700;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        color: rgba(3, 41, 46, 0.55);
+        cursor: default;
+    }
 
     @media screen and (min-width: 500px) {
         .dropdown-container {

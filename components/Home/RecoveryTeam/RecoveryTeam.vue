@@ -1,18 +1,7 @@
 <script setup lang="ts">
 import EditableText from '~/components/Admin/EditableText.vue';
 import EditableImage from '~/components/Admin/EditableImage.vue';
-
-const bodyParts = [
-  { label: "Lower Back", anchor: "lowerBack" },
-  { label: "Wrist/Hand", anchor: "hands" },
-  { label: "Neck Pain", anchor: "neck" },
-  { label: "Ankle & Foot", anchor: "feet" },
-  { label: "Pelvic Floor", anchor: "abdomen" },
-  { label: "Shoulder", anchor: "shoulder" },
-  { label: "Hip Pain", anchor: "" },
-  { label: "Elbow", anchor: "elbows" },
-  { label: "Knee Pain", anchor: "knees" },
-];
+import { bodyParts, bodyPartPath } from '~/mixins/Conditions';
 </script>
 
 <template>
@@ -68,7 +57,7 @@ const bodyParts = [
           <NuxtLink
             v-for="part in bodyParts"
             :key="part.label"
-            :to="part.anchor ? `/conditions#${part.anchor}` : '/conditions'"
+            :to="bodyPartPath(part)"
             class="chip"
           >
             {{ part.label }}

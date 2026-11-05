@@ -55,7 +55,7 @@ const DEFAULT_EXCLUDED = new Set([
 ]);
 
 const KEY_PAGES = new Set([
-  '/about', '/careers', '/contact', '/insurances', '/partnerships', '/booking', '/blogs', '/conditions',
+  '/about', '/careers', '/contact', '/insurances', '/partnerships', '/booking', '/blogs', '/FAQs', '/conditions',
   '/new-patients-guide', '/existing-patients-guide', '/patients-referral', '/physicians-referral', '/teletherapy',
 ]);
 
@@ -66,13 +66,14 @@ const staticDefaults = (url: string): SitemapDefaults => ({
   excluded: DEFAULT_EXCLUDED.has(url),
 });
 
-type Dated = { slug: string; updated_at: string | null };
+type Dated = { slug: string; updated_at: string | null; type?: 'program' | 'service' };
 interface ApiSitemap {
   clinic?: Dated[];
   service?: Dated[];
   blogs?: Dated[];
   staff?: Dated[];
   careers?: Dated[];
+  conditions?: Dated[];
   clinics?: string[];
 }
 
@@ -91,7 +92,9 @@ export const buildAutoUrls = async (): Promise<Map<string, SitemapDefaults>> => 
       if (item?.slug) urls.set(`${prefix}/${item.slug}`, { priority, changefreq, lastmod: dayOf(item.updated_at), excluded: false });
     }
   };
-  add(data.service, '/service', 0.9, 'monthly');
+  add(data.service?.filter((s) => s.type !== 'program'), '/service', 0.9, 'monthly');
+  add(data.service?.filter((s) => s.type === 'program'), '/programs', 0.9, 'monthly');
+  add(data.conditions, '/conditions', 0.7, 'monthly');
   add(data.clinic, '/clinic', 0.8, 'monthly');
   add(data.blogs, '/blogs', 0.7, 'monthly');
   add(data.careers, '/careers', 0.6, 'weekly');

@@ -108,8 +108,17 @@ const { data, pending, error } = await useFetch<BookingData>(
 const servicesData = computed(() => data.value?.services || []);
 const insurancesData = computed(() => data.value?.insurances || []);
 
+// Programs and services share one table (told apart by `type`); the dropdown
+// lists programs first, then services, each under its own heading.
+const serviceGroups = computed(() =>
+  [
+    { label: "Programs", items: servicesData.value.filter((s) => s.type === "program").map((s) => s.title) },
+    { label: "Services", items: servicesData.value.filter((s) => s.type !== "program").map((s) => s.title) },
+  ].filter((group) => group.items.length > 0),
+);
+
 const servicesList = computed(() => {
-  return data.value?.services.map((service) => service.title) || [];
+  return serviceGroups.value.flatMap((group) => group.items);
   // formValidation.service.rules[1] = { dropdown: s };
 });
 
@@ -212,8 +221,8 @@ const formValidation = computed(() => ({
   service: {
     rules: ["required", { dropdown: servicesList.value }],
     message: {
-      required: "Please select a service",
-      dropdown: "Please select a valid service",
+      required: "Please select a service or program",
+      dropdown: "Please select a valid service or program",
     },
   },
   gender: {
@@ -555,8 +564,8 @@ const isSelfPay = () => {
             </div>
 
             <div data-track-field="service">
-              <DropDownResponsive cta id="service" ref="serviceComp" :list="servicesList" label="Service"
-                placeHolder="Select a service" v-model="form.service" @input="clearClinic()" required
+              <DropDownResponsive cta id="service" ref="serviceComp" :list="servicesList" :groups="serviceGroups" label="Service or Program"
+                placeHolder="Select a service or program" v-model="form.service" @input="clearClinic()" required
                 :error="formErrors.service" />
               <div class="ps">What do you need?</div>
             </div>
@@ -758,6 +767,8 @@ $gap: 2rem;
 .track-field {
   display: contents;
 }
+// vertical spacing between form rows; $gap stays the horizontal gap inside a .split
+$row-gap: 1.25rem;
 .submit-label{
   color:$white;
   font-weight:600;
@@ -837,7 +848,7 @@ $gap: 2rem;
     min-width: 0;
     display: flex;
     flex-direction: column;
-    gap: $gap;
+    gap: $row-gap;
 
     .split {
       display: flex;
@@ -858,6 +869,7 @@ $gap: 2rem;
 
       @media screen and (max-width: 800px) {
         flex-direction: column;
+        gap: $row-gap;
 
         >.field {
           width: 100%;
