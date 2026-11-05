@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { computed, reactive, ref } from 'vue';
 import type { Clinic, HttpClinics, NavServiceItem } from '~/types/types';
-import { bodyParts, bodyPartPath } from '~/mixins/Conditions';
 
 const props = defineProps({
     navOnLanding: {
@@ -52,7 +51,6 @@ const toItems = (items: NavServiceItem[]) =>
 const serviceGroups = computed(() => [
     { label: 'Programs', items: toItems(props.serviceItems.filter(s => s.type === 'program')) },
     { label: 'Services', items: toItems(props.serviceItems.filter(s => s.type === 'service')) },
-    { label: 'Conditions', items: bodyParts.map(p => ({ id: p.label, title: p.label, to: bodyPartPath(p) })) },
 ].filter(group => group.items.length > 0));
 
 type DropdownKey = 'clinics' | 'services' | 'about' | 'patientInfo' | 'providers';
@@ -143,7 +141,7 @@ function cancelClose(type: DropdownKey) {
                 :style="dropdownStyle.services" role="menu" aria-label="Programs and services"
                 @mouseenter="() => cancelClose('services')" @mouseleave="() => closeDropdown('services')">
                 <div class="clinics-body">
-                    <div class="borough-col" :class="{ wide: group.label === 'Conditions' }"
+                    <div class="borough-col"
                         v-for="group in serviceGroups" :key="group.label">
                         <strong class="borough-heading" role="presentation">{{ group.label }}</strong>
                         <div class="borough-items">
@@ -377,14 +375,6 @@ ul {
             display: flex;
             flex-direction: column;
             gap: 0.25rem;
-        }
-
-        // conditions are short labels in a long list, so lay them out two-across
-        .borough-col.wide .borough-items {
-            display: grid;
-            grid-template-columns: repeat(2, max-content);
-            column-gap: 1.5rem;
-            row-gap: 0.25rem;
         }
 
         .borough-heading {
