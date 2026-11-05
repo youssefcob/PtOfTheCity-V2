@@ -1,7 +1,6 @@
 <script setup lang="ts">
-import SingleServiceSmall from '~/sharedComponents/SingleServiceSmall.vue';
-import Carousel from '~/sharedComponents/Carousel.vue';
 import ServiceClinics from '~/components/Service/ServiceClinics.vue';
+import OtherServices from '~/components/Service/OtherServices.vue';
 import type { Service, ServiceType } from '~/types/types';
 import { createSlug, createSlugWithSeparator } from '~/utils/stringUtils';
 
@@ -134,16 +133,7 @@ const { doc } = await useStudioDoc(
     <NuxtLink to="/" class="btn transparent responsive main back">Back To Homepage</NuxtLink>
   </div>
 
-  <!-- Other Services Carousel -->
-  <div v-if="filteredServices && filteredServices.length > 0" class="other-services">
-    <h1 class="carousel-header">Other {{ kindLabel }}s</h1>
-    <Carousel class="carousel">
-      <div class="singleService" v-for="service in filteredServices">
-
-        <SingleServiceSmall :key="service.id" :service="service" />
-      </div>
-    </Carousel>
-  </div>
+  <OtherServices :services="filteredServices" :kind="kind" />
 </template>
 
 <style scoped lang="scss">
@@ -160,13 +150,15 @@ const { doc } = await useStudioDoc(
   @include pagePadding;
   padding-top: $navbarHeight !important;
 
+  // mobile-only; display: block has to come before the media query or it wins
   .back {
+    display: block;
+    width: 100%;
+    margin-top: 3rem;
+
     @media screen and (min-width: 500px) {
       display: none;
     }
-
-    display: block;
-    width: 100%;
   }
 
   .responsive-header {
@@ -316,51 +308,6 @@ const { doc } = await useStudioDoc(
 
       &:hover {
         text-decoration: underline;
-      }
-    }
-  }
-}
-
-.other-services {
-  .carousel-header {
-    @include pagePadding;
-    color: $navy;
-    margin-top: 2rem;
-
-    @media screen and (max-width: 500px) {
-      margin-top: 10rem;
-    }
-  }
-
-  .carousel {
-    margin-top: 2rem;
-    height: 300px;
-    width: 100%;
-
-    @media screen and (max-width: 500px) {
-      margin-top: 5rem;
-    }
-
-    @media screen and (max-width: 500px) {
-      @include pagePadding;
-    }
-
-    .singleService {
-      display: flex;
-      border-radius: 10px;
-      overflow: hidden;
-      @include carouselItem2(3);
-
-      @media screen and (max-width: 1024px) {
-        @include carouselItem2(3);
-      }
-
-      @media screen and (max-width: 800px) {
-        @include carouselItem2(1);
-      }
-
-      @media screen and (max-width: 500px) {
-        @include carouselItem2(1);
       }
     }
   }
