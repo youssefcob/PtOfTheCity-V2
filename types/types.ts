@@ -4,9 +4,7 @@ export interface Service {
     id: string;
     path: string;
     title: string;
-    description: string;
-    listHeader: string;
-    list: string[];
+    description?: string | null;
     clinics: Clinic[];
     slug: string;
     type: ServiceType;

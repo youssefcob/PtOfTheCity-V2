@@ -158,7 +158,7 @@ const cardAccentColors = [
                                 <EditableText tag="p" class="program-title" :content-key="`service.${service.id}.title`"
                                     :default="service.title" />
                                 <EditableText tag="p" class="program-description"
-                                    :content-key="`service.${service.id}.description`" :default="service.list?.[0]" />
+                                    :content-key="`service.${service.id}.description`" :default="service.description" />
                             </div>
                         </div>
                         <div class="accent-strip" :style="{ backgroundColor: cardAccentColors[index % cardAccentColors.length] }"></div>

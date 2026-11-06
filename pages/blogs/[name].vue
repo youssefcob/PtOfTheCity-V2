@@ -79,7 +79,7 @@ const constructMetas = () => {
 useSeoMeta(constructMetas());
 
 // Applied after the row's own metas so Studio's head wins when a doc exists.
-const { doc } = await useStudioDoc('articles', () => data.value?.cms_slug || blogName);
+const { doc } = await useStudioDoc('articles', () => data.value?.cms_slug || data.value?.slug || blogName);
 
 
 

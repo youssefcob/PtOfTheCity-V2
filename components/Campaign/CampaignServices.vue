@@ -40,9 +40,6 @@ const services = computed(() => clinic.value?.services || []);
           </div>
           <div class="service-body">
             <h3>{{ service.title }}</h3>
-            <ul v-if="service.list && service.list.length" class="service-list">
-              <li v-for="(item, i) in service.list" :key="i">{{ item }}</li>
-            </ul>
             <span class="service-link">
               {{ linkText }}
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 6l6 6-6 6" /></svg>

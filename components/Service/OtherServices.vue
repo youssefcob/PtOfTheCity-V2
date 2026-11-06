@@ -87,7 +87,7 @@ onBeforeUnmount(() => window.removeEventListener('resize', updateEdges));
               aria-hidden="true" />
             <div class="service-copy">
               <span class="service-title">{{ service.title }}</span>
-              <span v-if="service.list?.[0]" class="service-description">{{ service.list[0] }}</span>
+              <span v-if="service.description" class="service-description">{{ service.description }}</span>
             </div>
             <span class="service-link">
               Learn more
