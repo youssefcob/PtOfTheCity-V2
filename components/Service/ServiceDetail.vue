@@ -74,8 +74,9 @@ useHead({
 // Studio owns the long page body; its head (title/description/meta) is
 // applied after the defaults above so it wins when a doc is published.
 // Without one, the API-driven layout below is the page.
+// Programs and services are both filed under Studio's "services" folder.
 const { doc } = await useStudioDoc(
-  props.kind === 'program' ? 'programs' : 'services',
+  'services',
   () => service.value ? (service.value.cms_slug || service.value.slug) : null,
 );
 </script>

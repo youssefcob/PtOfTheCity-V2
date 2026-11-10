@@ -14,7 +14,7 @@ export interface Service {
 
 }
 
-export type StudioFolder = 'services' | 'programs' | 'conditions' | 'articles';
+export type StudioFolder = 'services' | 'conditions' | 'articles';
 
 // A published Studio document as rendered for consumers.
 export interface StudioEnvelope {

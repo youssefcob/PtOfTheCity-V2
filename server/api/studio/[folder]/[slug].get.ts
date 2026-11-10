@@ -4,8 +4,7 @@
 const TENANT = 'ptofthecity'
 
 const FOLDER_COLLECTIONS: Record<string, string> = {
-  services: 'pages',
-  programs: 'pages',
+  services: 'pages', // programs and services both live here
   conditions: 'pages',
   articles: 'textEditor',
 }
