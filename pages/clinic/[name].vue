@@ -13,6 +13,9 @@ import ClinicTestimonials from "~/components/Clinic/ClinicTestimonials.vue";
 import BookingFormNew from "~/components/booking/BookingFormNew.vue";
 import FindClinicBand from "~/components/shared/FindClinicBand.vue";
 import FaqSection from "~/components/shared/FaqSection.vue";
+import ClinicHssBanner from "~/components/Clinic/ClinicHssBanner.vue";
+import ClinicMountSinai from "~/components/Clinic/ClinicMountSinai.vue";
+import { isHssClinic, isMountSinaiClinic } from "~/config/clinicAffiliations";
 
 definePageMeta({
   middleware: ["slug-redirect"],
@@ -115,11 +118,14 @@ useHead({
 
     <template v-else>
       <ClinicHero :clinic="clinicData" />
+      <ClinicHssBanner v-if="isHssClinic(clinicData.name)" :clinic="clinicData" />
       <ClinicLocation :clinic="clinicData" />
       <ClinicContact :clinic="clinicData" />
       <ClinicAbout :clinic="clinicData" />
 
       <Gallery v-if="clinicData.media?.length" :media="clinicData.media" />
+
+      <ClinicMountSinai v-if="isMountSinaiClinic(clinicData.name)" :clinic="clinicData" />
 
       <ClinicServices :clinic="clinicData" />
       <ClinicInsurances :clinic="clinicData" :insurances="insurances" />

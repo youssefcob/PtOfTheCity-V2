@@ -4,6 +4,7 @@
     <AboutValues class="values-section" />
     <AboutLeadership class="leadership-section" />
     <AboutPrograms class="programs-section" :services="data?.services || []" />
+    <MountSinaiNetworkBlurb content-key="about.mount_sinai" />
     <!-- <AboutCommunity class="community-section" /> -->
     <FindClinicBand class="find-clinic-section" page-key="about" to="/clinics/all"
       image-src="/images/about/nyc-street-signs.webp"
@@ -18,6 +19,7 @@ import AboutLeadership from '~/components/About/AboutLeadership.vue';
 import AboutPrograms from '~/components/About/AboutPrograms.vue';
 import AboutCommunity from '~/components/About/AboutCommunity.vue';
 import FindClinicBand from '~/components/shared/FindClinicBand.vue';
+import MountSinaiNetworkBlurb from '~/components/shared/MountSinaiNetworkBlurb.vue';
 import aboutSeo from '~/assets/seoMetaTags/about';
 import type { Service } from '~/types/types';
 

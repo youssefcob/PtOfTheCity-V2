@@ -19,6 +19,7 @@ import ClinicsDropdown from "~/sharedComponents/ClinicsDropdown.vue";
 import DateField from "~/sharedComponents/DateField.vue";
 import bookingSeo from "~/assets/seoMetaTags/booking";
 import EditableText from "~/components/Admin/EditableText.vue";
+import MountSinaiNetworkBlurb from "~/components/shared/MountSinaiNetworkBlurb.vue";
 import EditableImage from "~/components/Admin/EditableImage.vue";
 
 
@@ -748,6 +749,8 @@ const isSelfPay = () => {
             </div>
           </aside>
         </div>
+
+        <MountSinaiNetworkBlurb v-if="!NoParagraph" content-key="booking.mount_sinai" flush />
 
         <div class="paragraph" v-if="!NoParagraph">
           <EditableText tag="h3" class="smallHeader" content-key="booking.paragraph.heading"

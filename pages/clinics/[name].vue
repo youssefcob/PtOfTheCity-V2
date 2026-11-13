@@ -5,6 +5,7 @@ import type { FAQs } from "~/sharedComponents/FAQs/FAQs";
 import ClinicResultCard from "~/components/Clinic/ClinicResultCard.vue";
 import BoroughIntro from "~/components/Clinic/BoroughIntro.vue";
 import FaqSection from "~/components/shared/FaqSection.vue";
+import MountSinaiNetworkBlurb from "~/components/shared/MountSinaiNetworkBlurb.vue";
 import EditableText from "~/components/Admin/EditableText.vue";
 import brooklynSeoSchema from "~/assets/BoroughSeoSchema/brooklyn.json";
 import ManhattanSeoSchema from "~/assets/BoroughSeoSchema/manhattan.json";
@@ -411,6 +412,8 @@ if (borough.value === "All Clinics") {
         </p>
       </div>
     </section>
+
+    <MountSinaiNetworkBlurb content-key="clinics.mount_sinai" />
 
     <!-- Borough intro (borough pages only) -->
     <BoroughIntro
