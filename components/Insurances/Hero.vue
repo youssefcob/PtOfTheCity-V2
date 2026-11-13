@@ -2,6 +2,7 @@
 import { ref, computed, inject, type Ref } from 'vue';
 import EditableText from '~/components/Admin/EditableText.vue';
 import EditableImage from '~/components/Admin/EditableImage.vue';
+import { placeholderImage } from '~/composables/useContentPlaceholders';
 import type { Insurance } from '~/types/types';
 
 const bannerImg = (width: number) => useImg('careers', width);
@@ -21,6 +22,7 @@ const initials = (title: string) => title.trim().slice(0, 2).toUpperCase();
 
 <template>
   <div class="hero">
+    <div class="hero-top">
     <div class="hero-copy">
       <EditableText tag="span" class="eyebrow" content-key="insurances.hero.eyebrow" default="Check Eligibility" />
       <EditableText tag="h1" class="title" content-key="insurances.hero.title"
@@ -35,6 +37,14 @@ const initials = (title: string) => title.trim().slice(0, 2).toUpperCase();
           <polyline points="7 7 17 7 17 17" />
         </svg>
       </NuxtLink>
+    </div>
+
+    <!-- placeholder until a real image is uploaded -->
+    <div class="hero-image">
+      <EditableImage content-key="insurances.hero.image" :default-src="placeholderImage(1100, 720, 'Insurance hero')"
+        default-alt="Patient and PT of the City team member reviewing insurance coverage" :width="1100" :height="720"
+        loading="eager" />
+    </div>
     </div>
 
     <div class="coverage-row">
@@ -102,18 +112,32 @@ const initials = (title: string) => title.trim().slice(0, 2).toUpperCase();
   }
 }
 
+// Copy on the left, image on the right, both inside the page padding
+.hero-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 4rem;
+  @include pagePadding();
+}
+
+.hero-image {
+  flex: 0 0 46%;
+  min-width: 0;
+  height: 36rem;
+  overflow: hidden;
+
+  @media screen and (max-width: 900px) {
+    display: none;
+  }
+}
+
 .hero-copy {
+  flex: 1 1 0;
+  min-width: 0;
   display: flex;
   flex-direction: column;
   gap: 1rem;
-  // max-width: 37rem;
-  @include pagePadding();
-
-  
-
-  @media screen and (min-width: 900px) {
-    max-width: 50%;
-  }
 
   .eyebrow {
     @include type-overline;

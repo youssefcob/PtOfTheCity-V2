@@ -4,7 +4,7 @@
     <AboutValues class="values-section" />
     <AboutLeadership class="leadership-section" />
     <AboutPrograms class="programs-section" :services="data?.services || []" />
-    <AboutCommunity class="community-section" />
+    <!-- <AboutCommunity class="community-section" /> -->
     <FindClinicBand class="find-clinic-section" page-key="about" to="/clinics/all"
       image-src="/images/about/nyc-street-signs.webp"
       image-alt="New York street signs for The Bronx, Brooklyn, Queens and Manhattan" />

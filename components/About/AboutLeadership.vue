@@ -1,5 +1,7 @@
 <script setup lang="ts">
 import EditableText from '~/components/Admin/EditableText.vue';
+import EditableImage from '~/components/Admin/EditableImage.vue';
+import { placeholderImage } from '~/composables/useContentPlaceholders';
 import { vReveal } from '~/composables/useScrollReveal';
 
 const ck = (s: string) => `about.leadership.${s}`;
@@ -7,8 +9,11 @@ const ck = (s: string) => `about.leadership.${s}`;
 
 <template>
   <section class="about-leadership">
-    <!-- empty space where the Figma has a "water caustic" shader fill -->
-    <div class="portrait" aria-hidden="true"></div>
+    <!-- placeholder until a real portrait is uploaded; the Figma has a "water caustic" shader fill here -->
+    <div class="portrait">
+      <EditableImage :content-key="ck('image')" :default-src="placeholderImage(972, 682, 'Leadership')"
+        default-alt="Dr. Mahmoud Shalaby, CEO and Co-Founder of PT of the City" :width="972" :height="682" />
+    </div>
 
     <div class="copy">
       <EditableText v-reveal="'drop'" tag="p" class="eyebrow" :content-key="ck('eyebrow')" default="Leadership" />
@@ -38,6 +43,10 @@ const ck = (s: string) => `about.leadership.${s}`;
 
   @media screen and (max-width: 900px) {
     flex-direction: column;
+
+    .copy {
+      flex: 0 0 auto;
+    }
   }
 
   :deep(span) {
@@ -46,8 +55,11 @@ const ck = (s: string) => `about.leadership.${s}`;
 }
 
 .portrait {
-  flex: 0 0 48.6rem;
+  // may shrink on narrower screens so it never overlaps the copy
+  flex: 0 1 48.6rem;
+  min-width: 0;
   height: 34.1rem;
+  overflow: hidden;
 
   @media screen and (max-width: 900px) {
     display: none;
@@ -55,6 +67,8 @@ const ck = (s: string) => `about.leadership.${s}`;
 }
 
 .copy {
+  flex: 1 1 0;
+  min-width: 0;
   display: flex;
   flex-direction: column;
   align-items: flex-start;

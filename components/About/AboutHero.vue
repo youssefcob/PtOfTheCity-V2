@@ -1,11 +1,11 @@
 <script setup lang="ts">
 import EditableText from '~/components/Admin/EditableText.vue';
+import EditableImage from '~/components/Admin/EditableImage.vue';
+import { placeholderImage } from '~/composables/useContentPlaceholders';
 </script>
 
 <template>
   <section class="about-hero">
-    <div class="hero-image" aria-hidden="true"></div>
-
     <div class="hero-content">
       <EditableText tag="p" class="eyebrow" content-key="about.hero.eyebrow" default="About PT of the City" />
       <EditableText tag="h1" class="title" content-key="about.hero.title"
@@ -21,14 +21,21 @@ import EditableText from '~/components/Admin/EditableText.vue';
         </svg>
       </NuxtLink>
     </div>
+
+    <div class="hero-image">
+      <EditableImage content-key="about.hero.image" :default-src="placeholderImage(1100, 664, 'About hero')"
+        default-alt="PT of the City team caring for patients in the community" :width="1100" :height="664"
+        loading="eager" />
+    </div>
   </section>
 </template>
 
 <style scoped lang="scss">
 .about-hero {
-  position: relative;
   display: flex;
   align-items: center;
+  justify-content: space-between;
+  gap: 4rem;
   min-height: 46.4rem;
   @include pagePadding();
 
@@ -39,14 +46,14 @@ import EditableText from '~/components/Admin/EditableText.vue';
   }
 }
 
-// Empty space where the Figma has a "water caustic" shader fill; bleeds off
-// the right edge of the page, flush under the navbar
+// Editable image (placeholder until a real one is uploaded) where the Figma has
+// a "water caustic" shader fill. Sits in the flex row beside the text, inside
+// the page padding, so it can never overlap the copy
 .hero-image {
-  position: absolute;
-  top: 0;
-  right: 0;
-  width: 53.7%;
+  flex: 0 0 46%;
+  min-width: 0;
   height: 46.4rem;
+  overflow: hidden;
 
   @media screen and (max-width: 900px) {
     display: none;
@@ -55,6 +62,8 @@ import EditableText from '~/components/Admin/EditableText.vue';
 
 .hero-content {
   position: relative;
+  flex: 1 1 0;
+  min-width: 0;
   display: flex;
   flex-direction: column;
   align-items: flex-start;

@@ -1,14 +1,13 @@
 <script setup lang="ts">
 import EditableText from '~/components/Admin/EditableText.vue';
+import EditableImage from '~/components/Admin/EditableImage.vue';
+import { placeholderImage } from '~/composables/useContentPlaceholders';
 
 const ck = (s: string) => `careers.hero.${s}`;
 </script>
 
 <template>
   <section class="careers-hero">
-    <!-- empty space where the Figma has a "water caustic" shader fill -->
-    <div class="hero-image" aria-hidden="true"></div>
-
     <div class="hero-content">
       <EditableText tag="p" class="eyebrow" :content-key="ck('eyebrow')" default="Careers" />
       <EditableText tag="h1" class="title" :content-key="ck('title')" default="Build Your Career. Change Lives." />
@@ -26,14 +25,21 @@ const ck = (s: string) => `careers.hero.${s}`;
         </svg>
       </a>
     </div>
+
+    <!-- placeholder until a real image is uploaded; the Figma has a "water caustic" shader fill here -->
+    <div class="hero-image">
+      <EditableImage :content-key="ck('image')" :default-src="placeholderImage(1100, 664, 'Careers hero')"
+        default-alt="PT of the City clinicians at work" :width="1100" :height="664" loading="eager" />
+    </div>
   </section>
 </template>
 
 <style scoped lang="scss">
 .careers-hero {
-  position: relative;
   display: flex;
   align-items: center;
+  justify-content: space-between;
+  gap: 4rem;
   min-height: 46.4rem;
   @include pagePadding();
 
@@ -61,13 +67,13 @@ const ck = (s: string) => `careers.hero.${s}`;
   }
 }
 
-// Bleeds off the right edge of the page, flush under the navbar
+// Sits in the flex row beside the copy, inside the page padding, so it can
+// never overlap the text
 .hero-image {
-  position: absolute;
-  top: 0;
-  right: 0;
-  width: 53.7%;
+  flex: 0 0 46%;
+  min-width: 0;
   height: 46.4rem;
+  overflow: hidden;
 
   @media screen and (max-width: 900px) {
     display: none;
@@ -76,6 +82,8 @@ const ck = (s: string) => `careers.hero.${s}`;
 
 .hero-content {
   position: relative;
+  flex: 1 1 0;
+  min-width: 0;
   display: flex;
   flex-direction: column;
   align-items: flex-start;

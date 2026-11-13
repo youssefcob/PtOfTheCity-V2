@@ -1,14 +1,13 @@
 <script setup lang="ts">
 import EditableText from '~/components/Admin/EditableText.vue';
+import EditableImage from '~/components/Admin/EditableImage.vue';
+import { placeholderImage } from '~/composables/useContentPlaceholders';
 
 const ck = (s: string) => `contact.hero.${s}`;
 </script>
 
 <template>
   <section class="contact-hero">
-    <!-- empty space where the Figma has a "water caustic" shader fill -->
-    <div class="hero-image" aria-hidden="true"></div>
-
     <div class="hero-content">
       <div class="copy">
         <EditableText tag="p" class="eyebrow" :content-key="ck('eyebrow')" default="Contact Us" />
@@ -26,6 +25,12 @@ const ck = (s: string) => `contact.hero.${s}`;
         </a>
       </div>
     </div>
+
+    <!-- placeholder until a real image is uploaded; the Figma has a "water caustic" shader fill here -->
+    <div class="hero-image">
+      <EditableImage :content-key="ck('image')" :default-src="placeholderImage(1100, 924, 'Contact hero')"
+        default-alt="PT of the City clinic team ready to help" :width="1100" :height="924" loading="eager" />
+    </div>
   </section>
 </template>
 
@@ -34,6 +39,8 @@ const ck = (s: string) => `contact.hero.${s}`;
   position: relative;
   display: flex;
   align-items: flex-start;
+  justify-content: space-between;
+  gap: 4rem;
   min-height: 53.8rem;
   @include pagePadding();
 
@@ -46,13 +53,13 @@ const ck = (s: string) => `contact.hero.${s}`;
   }
 }
 
-// Bleeds off the right edge, level with the top of the page
+// Sits in the flex row beside the copy, inside the page padding, so it can
+// never overlap the text
 .hero-image {
-  position: absolute;
-  top: 0;
-  right: 0;
-  width: 56.5%;
+  flex: 0 0 50%;
+  min-width: 0;
   height: 47.4rem;
+  overflow: hidden;
 
   @media screen and (max-width: 900px) {
     display: none;
@@ -61,6 +68,8 @@ const ck = (s: string) => `contact.hero.${s}`;
 
 .hero-content {
   position: relative;
+  flex: 1 1 0;
+  min-width: 0;
   display: flex;
   flex-direction: column;
   gap: 4rem;
