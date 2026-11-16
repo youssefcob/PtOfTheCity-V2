@@ -56,9 +56,8 @@ const serviceGroups = computed(() => [
 type DropdownKey = 'clinics' | 'services' | 'about' | 'patientInfo' | 'providers';
 
 const aboutLinks = [
-    { label: 'Who We Are', to: '/who-we-are' },
     { label: 'Partnerships', to: '/partnerships' },
-    { label: 'Contact Us', to: '/contact-us' },
+    { label: 'Contact Us', to: '/contact' },
     { label: 'Blog', to: '/blogs' },
 ];
 
