@@ -48,10 +48,10 @@ const onCarouselChange = (payload: { index: number; total: number }) => {
   display: flex;
   flex-direction: column;
   gap: 3.2rem;
-  padding-top: 6.4rem;
-  padding-bottom: 6.4rem;
   background-color: $surface-cream;
   @include pagePadding();
+  padding-top: 6.4rem;
+  padding-bottom: 6.4rem;
 
   @media screen and (max-width: 900px) {
     gap: 2.4rem;
