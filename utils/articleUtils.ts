@@ -4,7 +4,7 @@ import type { Blog } from '~/types/types';
 
 export type ArticleFilterState = { search: string; author: string; tags: string[] };
 
-export const articlePath = (blog: Blog) => `/blogs/${blog.title}`;
+export const articlePath = (blog: Blog) => `/blogs/${blog.slug}`;
 
 export const articleAuthor = (blog: Blog): string => {
     const s = blog.staff;

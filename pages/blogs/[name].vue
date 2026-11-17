@@ -49,14 +49,13 @@ definePageMeta({
 })
 
 const route = useRoute();
-const blogName = decodeURIComponent(route.params.name as string).toLowerCase()
-    .replace(/\s+/g, '-')
-    .replace(/[^a-z0-9-]/g, '')
-    .replace(/-+/g, '-');
+// The slug-redirect middleware has already normalised legacy title-style URLs.
+const blogName = decodeURIComponent(route.params.name as string);
 
+// The route is still named "title" but the API looks the param up by slug.
 const { data, pending, error } = await useFetch<Blog>(`${useUrl()}/blogs/title/${blogName}`)
 
-// The API answers an unknown slug with 200 and an empty object.
+// The API answers an unknown slug with 200 and a null (or empty) body.
 if (!data.value?.id) {
   throw createError({ statusCode: 404, statusMessage: 'Article not found', fatal: true })
 }
