@@ -22,9 +22,9 @@
                 </div>
             </div>
         </div>
-        <div v-if="conditions?.length" class="conditions-links">
-            <NuxtLink v-for="condition in conditions" :key="condition.id" :to="`/conditions/${condition.slug}`"
-                class="condition-link">{{ condition.title }}</NuxtLink>
+        <div class="conditions-links">
+            <NuxtLink v-for="link in conditionLinks" :key="link.slug" :to="`/conditions/${link.slug}`"
+                class="condition-link">{{ link.label }}</NuxtLink>
         </div>
 
         <div class="body-parts-wrapper desktop">
@@ -44,14 +44,27 @@
 <script setup lang="ts">
 import BodyPart from '~/components/Conditions/BodyPart.vue';
 import BodyPartMobile from '~/components/Conditions/BodyPartMobile.vue';
-import { conditionsInfo } from '~/mixins/Conditions';
+import { bodyParts, conditionsInfo } from '~/mixins/Conditions';
 import { ref } from 'vue';
 import type { Condition } from '~/types/types';
 
 const parts = Object.keys(conditionsInfo);
 
-// Conditions that have their own detail page (/conditions/<slug>).
+// Body-part detail pages are served from Studio by these slugs. Any extra
+// API-only conditions are appended after them.
 const { data: conditions } = await useFetch<Condition[]>(`${useUrl()}/web/conditions`);
+
+const conditionLinks = computed(() => {
+  const links = bodyParts.map((part) => ({ slug: part.slug, label: part.label }));
+  const known = new Set(links.map((link) => link.slug));
+  for (const condition of conditions.value || []) {
+    if (condition.slug && !known.has(condition.slug)) {
+      known.add(condition.slug);
+      links.push({ slug: condition.slug, label: condition.title });
+    }
+  }
+  return links;
+});
 
 // Set page title
 useHead({

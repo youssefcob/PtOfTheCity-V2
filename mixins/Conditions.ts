@@ -847,19 +847,19 @@ const conditionsInfo: ConditionsInfo = {
 // body parts shown as links to /conditions sections: the homepage "Where Does It Hurt?"
 // chips (RecoveryTeam.vue) and the navbar Service & Programs dropdown both use this.
 // anchor is a conditionsInfo key; empty when there's no section for it yet
-const bodyParts: { label: string; anchor: string }[] = [
-    { label: "Lower Back", anchor: "lowerBack" },
-    { label: "Wrist/Hand", anchor: "hands" },
-    { label: "Neck Pain", anchor: "neck" },
-    { label: "Ankle & Foot", anchor: "feet" },
-    { label: "Pelvic Floor", anchor: "abdomen" },
-    { label: "Shoulder", anchor: "shoulder" },
-    { label: "Hip Pain", anchor: "" },
-    { label: "Elbow", anchor: "elbows" },
-    { label: "Knee Pain", anchor: "knees" },
+// slug is the Studio doc slug (ptofthecity/conditions/<slug>) and the /conditions/<slug> route
+const bodyParts: { label: string; anchor: string; slug: string }[] = [
+    { label: "Lower Back", anchor: "lowerBack", slug: "lower-back-pain-treatment" },
+    { label: "Wrist/Hand", anchor: "hands", slug: "wrist-hand-therapy" },
+    { label: "Neck Pain", anchor: "neck", slug: "neck-pain-treatment" },
+    { label: "Ankle & Foot", anchor: "feet", slug: "ankle-foot-pain-treatment" },
+    { label: "Pelvic Floor", anchor: "abdomen", slug: "pelvic-floor-physical-therapy" },
+    { label: "Shoulder", anchor: "shoulder", slug: "shoulder-pain-treatment" },
+    { label: "Hip Pain", anchor: "", slug: "hip-pain-treatment" },
+    { label: "Elbow", anchor: "elbows", slug: "elbow-pain-treatment" },
+    { label: "Knee Pain", anchor: "knees", slug: "knee-pain-treatment" },
 ];
 
-const bodyPartPath = (part: { anchor: string }) =>
-    part.anchor ? `/conditions#${part.anchor}` : '/conditions';
+const bodyPartPath = (part: { slug: string }) => `/conditions/${part.slug}`;
 
 export { conditionsInfo, bodyParts, bodyPartPath, type ConditionsInfoDetail };

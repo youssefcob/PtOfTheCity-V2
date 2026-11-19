@@ -3,6 +3,8 @@
 // Used by the public sitemap source (server/api/__sitemap__/urls.ts) and the
 // /admin/sitemap page (server/api/__sitemap__/manage.get.ts).
 
+import { bodyParts } from '../../mixins/Conditions';
+
 export type Changefreq = 'always' | 'hourly' | 'daily' | 'weekly' | 'monthly' | 'yearly' | 'never';
 
 export interface SitemapDefaults {
@@ -95,6 +97,12 @@ export const buildAutoUrls = async (): Promise<Map<string, SitemapDefaults>> => 
   add(data.service?.filter((s) => s.type !== 'program'), '/service', 0.9, 'monthly');
   add(data.service?.filter((s) => s.type === 'program'), '/programs', 0.9, 'monthly');
   add(data.conditions, '/conditions', 0.7, 'monthly');
+  // body-part pages are served from Studio by these slugs, even without an API row
+  for (const part of bodyParts) {
+    if (!urls.has(`/conditions/${part.slug}`)) {
+      urls.set(`/conditions/${part.slug}`, { priority: 0.7, changefreq: 'monthly', lastmod: null, excluded: false });
+    }
+  }
   add(data.clinic, '/clinic', 0.8, 'monthly');
   add(data.blogs, '/blogs', 0.7, 'monthly');
   add(data.careers, '/careers', 0.6, 'weekly');
