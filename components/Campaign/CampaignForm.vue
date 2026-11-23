@@ -21,9 +21,15 @@ const props = withDefaults(
   },
 );
 
-const { campaignPageId, clinic } = useCampaign();
+const { campaignPageId, isMultiClinic, clinic } = useCampaign();
 const { apiFetch } = useApi();
 const toast = useToast();
+const route = useRoute();
+
+// Ad-platform attribution, forwarded from the landing URL
+const utmSource = computed(() => (route.query.utm_source as string) || null);
+const utmMedium = computed(() => (route.query.utm_medium as string) || null);
+const utmCampaign = computed(() => (route.query.utm_campaign as string) || null);
 
 const formSubmitted = ref(false);
 const submitting = ref(false);
@@ -55,6 +61,7 @@ const form = reactive({
   lastName: '',
   email: '',
   phone: '',
+  zipCode: '',
   insurance: '',
   services: [] as string[],
   preferredLocation: '',
@@ -135,8 +142,18 @@ const handleSubmit = async () => {
     return;
   }
 
+  // Multi-clinic campaigns: the clinic field is required
+  if (isMultiClinic.value && !clinic.value) {
+    fieldErrors.preferredLocation = 'Please choose a clinic.';
+    document.getElementById('campaign-clinic')?.focus();
+    return;
+  }
+
   submitting.value = true;
   try {
+    // The coverage dropdown folds self-pay into its options; the API wants it split out
+    const isSelfPay = form.insurance === 'self-pay';
+
     await apiFetch('/campaign-bookings/submit', {
       method: 'POST',
       body: {
@@ -144,14 +161,19 @@ const handleSubmit = async () => {
         campaignPageId: campaignPageId.value,
         firstName: form.firstName,
         lastName: form.lastName,
-        email: form.email,
+        email: form.email.trim() || undefined,
         phone: form.phone.replace(/\D/g, ''),
-        insurance: form.insurance,
+        zipCode: form.zipCode,
+        paymentType: isSelfPay ? 'self_pay' : 'insurance',
+        insurance: isSelfPay ? undefined : form.insurance,
         services: form.services,
-        preferredLocation: form.preferredLocation,
+        preferredLocation: isMultiClinic.value ? clinic.value?.name : form.preferredLocation,
         preferredDate: form.preferredDate,
         preferredTime: form.preferredTime,
         whatBrings: form.whatBrings,
+        utm_source: utmSource.value,
+        utm_medium: utmMedium.value,
+        utm_campaign: utmCampaign.value,
       },
     });
     formSubmitted.value = true;
@@ -213,6 +235,13 @@ const handleSubmit = async () => {
         <p>No referral needed. We'll confirm your time within 1 hour.</p>
       </div>
 
+      <!-- Clinic (multi-clinic campaigns only) -->
+      <CampaignClinicSwitcher
+        v-if="isMultiClinic"
+        :error="fieldErrors.preferredLocation"
+        @change="clearError('preferredLocation')"
+      />
+
       <!-- Services (multi-select) -->
       <div v-if="services.length && !hideServices" class="field" ref="servicesDropdownRef">
         <label>Services</label>
@@ -244,7 +273,7 @@ const handleSubmit = async () => {
       </div>
 
       <!-- Preferred Location -->
-      <div v-if="!hideLocation" class="field">
+      <div v-if="!hideLocation && !isMultiClinic" class="field">
         <label for="f-location">Preferred Location</label>
         <select
           id="f-location"
@@ -302,12 +331,11 @@ const handleSubmit = async () => {
           <span v-if="fieldErrors.phone" class="field-error">{{ fieldErrors.phone }}</span>
         </div>
         <div class="field">
-          <label for="f-email">Email</label>
+          <label for="f-email">Email (optional)</label>
           <input
             id="f-email"
             v-model="form.email"
             type="email"
-            required
             autocomplete="email"
             @input="clearError('email')"
           />
@@ -315,8 +343,21 @@ const handleSubmit = async () => {
         </div>
       </div>
 
-      <!-- Insurance / Preferred time -->
+      <!-- Zip code / Insurance -->
       <div class="form-row">
+        <div class="field">
+          <label for="f-zip">Zip Code</label>
+          <input
+            id="f-zip"
+            v-model="form.zipCode"
+            type="text"
+            inputmode="numeric"
+            autocomplete="postal-code"
+            required
+            @input="clearError('zipCode')"
+          />
+          <span v-if="fieldErrors.zipCode" class="field-error">{{ fieldErrors.zipCode }}</span>
+        </div>
         <div class="field">
           <label for="f-insurance">Coverage</label>
           <select
@@ -333,13 +374,15 @@ const handleSubmit = async () => {
           </select>
           <span v-if="fieldErrors.insurance" class="field-error">{{ fieldErrors.insurance }}</span>
         </div>
-        <div class="field">
-          <label for="f-time">Preferred Time</label>
-          <select id="f-time" v-model="form.preferredTime" @change="clearError('preferredTime')">
-            <option v-for="opt in timeOptions" :key="opt.value" :value="opt.value">{{ opt.label }}</option>
-          </select>
-          <span v-if="fieldErrors.preferredTime" class="field-error">{{ fieldErrors.preferredTime }}</span>
-        </div>
+      </div>
+
+      <!-- Preferred time -->
+      <div class="field">
+        <label for="f-time">Preferred Time</label>
+        <select id="f-time" v-model="form.preferredTime" @change="clearError('preferredTime')">
+          <option v-for="opt in timeOptions" :key="opt.value" :value="opt.value">{{ opt.label }}</option>
+        </select>
+        <span v-if="fieldErrors.preferredTime" class="field-error">{{ fieldErrors.preferredTime }}</span>
       </div>
 
       <!-- Preferred date -->

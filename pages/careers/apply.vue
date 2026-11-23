@@ -1,16 +1,17 @@
 <template>
-  <CareerApplyForm :jobs="data || []" :initial-position="initialPosition" />
+  <CareerApplyForm :jobs="data || []" :clinics-by-borough="clinicsByBorough ?? {}" :initial-position="initialPosition" />
 </template>
 
 <script setup lang="ts">
 import CareerApplyForm from '~/components/Careers/CareerApplyForm.vue';
 import careersSeo from '~/assets/seoMetaTags/careers';
-import type { Job } from '~/types/types';
+import type { Clinic, Job } from '~/types/types';
 
 const route = useRoute();
 const initialPosition = typeof route.query.position === 'string' ? route.query.position : undefined;
 
 const { data } = await useFetch<Job[]>(`${useUrl()}/web/careers`);
+const { data: clinicsByBorough } = await useFetch<Record<string, Clinic[]>>(`${useUrl()}/web/clinics`);
 
 const {
   contentMap: pageContentMap,

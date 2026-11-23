@@ -3,9 +3,28 @@ import DefaultCampaignLayout from '~/components/Campaign/DefaultCampaignLayout.v
 import { customCampaignPages } from '~/custom-campaign-pages/registry';
 import { provideCampaign } from '~/composables/useCampaign';
 
-// Route param identifies which campaign to render (URL-encoded for the API call)
+// Route param identifies which campaign to render (URL-encoded for the API call).
+// Some campaign links arrive double (or triple) URL-encoded — e.g. a name with
+// spaces gets encoded once when the link is generated and again when it's
+// pasted into an ad platform's URL field. Vue Router only undoes one layer,
+// so we keep decoding until it stabilizes before re-encoding exactly once.
+function decodeFully(value: string): string {
+  let decoded = value;
+  for (let i = 0; i < 5; i++) {
+    let next: string;
+    try {
+      next = decodeURIComponent(decoded);
+    } catch {
+      break;
+    }
+    if (next === decoded) break;
+    decoded = next;
+  }
+  return decoded;
+}
+
 const route = useRoute();
-const rawName = computed(() => (route.params.name as string) || '');
+const rawName = computed(() => decodeFully((route.params.name as string) || ''));
 const encodedName = computed(() => encodeURIComponent(rawName.value));
 
 // Campaigns with a custom layout (see custom-pages/registry.ts) render their
@@ -15,7 +34,7 @@ const activeLayout = computed(() => customCampaignPages[encodedName.value] ?? De
 // Resolve the API base URL once, here in setup (composables that touch the
 // Nuxt instance can't be called inside useFetch's lazy URL getter).
 const apiBase = useUrl() as string;
-const { data: campaignPage, error } = await useFetch(
+const { data: campaignPage, error } = await useFetch<any>(
   () => `${apiBase}/campaign-pages/${encodedName.value}`,
   {
     headers: { Accept: 'application/json' },
@@ -30,17 +49,24 @@ const { data: campaignPage, error } = await useFetch(
 // console.log( error, campaignPage);
 
 // Expose campaign data to child components via provide/inject
-provideCampaign(campaignPage as Ref<any>);
+const clinicSelection = provideCampaign(campaignPage as Ref<any>);
 
 const notFound = computed(() => !!error.value || !campaignPage.value);
 
 // SEO — driven by the fetched campaign title when available
 useSeoMeta({
   title: () => campaignPage.value?.title || 'Campaign | PT of the City',
-  description: () =>
-    campaignPage.value?.clinic
-      ? `Book a same-day physical therapy appointment. Most insurance accepted. ${campaignPage.value.clinic.rating ?? ''}${campaignPage.value.clinic.rating ? '★' : ''} rated.`
-      : 'Book a same-day physical therapy appointment. Most insurance accepted.',
+  description: () => {
+    const clinic = campaignPage.value?.clinic;
+    const service = campaignPage.value?.service;
+    if (clinic) {
+      return `Book a same-day physical therapy appointment. Most insurance accepted. ${clinic.rating ?? ''}${clinic.rating ? '★' : ''} rated.`;
+    }
+    if (service) {
+      return `${service.title} — book a same-day physical therapy appointment. Most insurance accepted.`;
+    }
+    return 'Book a same-day physical therapy appointment. Most insurance accepted.';
+  },
   ogType: 'website',
 });
 
@@ -55,9 +81,11 @@ useHead({
   ],
 });
 
-// JSON-LD: MedicalClinic when the campaign has a clinic, else a basic WebPage
+// JSON-LD: MedicalClinic when the campaign has a clinic, a Service when it
+// has a service instead, else no structured data.
 useHead(() => {
   const clinic = campaignPage.value?.clinic;
+  const service = campaignPage.value?.service;
   if (clinic) {
     return {
       script: [
@@ -89,15 +117,45 @@ useHead(() => {
       ],
     };
   }
+
+  if (service) {
+    return {
+      script: [
+        {
+          type: 'application/ld+json',
+          innerHTML: JSON.stringify({
+            '@context': 'https://schema.org',
+            '@type': 'Service',
+            name: service.title,
+            serviceType: service.title,
+            description: service.description,
+            provider: {
+              '@type': 'MedicalOrganization',
+              name: 'PT of the City',
+            },
+            telephone: campaignPage.value?.campaign_phone,
+          }),
+        },
+      ],
+    };
+  }
   return { script: [] };
 });
 
 // Scroll reveal — observes all `.reveal` elements across the page (including child components)
 let observer: IntersectionObserver | null = null;
 
+const observeReveals = () => {
+  const revealEls = document.querySelectorAll('.reveal:not(.in)');
+  if (observer) {
+    revealEls.forEach((el) => observer!.observe(el));
+  } else {
+    revealEls.forEach((el) => el.classList.add('in'));
+  }
+};
+
 onMounted(() => {
   if (notFound.value) return;
-  const revealEls = document.querySelectorAll('.reveal');
   if ('IntersectionObserver' in window) {
     observer = new IntersectionObserver(
       (entries) => {
@@ -110,11 +168,16 @@ onMounted(() => {
       },
       { threshold: 0.12, rootMargin: '0px 0px -40px 0px' },
     );
-    revealEls.forEach((el) => observer!.observe(el));
-  } else {
-    revealEls.forEach((el) => el.classList.add('in'));
   }
+  observeReveals();
 });
+
+// Multi-clinic campaigns render the clinic sections only once a clinic is
+// picked (and reviews once they've loaded) — observe those new elements too.
+watch(
+  () => [clinicSelection.selectedClinicId.value, Object.keys(clinicSelection.reviewsByClinic).length],
+  () => nextTick(observeReveals),
+);
 
 onBeforeUnmount(() => {
   observer?.disconnect();

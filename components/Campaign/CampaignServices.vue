@@ -15,9 +15,11 @@ withDefaults(
   },
 );
 
-const { clinic } = useCampaign();
+const { clinic, service: campaignService } = useCampaign();
 
-const services = computed(() => clinic.value?.services || []);
+// A clinic-linked campaign shows everything that clinic offers; a
+// service-linked campaign (no clinic) highlights just its one service.
+const services = computed(() => clinic.value?.services || (campaignService.value ? [campaignService.value] : []));
 </script>
 
 <template>

@@ -5,17 +5,34 @@ import Loading from '~/sharedComponents/Loading.vue';
 import TermsCheckbox from '~/sharedComponents/TermsCheckbox.vue';
 import Validation from '~/mixins/Validation';
 import Http from '~/mixins/Http';
-import type { Job } from '~/types/types';
+import type { Clinic, Job } from '~/types/types';
 import { jobSlug } from '~/utils/jobUtils';
 
 const props = defineProps<{
   jobs: Job[];
+  // /web/clinics response (clinics grouped by borough) — feeds the borough/clinic pickers
+  clinicsByBorough?: Record<string, Clinic[]>;
   // slug from ?position=, pre-selects the Job Title
   initialPosition?: string;
 }>();
 
 const toast = useToast();
 const isLoading = ref(false);
+
+// Sent to the API as `employment_type` exactly as written here.
+const employmentTypes = ['Full Time', 'Part Time', 'Coverage - Floater', 'Home Care'];
+
+const BOROUGH_ORDER = ['Manhattan', 'Brooklyn', 'The Bronx', 'Queens'];
+const clinicsByBorough = computed(() => props.clinicsByBorough ?? {});
+const boroughs = computed(() =>
+  Object.keys(clinicsByBorough.value).sort((a, b) => {
+    const ai = BOROUGH_ORDER.indexOf(a);
+    const bi = BOROUGH_ORDER.indexOf(b);
+    if (ai !== -1 && bi === -1) return -1;
+    if (bi !== -1 && ai === -1) return 1;
+    return ai - bi;
+  }),
+);
 
 const states = [
   'Alabama', 'Alaska', 'Arizona', 'Arkansas', 'California', 'Colorado', 'Connecticut', 'Delaware', 'Florida',
@@ -32,6 +49,9 @@ const emptyForm = () => ({
   last_name: '',
   phone: '',
   email: '',
+  employment_type: '',
+  borough: '',
+  clinic_id: '',
   street_address: '',
   city: '',
   state: '',
@@ -51,6 +71,13 @@ watch(
   },
   { immediate: true },
 );
+
+const boroughClinics = computed(() => clinicsByBorough.value[form.borough] || []);
+
+// A clinic belongs to one borough, so changing the borough invalidates the clinic choice.
+watch(() => form.borough, () => {
+  form.clinic_id = '';
+});
 
 const selectedJob = computed(() => props.jobs.find((job) => jobSlug(job) === form.position));
 
@@ -84,6 +111,7 @@ const formValidation = {
   last_name: { rules: ['required', 'letters'], message: { required: 'Last name is required', letters: 'Last name cannot contain numbers or special characters' } },
   phone: { rules: ['required', 'min:14'], message: { required: 'Phone number is required', min: 'Please enter a valid phone number' } },
   email: { rules: ['required', 'email'], message: { required: 'Email is required', email: 'Please enter a valid email' } },
+  borough: { rules: ['required'], message: { required: 'Please select a borough' } },
 };
 
 const errors = reactive<Record<string, boolean>>({});
@@ -123,6 +151,9 @@ const submit = async () => {
   body.append('email', form.email);
   body.append('phone', form.phone.replace(/\D/g, ''));
   body.append('resume', resume.value);
+  body.append('borough', form.borough);
+  if (form.employment_type) body.append('employment_type', form.employment_type);
+  if (form.clinic_id) body.append('clinic_id', form.clinic_id);
   if (form.street_address) body.append('street_address', form.street_address);
   if (form.city) body.append('city', form.city);
   if (form.state) body.append('state', form.state);
@@ -191,6 +222,30 @@ const ck = (s: string) => `careers.apply.${s}`;
           <span class="label">Your Email Address<span class="req"> *</span></span>
           <input v-model="form.email" class="control" :class="{ 'has-error': errors.email }" type="email"
             autocomplete="email" placeholder="john.doe@example.com" />
+        </label>
+      </div>
+
+      <div class="pair">
+        <label class="field">
+          <span class="label">Preferred Employment Type</span>
+          <select v-model="form.employment_type" class="control control--select">
+            <option value="">Select an employment type</option>
+            <option v-for="type in employmentTypes" :key="type" :value="type">{{ type }}</option>
+          </select>
+        </label>
+        <label class="field">
+          <span class="label">Preferred Borough<span class="req"> *</span></span>
+          <select v-model="form.borough" class="control control--select" :class="{ 'has-error': errors.borough }">
+            <option value="" disabled>Select a borough</option>
+            <option v-for="borough in boroughs" :key="borough" :value="borough">{{ borough }}</option>
+          </select>
+        </label>
+        <label class="field">
+          <span class="label">Preferred Clinic</span>
+          <select v-model="form.clinic_id" class="control control--select" :disabled="!form.borough">
+            <option value="">Select a clinic (optional)</option>
+            <option v-for="clinic in boroughClinics" :key="clinic.id" :value="String(clinic.id)">{{ clinic.name }}</option>
+          </select>
         </label>
       </div>
 
