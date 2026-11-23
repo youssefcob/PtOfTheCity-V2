@@ -1,5 +1,14 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue';
+import { bodyParts, bodyPartPath } from '~/mixins/Conditions';
+
+// The figure has a separate "back" zone that has no page of its own; it shares
+// the lower-back page. Everything else resolves through the body-part list.
+const anchorAlias: Record<string, string> = { back: 'lowerBack' };
+const partPath = (anchor: string) => {
+    const part = bodyParts.find((p) => p.anchor === (anchorAlias[anchor] || anchor));
+    return part ? bodyPartPath(part) : '/conditions';
+};
 
 
 const emit = defineEmits(['hover']);
@@ -51,36 +60,36 @@ onMounted(() => {
 
             <div class="body-grid">
 
-                <NuxtLink to="conditions/#neck" class="neck" @mouseenter="toggleVisibility('neck', true)"
+                <NuxtLink :to="partPath('neck')" class="neck" @mouseenter="toggleVisibility('neck', true)"
                     @mouseleave="toggleVisibility('neck', false)"  aria-label="neck" id="neck"></NuxtLink>
 
-                <NuxtLink to="conditions/#shoulder" class="shoulder" @mouseenter="toggleVisibility('shoulder', true)"
+                <NuxtLink :to="partPath('shoulder')" class="shoulder" @mouseenter="toggleVisibility('shoulder', true)"
                     @mouseleave="toggleVisibility('shoulder', false)"  aria-label="shoulder" id="shoulder"></NuxtLink>
 
-                <NuxtLink to="conditions/#lowerBack" class="lower-back" @mouseenter="toggleVisibility('lowerBack', true)"
+                <NuxtLink :to="partPath('lowerBack')" class="lower-back" @mouseenter="toggleVisibility('lowerBack', true)"
                     @mouseleave="toggleVisibility('lowerBack', false)"  aria-label="lower-back" id="lower-back"></NuxtLink>
-                <NuxtLink to="conditions/#back" class="back" @mouseenter="toggleVisibility('back', true)"
+                <NuxtLink :to="partPath('back')" class="back" @mouseenter="toggleVisibility('back', true)"
                     @mouseleave="toggleVisibility('back', false)"  aria-label="back" id="back"></NuxtLink>
 
-                <NuxtLink to="conditions/#abdomen" class="abdomen" @mouseenter="toggleVisibility('abdomen', true)"
+                <NuxtLink :to="partPath('abdomen')" class="abdomen" @mouseenter="toggleVisibility('abdomen', true)"
                     @mouseleave="toggleVisibility('abdomen', false)"  aria-label="abdomen" id="abdomen"></NuxtLink>
 
-                <NuxtLink to="conditions/#hands" class="hand" @mouseenter="toggleVisibility('hands', true)"
+                <NuxtLink :to="partPath('hands')" class="hand" @mouseenter="toggleVisibility('hands', true)"
                     @mouseleave="toggleVisibility('hands', false)"  aria-label="left-hand" id="left-hand"></NuxtLink>
-                <NuxtLink to="conditions/#hands" class="hand" @mouseenter="toggleVisibility('hands', true)"
+                <NuxtLink :to="partPath('hands')" class="hand" @mouseenter="toggleVisibility('hands', true)"
                         @mouseleave="toggleVisibility('hands', false)"  aria-label="right-hand" id="right-hand"></NuxtLink>
 
-                <NuxtLink to="conditions/#elbows" class="elbow" @mouseenter="toggleVisibility('elbows', true)"
+                <NuxtLink :to="partPath('elbows')" class="elbow" @mouseenter="toggleVisibility('elbows', true)"
                     @mouseleave="toggleVisibility('elbows', false)"  aria-label="right-elbow" id="right-elbow"></NuxtLink>
-                <NuxtLink to="conditions/#elbows" class="elbow" @mouseenter="toggleVisibility('elbows', true)"
+                <NuxtLink :to="partPath('elbows')" class="elbow" @mouseenter="toggleVisibility('elbows', true)"
                     @mouseleave="toggleVisibility('elbows', false)"  aria-label="left-elbow" id="left-elbow"></NuxtLink>
 
-                <NuxtLink to="conditions/#knees" class="knees" @mouseenter="toggleVisibility('knees', true)"
+                <NuxtLink :to="partPath('knees')" class="knees" @mouseenter="toggleVisibility('knees', true)"
                     @mouseleave="toggleVisibility('knees', false)"  aria-label="right-knee" id="right-knee"></NuxtLink>
-                <NuxtLink to="conditions/#knees" class="knees" @mouseenter="toggleVisibility('knees', true)"
+                <NuxtLink :to="partPath('knees')" class="knees" @mouseenter="toggleVisibility('knees', true)"
                     @mouseleave="toggleVisibility('knees', false)"  aria-label="left-knee" id="left-knee"></NuxtLink>
 
-                <NuxtLink to="conditions/#feet" class="feet" @mouseenter="toggleVisibility('feet', true)"
+                <NuxtLink :to="partPath('feet')" class="feet" @mouseenter="toggleVisibility('feet', true)"
                     @mouseleave="toggleVisibility('feet', false)"  aria-label="right-foot" id="right-foot"></NuxtLink>
             </div>
 
