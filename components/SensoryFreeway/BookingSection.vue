@@ -2,6 +2,7 @@
 // Sensory Freeway booking section — parent + child intake form.
 // All copy is overridable via props; defaults match the design.
 import { reactive, ref } from 'vue';
+import TermsCheckbox from '~/sharedComponents/TermsCheckbox.vue';
 
 withDefaults(
   defineProps<{
@@ -52,8 +53,16 @@ const form = reactive({
   childInsuranceId: '',
 });
 
+const termsAccepted = ref(false);
+const termsError = ref(false);
+
 async function handleSubmit() {
   errorMessage.value = '';
+  if (!termsAccepted.value) {
+    termsError.value = true;
+    errorMessage.value = 'Please agree to the Terms & Conditions and Privacy Policy';
+    return;
+  }
 
   // Validation
   if (!form.parentName.trim()) {
@@ -85,6 +94,7 @@ async function handleSubmit() {
     isLoading.value = true;
 
     const payload = {
+      terms_accepted: true,
       parentFullName: form.parentName.trim(),
       parentDateOfBirth: form.parentDob,
       parentInsuranceProvider: optional(form.insuranceProvider),
@@ -118,6 +128,7 @@ async function handleSubmit() {
 
 function resetForm() {
   bookingSuccess.value = false;
+  termsAccepted.value = false;
   Object.keys(form).forEach((key) => ((form as any)[key] = ''));
 }
 </script>
@@ -253,6 +264,8 @@ function resetForm() {
             <p class="disclaimer">
               By clicking "Book Appointment", you authorize Sensory Freeway to contact you regarding pediatric therapy intake.
             </p>
+            <TermsCheckbox v-model="termsAccepted" :error="termsError" @update:modelValue="termsError = false" />
+
             <button type="submit" class="submit-btn" :disabled="isLoading">
               {{ isLoading ? 'Submitting...' : ctaText }}
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" class="btn-arrow">

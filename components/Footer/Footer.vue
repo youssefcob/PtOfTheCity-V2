@@ -3,6 +3,7 @@ import EditableText from '~/components/Admin/EditableText.vue';
 import EditableImage from '~/components/Admin/EditableImage.vue';
 
 const toast = useToast();
+const { openSettings } = useConsent();
 const logoUrl = useImg('https://res.cloudinary.com/dzilc11zf/image/upload/v1778861676/LogoPt_ildwod.webp', 264);
 
 const serviceLinks = [
@@ -152,6 +153,7 @@ async function subscribe() {
         <NuxtLink to="/no-surprises-act-disclosure">
           <EditableText tag="span" content-key="global.footer.legal.no_surprises_act" class="links-item" default="No Surprises Act Disclosure" />
         </NuxtLink>
+        <button type="button" class="cookie-settings" @click="openSettings">Cookie Settings</button>
       </div>
       <EditableText tag="p" class="copyright" content-key="global.footer.copyright"
         default="© 2026 PT of the City. All rights reserved." />
@@ -391,7 +393,8 @@ async function subscribe() {
     gap: 1rem;
   }
 
-  a {
+  a,
+  .cookie-settings {
     font-family: $font-poppins;
     font-weight: 400;
     font-size: 14px;
@@ -403,6 +406,13 @@ async function subscribe() {
     &:hover {
       color: #ffffff;
     }
+  }
+
+  .cookie-settings {
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
   }
 }
 

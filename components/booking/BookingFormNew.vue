@@ -6,6 +6,7 @@ import RadioInputField from "~/sharedComponents/RadioInputField.vue";
 import validation from "~/mixins/Validation";
 import type { Clinic, Insurance, Schedule, Service } from "~/types/types";
 import Loading from "~/sharedComponents/Loading.vue";
+import TermsCheckbox from "~/sharedComponents/TermsCheckbox.vue";
 import moment from "moment-timezone";
 import Modal from "~/sharedComponents/modal.vue";
 import { useRoute } from "nuxt/app";
@@ -372,9 +373,17 @@ const confirmSuccess = () => {
   }, 3000);
 };
 
+const termsAccepted = ref(false);
+const termsError = ref(false);
+
 const submit = async () => {
   // console.log(modifyForm());
   // return;
+  if (!termsAccepted.value) {
+    termsError.value = true;
+    toast.error({ title: "Error!", message: "Please agree to the Terms & Conditions and Privacy Policy" });
+    return;
+  }
   let isValid = validate();
   if (isValid) {
     let moddedForm = modifyForm();
@@ -402,7 +411,7 @@ const submit = async () => {
 
       const data = await $fetch(`${useUrl()}/reservation`, {
         method: "POST",
-        body: moddedForm,
+        body: { ...moddedForm, terms_accepted: true },
       });
       // console.log(data)
       toast.success({
@@ -410,13 +419,8 @@ const submit = async () => {
         message: "Form Submitted Successfully, We will contact you",
       });
       isLoading.value = false;
-      if ((window as any).gtag) {
-        ;(window as any).gtag('event', 'conversion', {
-          send_to: 'AW-10835639583/EZi1CPuQna8cEJ_66q4o',
-          value: 1.0,
-          currency: 'USD',
-        })
-      }
+      // Google Ads conversion now fires from /success/booking
+      // (booking pages must not run advertising tags).
       tracking.markSubmitted();
       navigateTo('/success/booking');
     } catch (e: any) {
@@ -695,6 +699,7 @@ const isSelfPay = () => {
                     default="I agree to receive appointment reminders, health tips, and clinic news via email and SMS and I'm at least 18 years old. Your info is 100% secure—we never share your data. You can cancel anytime by replying STOP or clicking unsubscribe. Msg & data rates may apply." />
                 </label>
               </div>
+              <TermsCheckbox v-model="termsAccepted" :error="termsError" @update:modelValue="termsError = false" />
               <button type="button" :disabled="isLoading" @click="submit()" class="btn cta responsive submit-cta">
                 <span v-if="isLoading">Submitting...</span>
                 <EditableText v-else tag="span" content-key="booking.submit_label" class="submit-label" default="Submit appointment" />

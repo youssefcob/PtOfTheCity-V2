@@ -1,4 +1,10 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
+
+// Second-layer kill switch for ALL tracking (GTM, GA4, Google Ads, Meta Pixel).
+// Tags load only if the visitor accepted the consent banner AND this is false.
+// true = banner still works, but nothing loads even after Accept.
+// Baked in at build time, so changing it requires a rebuild/redeploy.
+const ANALYTICS_PAUSED = true
 export default defineNuxtConfig({
   compatibilityDate: '2025-05-15',
   devtools: { enabled: true },
@@ -13,19 +19,14 @@ export default defineNuxtConfig({
         { rel: 'preconnect', href: 'https://api.fontshare.com' },
         { rel: 'stylesheet', href: 'https://api.fontshare.com/v2/css?f[]=switzer@600,700,800&display=swap' }
       ],
+      // Google Consent Mode v2 defaults. Inline only, no network request. Every
+      // tag (GTM, GA4, Ads, Meta Pixel) is loaded later by
+      // composables/useConsent.ts, and only after the visitor accepts.
+      // No <noscript> tracking pixels on purpose: they cannot respect consent.
       script: [
         {
-          innerHTML: `(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','GTM-5JXM65ZL');`,
+          innerHTML: `window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}window.gtag=gtag;gtag('consent','default',{ad_storage:'denied',ad_user_data:'denied',ad_personalization:'denied',analytics_storage:'denied',security_storage:'granted'});try{if(/(?:^|; )pt_consent=(granted|denied)/.test(document.cookie))document.documentElement.classList.add('pt-consent-set')}catch(e){}`,
           tagPosition: 'head',
-        }
-      ],
-      noscript: [
-        {
-          innerHTML: '<img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=680856294635266&ev=PageView&noscript=1" />'
-        },
-        {
-          innerHTML: '<iframe src="https://www.googletagmanager.com/ns.html?id=GTM-5JXM65ZL" height="0" width="0" style="display:none;visibility:hidden"></iframe>',
-          tagPosition: 'bodyOpen',
         }
       ],
     },
@@ -66,6 +67,7 @@ export default defineNuxtConfig({
 
     public: {
       environment: process.env.NODE_ENV || 'development',
+      analyticsPaused: ANALYTICS_PAUSED,
       url: process.env.NODE_ENV === 'production' && process.env.URL
         ? process.env.URL
         : 'http://localhost:8000/api',

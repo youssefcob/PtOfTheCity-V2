@@ -93,6 +93,7 @@
           </div>
         </template> -->
 
+        <TermsCheckbox v-model="termsAccepted" :error="termsError" @update:modelValue="termsError = false" />
         <button type="submit" class="bm-footer__cta">Book Your Session →</button>
 
         <p class="bm-footer__disclaimer">
@@ -109,6 +110,7 @@
 </template>
 
 <script lang="ts" setup>
+import TermsCheckbox from '~/sharedComponents/TermsCheckbox.vue';
 const perks = [
   'Instant member verification',
   'Free cancellation 48 hours before',
@@ -139,10 +141,19 @@ const isLoading = ref(false);
 const submitted = ref(false);
 const toast = useToast();
 
+const termsAccepted = ref(false);
+const termsError = ref(false);
+
 async function submitForm() {
+  if (!termsAccepted.value) {
+    termsError.value = true;
+    toast.error({ title: 'Error!', message: 'Please agree to the Terms & Conditions and Privacy Policy' });
+    return;
+  }
   isLoading.value = true;
   try {
     const payload: Record<string, unknown> = {
+      terms_accepted: true,
       name: form.name,
       email: form.email,
       phone: form.phone,

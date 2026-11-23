@@ -4,6 +4,7 @@ import EditableText from '~/components/Admin/EditableText.vue';
 import InputField from '~/sharedComponents/InputField.vue';
 import DropDownResponsive from '~/sharedComponents/DropDownResponsive.vue';
 import Loading from '~/sharedComponents/Loading.vue';
+import TermsCheckbox from '~/sharedComponents/TermsCheckbox.vue';
 import ReferralContactAside from '~/components/shared/ReferralContactAside.vue';
 import Validation from '~/mixins/Validation';
 import type { Insurance } from '~/types/types';
@@ -78,11 +79,20 @@ const validate = (): boolean => {
   return v.isValid && filesValid;
 };
 
+const termsAccepted = ref(false);
+const termsError = ref(false);
+
 const submit = async () => {
   if (!validate()) return;
+  if (!termsAccepted.value) {
+    termsError.value = true;
+    toast.error({ title: 'Error!', message: 'Please agree to the Terms & Conditions and Privacy Policy' });
+    return;
+  }
   isLoading.value = true;
   try {
     const body = new FormData();
+    body.append('terms_accepted', '1');
     body.append('role', 'patient');
     body.append('has_referral', String(hasReferral.value));
     body.append('patient_first_name', form.patient_first_name);
@@ -189,6 +199,7 @@ const submit = async () => {
         </div>
       </div>
 
+      <TermsCheckbox v-model="termsAccepted" :error="termsError" @update:modelValue="termsError = false" />
       <button type="button" class="submit-btn" :disabled="isLoading" @click="submit">
         <span v-if="isLoading">Submitting…</span>
         <span v-else>Submit Request</span>

@@ -193,6 +193,8 @@
           </Transition>
         </div>
 
+        <TermsCheckbox v-model="termsAccepted" :error="termsError" @update:modelValue="termsError = false" />
+
         <!-- Submit Button -->
         <button class="btn-submit" :disabled="isSubmitting" @click="handleSubmit">
           <span v-if="isSubmitting" class="btn-loader"></span>
@@ -208,8 +210,11 @@
 </template>
 
 <script>
+import TermsCheckbox from '~/sharedComponents/TermsCheckbox.vue';
+
 export default {
   name: 'BookingForm',
+  components: { TermsCheckbox },
   props: {
     transparent: {
       type: Boolean,
@@ -288,6 +293,8 @@ export default {
         'Teletherapy'
       ],
       bookingSuccess: false,
+      termsAccepted: false,
+      termsError: false,
       isSubmitting: false,
       form: {
         fullName: '',
@@ -430,7 +437,14 @@ export default {
         return;
       }
 
+      if (!this.termsAccepted) {
+        this.termsError = true;
+        toast.error({ title: 'Missing Field', message: 'Please agree to the Terms & Conditions and Privacy Policy.' });
+        return;
+      }
+
       const payload = {
+        terms_accepted: true,
         fullName: this.form.fullName,
         email: this.form.email,
         phone: this.form.phone,
@@ -458,6 +472,7 @@ export default {
     },
     resetForm() {
       this.bookingSuccess = false;
+      this.termsAccepted = false;
       this.form.fullName = '';
       this.form.email = '';
       this.form.phone = '';

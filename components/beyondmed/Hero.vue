@@ -171,6 +171,7 @@
               </div>
             </template> -->
 
+            <TermsCheckbox v-model="termsAccepted" :error="termsError" @update:modelValue="termsError = false" />
             <button type="submit" class="btn cta">Book Your Session →</button>
             <p class="card__footer card__footer--coverage">
               Have questions about other coverage sources? We can point you in the right direction.
@@ -190,6 +191,7 @@
 </template>
 
 <script lang="ts" setup>
+import TermsCheckbox from '~/sharedComponents/TermsCheckbox.vue';
 useHead({
   link: [{ rel: 'stylesheet', href: 'https://fonts.googleapis.com/css2?family=Fasthand&display=swap' }]
 })
@@ -217,10 +219,19 @@ const isLoading = ref(false);
 const submitted = ref(false);
 const toast = useToast();
 
+const termsAccepted = ref(false);
+const termsError = ref(false);
+
 async function submitForm() {
+  if (!termsAccepted.value) {
+    termsError.value = true;
+    toast.error({ title: 'Error!', message: 'Please agree to the Terms & Conditions and Privacy Policy' });
+    return;
+  }
   isLoading.value = true;
   try {
     const payload: Record<string, unknown> = {
+      terms_accepted: true,
       name: form.name,
       email: form.email,
       phone: form.phone,

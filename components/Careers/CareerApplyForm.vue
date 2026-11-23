@@ -2,6 +2,7 @@
 import { vMaska } from 'maska/vue';
 import EditableText from '~/components/Admin/EditableText.vue';
 import Loading from '~/sharedComponents/Loading.vue';
+import TermsCheckbox from '~/sharedComponents/TermsCheckbox.vue';
 import Validation from '~/mixins/Validation';
 import Http from '~/mixins/Http';
 import type { Job } from '~/types/types';
@@ -101,11 +102,20 @@ const validate = (): boolean => {
   return messages.length === 0;
 };
 
+const termsAccepted = ref(false);
+const termsError = ref(false);
+
 const submit = async () => {
+  if (!termsAccepted.value) {
+    termsError.value = true;
+    toast.error({ title: 'Error!', message: 'Please agree to the Terms & Conditions and Privacy Policy' });
+    return;
+  }
   if (!validate() || !selectedJob.value || !resume.value) return;
   isLoading.value = true;
 
   const body = new FormData();
+  body.append('terms_accepted', '1');
   body.append('position_id', String(selectedJob.value.id));
   body.append('job', selectedJob.value.title);
   body.append('first_name', form.first_name);
@@ -222,6 +232,7 @@ const ck = (s: string) => `careers.apply.${s}`;
         </div>
       </div>
 
+      <TermsCheckbox v-model="termsAccepted" :error="termsError" @update:modelValue="termsError = false" />
       <button type="submit" class="submit" :disabled="isLoading">Send Application</button>
     </form>
 

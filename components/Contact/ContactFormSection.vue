@@ -3,6 +3,7 @@ import { vMaska } from 'maska/vue';
 import EditableText from '~/components/Admin/EditableText.vue';
 import EditableImage from '~/components/Admin/EditableImage.vue';
 import Loading from '~/sharedComponents/Loading.vue';
+import TermsCheckbox from '~/sharedComponents/TermsCheckbox.vue';
 import Validation from '~/mixins/Validation';
 import Http from '~/mixins/Http';
 
@@ -49,11 +50,20 @@ const validate = (): boolean => {
   return v.isValid;
 };
 
+const termsAccepted = ref(false);
+const termsError = ref(false);
+
 const submit = async () => {
+  if (!termsAccepted.value) {
+    termsError.value = true;
+    toast.error({ title: 'Error!', message: 'Please agree to the Terms & Conditions and Privacy Policy' });
+    return;
+  }
   if (!validate()) return;
   isLoading.value = true;
 
   const body = new FormData();
+  body.append('terms_accepted', '1');
   body.append('name', form.name);
   body.append('email', form.email);
   body.append('phone', form.phone.replace(/\D/g, ''));
@@ -133,6 +143,7 @@ const ck = (s: string) => `contact.form.${s}`;
         </fieldset>
 
         <div class="submit-row">
+          <TermsCheckbox v-model="termsAccepted" :error="termsError" @update:modelValue="termsError = false" />
           <button type="submit" class="submit" :disabled="isLoading">Send Message</button>
           <EditableText tag="p" class="note" :content-key="ck('note')"
             default="Your information is protected by 256-bit encryption and is HIPAA compliant." />

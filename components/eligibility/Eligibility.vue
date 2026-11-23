@@ -7,6 +7,7 @@ import InputField from '~/sharedComponents/InputField.vue';
 import DropDownInputField from '~/sharedComponents/DropDownInputField.vue';
 import FileInputField from '~/sharedComponents/FileInputField.vue';
 import Loading from '~/sharedComponents/Loading.vue';
+import TermsCheckbox from '~/sharedComponents/TermsCheckbox.vue';
 import type { Insurance } from '~/types/types';
 
 const isLoading: Ref<boolean> = ref(false);
@@ -136,7 +137,15 @@ const formErrors = reactive({
     insuranceCardBack: false
 });
 
+const termsAccepted = ref(false);
+const termsError = ref(false);
+
 const validate = () => {
+    if (!termsAccepted.value) {
+        termsError.value = true;
+        toast.error({ message: 'Please agree to the Terms & Conditions and Privacy Policy' })
+        return false;
+    }
     let v = new validation(formValidation, form)
 
     v.validate()
@@ -220,6 +229,7 @@ const submit = async () => {
 
 const modifyForm = () => {
     let formData = new FormData();
+    formData.append('terms_accepted', '1');
     formData.append('firstName', form.firstName);
     formData.append('lastName', form.lastName);
     formData.append('dob', form.dob);
@@ -306,6 +316,7 @@ const modifyForm = () => {
                             <!-- <FileInputField :placeHolder="$translate('insurance_card_back')" -->
                                 <!-- :error="formErrors.insuranceCardBack" @input="form.insuranceCardBack = $event" /> -->
                                  <!--  -->
+                            <TermsCheckbox v-model="termsAccepted" :error="termsError" @update:modelValue="termsError = false" />
                             <button @click="submit" class="btn responsive">{{ $translate('submit') }}</button>
 
                         </div>

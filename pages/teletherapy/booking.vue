@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import TermsCheckbox from "~/sharedComponents/TermsCheckbox.vue";
 const { apiFetch } = useApi();
 const toast = useToast();
 
@@ -264,8 +265,17 @@ const validateForm = () => {
   return true;
 };
 
+const termsAccepted = ref(false);
+const termsError = ref(false);
+
 const handleSubmit = async () => {
   if (isSubmitting.value) return;
+
+  if (!termsAccepted.value) {
+    termsError.value = true;
+    toast.error({ message: "Please agree to the Terms & Conditions and Privacy Policy" });
+    return;
+  }
 
   const isValid = validateForm();
   if (!isValid) return;
@@ -275,6 +285,7 @@ const handleSubmit = async () => {
   try {
     const payload = new FormData();
 
+    payload.append("terms_accepted", "1");
     payload.append("service", form.service);
     payload.append("patientType", form.patientType);
     payload.append("state", form.state);
@@ -554,6 +565,9 @@ const handleSubmit = async () => {
         <div v-else-if="form.paymentMethod === 'Self-Pay'" class="notice-box full">
           The session fee is $50 for a 30 mintues session or $75 for a 60 mintues
           session. You will receive a secure payment link.
+        </div>
+        <div class="field full">
+          <TermsCheckbox v-model="termsAccepted" :error="termsError" @update:modelValue="termsError = false" />
         </div>
         <div class="cta-row full">
           <div class="submit-wrap">

@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { useCampaign } from '~/composables/useCampaign';
+import TermsCheckbox from '~/sharedComponents/TermsCheckbox.vue';
 
 // Optional per-campaign tweaks — custom pages (custom-campaign-pages/) pass
 // these to trim the form; every field is visible by default.
@@ -116,9 +117,18 @@ const clearError = (field: string) => {
   if (fieldErrors[field]) delete fieldErrors[field];
 };
 
+const termsAccepted = ref(false);
+const termsError = ref(false);
+
 const handleSubmit = async () => {
   // Clear previous errors
   Object.keys(fieldErrors).forEach((k) => delete fieldErrors[k]);
+
+  if (!termsAccepted.value) {
+    termsError.value = true;
+    toast.error({ title: 'Error', message: 'Please agree to the Terms & Conditions and Privacy Policy' });
+    return;
+  }
 
   if (!campaignPageId.value) {
     toast.error({ title: 'Error', message: 'Campaign information is missing.' });
@@ -130,6 +140,7 @@ const handleSubmit = async () => {
     await apiFetch('/campaign-bookings/submit', {
       method: 'POST',
       body: {
+        terms_accepted: true,
         campaignPageId: campaignPageId.value,
         firstName: form.firstName,
         lastName: form.lastName,
@@ -354,6 +365,8 @@ const handleSubmit = async () => {
         ></textarea>
         <span v-if="fieldErrors.whatBrings" class="field-error">{{ fieldErrors.whatBrings }}</span>
       </div>
+
+      <TermsCheckbox v-model="termsAccepted" :error="termsError" @update:modelValue="termsError = false" />
 
       <button type="submit" class="btn btn-primary btn-block" :disabled="submitting">
         <span v-if="submitting" class="btn-loader"></span>

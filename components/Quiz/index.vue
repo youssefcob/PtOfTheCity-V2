@@ -59,6 +59,7 @@
               required />
 
             <InputField NoLabel @input="finalFormData.email = $event" placeHolder="Email" id="email" required />
+            <TermsCheckbox v-model="termsAccepted" :error="termsError" @update:modelValue="termsError = false" />
           </div>
 
           <div class="final-form-buttons">
@@ -161,6 +162,7 @@ import quizzes from '~/data/quizzes';
 import DropDownInputField from '~/sharedComponents/DropDownInputField.vue';
 import InputField from '~/sharedComponents/InputField.vue';
 import QuizAnswerOptions from './QuizAnswerOptions.vue';
+import TermsCheckbox from '~/sharedComponents/TermsCheckbox.vue';
 
 const toast = useToast();
 
@@ -360,7 +362,15 @@ const formValidation = {
   }
 };
 
+const termsAccepted = ref(false);
+const termsError = ref(false);
+
 const handleFinalSubmit = async () => {
+  if (!termsAccepted.value) {
+    termsError.value = true;
+    toast.error({ message: 'Please agree to the Terms & Conditions and Privacy Policy' });
+    return;
+  }
   // Validate final form
   if (!finalFormData.name || !finalFormData.age ||
     !finalFormData.gender || !finalFormData.contact || !finalFormData.email) {
@@ -374,6 +384,7 @@ const handleFinalSubmit = async () => {
     const response = await $fetch(`${useUrl()}/quiz-results`, {
       method: 'POST',
       body: {
+        terms_accepted: true,
         quiz_name: currentQuiz.title,
         personal_info: finalFormData,
         quiz_answers: answers.value

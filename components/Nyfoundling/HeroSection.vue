@@ -188,7 +188,9 @@
               <strong>Contact us on {{ contactPhone }}</strong>
             </p>
 
-            <button type="submit" class="submit-btn" :disabled="isLoading">
+            <TermsCheckbox v-model="termsAccepted" :error="termsError" @update:modelValue="termsError = false" />
+
+          <button type="submit" class="submit-btn" :disabled="isLoading">
               {{ isLoading ? 'Booking...' : 'Book Your Session' }}
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="btn-arrow">
                 <path d="M5 12h14M13 6l6 6-6 6" />
@@ -211,6 +213,7 @@
 <script setup>
 import { reactive, ref } from 'vue'
 import { useApi } from '@/composables/useApi'
+import TermsCheckbox from '~/sharedComponents/TermsCheckbox.vue'
 
 const props = defineProps({
   logo1Src: { type: String, default: '/images/logo.png' },
@@ -273,8 +276,16 @@ const form = reactive({
   zip: '',
 })
 
+const termsAccepted = ref(false)
+const termsError = ref(false)
+
 async function handleSubmit() {
   errorMessage.value = ''
+  if (!termsAccepted.value) {
+    termsError.value = true
+    errorMessage.value = 'Please agree to the Terms & Conditions and Privacy Policy'
+    return
+  }
 
   // Validation
   if (!form.fullName.trim()) {
@@ -306,6 +317,7 @@ async function handleSubmit() {
     isLoading.value = true
 
     const payload = {
+      terms_accepted: true,
       fullName: form.fullName,
       email: form.email,
       phone: form.phone,
@@ -338,6 +350,7 @@ async function handleSubmit() {
 
 function resetForm() {
   bookingSuccess.value = false
+  termsAccepted.value = false
   form.fullName = ''
   form.email = ''
   form.phone = ''

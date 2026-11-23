@@ -122,7 +122,7 @@
         </ul>
       </section> -->
 
-      <div class="gdoc">
+      <div class="gdoc" id="privacy">
         <p class="gdoc-title"><span class="text-red bold">PT Of The City.PT.PC</span> Privacy Policy for SMS Messaging</p>
         <p class="gdoc-effective"><strong>Effective Date:</strong> <span class="highlight-yellow">July 16, 2026</span></p>
 
@@ -189,7 +189,7 @@
         </ul>
       </div>
 
-      <div class="gdoc">
+      <div class="gdoc" id="terms">
         <p class="gdoc-title"><strong>PT Of The City.PT.PC SMS Terms and Conditions</strong></p>
         <p class="gdoc-effective"><strong>Effective Date:</strong> <span class="highlight-yellow">July 16, 2026</span></p>
 
@@ -216,6 +216,7 @@
           <li><strong>Record-Keeping &amp; Compliance</strong><br>We maintain detailed logs of opt-ins/opt-outs (dates, times, methods) to satisfy TCPA 2026 proof-of-consent requirements.</li>
           <li><strong>Changes to Terms</strong><br>We reserve the right to update these Terms. Significant changes will be sent via SMS or posted online. Continued participation implies acceptance.</li>
           <li><strong>Disclaimers &amp; Liability</strong><br>Message delivery depends on carrier networks; we cannot guarantee uninterrupted service or delivery times.</li>
+          <li><strong>Cookies and Tracking Technologies</strong><br>Our website uses cookies, pixels, and similar technologies, including tools provided by third parties such as Google and Meta, to measure site performance and support our advertising. Non-essential technologies are activated only after you give your consent through our cookie banner, and you may change or withdraw that consent at any time through the &ldquo;Cookie Settings&rdquo; link at the bottom of every page. We do not use advertising or session-recording technologies on our treatment, service, or appointment booking pages. For more details, please see our <a href="/privacy-policy#privacy">Privacy Policy</a>.</li>
         </ol>
 
         <p class="gdoc-indent">

@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import type { Clinic } from '~/types/types';
+import TermsCheckbox from '~/sharedComponents/TermsCheckbox.vue';
 
 const { data: clinics } = await useFetch<Clinic[]>(`${useUrl()}/clinic`);
 
@@ -108,7 +109,19 @@ const selectedClinic = computed(() =>
   (clinics.value ?? []).find((clinic) => clinic.id === Number(form.clinicId)),
 );
 
+const termsAccepted = ref(false);
+const termsError = ref(false);
+
 async function submitForm() {
+  if (!termsAccepted.value) {
+    termsError.value = true;
+    toast.error({
+      title: 'Terms required',
+      message: 'Please agree to the Terms & Conditions and Privacy Policy.',
+    });
+    return;
+  }
+
   if (form.date && form.date < today) {
     form.date = today;
     toast.error({
@@ -137,6 +150,7 @@ async function submitForm() {
   isLoading.value = true;
   try {
     const payload = {
+      terms_accepted: true,
       name: form.name.trim(),
       email: form.email.trim(),
       phone: form.phone.trim(),
@@ -250,6 +264,8 @@ async function submitForm() {
           <label for="fo-date">Preferred Date</label>
           <input id="fo-date" v-model="form.date" type="date" :min="today" />
         </div>
+
+        <TermsCheckbox v-model="termsAccepted" :error="termsError" @update:modelValue="termsError = false" />
 
         <button type="submit" class="submit" :disabled="isLoading">
           {{ isLoading ? 'Submitting…' : 'Claim Your Offer' }}

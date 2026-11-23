@@ -6,6 +6,7 @@ import Http from '@/mixins/Http';
 import validation from '@/mixins/Validation';
 import { reactive, ref, type Ref } from 'vue';
 import InputField from '~/sharedComponents/InputField.vue';
+import TermsCheckbox from '~/sharedComponents/TermsCheckbox.vue';
 import Loading from '~/sharedComponents/Loading.vue';
 // import Loading from '@/components/sharedComponents/Loading.vue';
 // import {recaptcha} from '@/components/Recaptcha';
@@ -86,6 +87,9 @@ const formValidation = {
     }
 }
 
+const termsAccepted = ref(false);
+const termsError = ref(false);
+
 const formErrors = reactive({
     subject: false,
     name: false,
@@ -95,6 +99,11 @@ const formErrors = reactive({
 })
 
 const validate = () => {
+    if (!termsAccepted.value) {
+        termsError.value = true;
+        toast.error({ title: 'Error!', message: 'Please agree to the Terms & Conditions and Privacy Policy' });
+        return;
+    }
     let v = new validation(formValidation, form)
     v.validate()
     let errors = v.errors;
@@ -135,7 +144,7 @@ const submitForm = async () => {
         // if(recapatchaToken) Object.assign(ModdedForm, {
         //     recaptcha: recapatchaToken
         // });
-        let response = await Http.post('/message', ModdedForm);
+        let response = await Http.post('/message', { ...ModdedForm, terms_accepted: true });
         toast.success({ title: 'Success!', message: 'Form Submitted Successfully' })
         ;(window as any).dataLayer?.push({ event: 'contact_form_submitted' })
 
@@ -187,6 +196,7 @@ defineExpose({
       required
       :error="formErrors.message"
     />
+    <TermsCheckbox v-model="termsAccepted" :error="termsError" @update:modelValue="termsError = false" />
 </div>
 </template>
 

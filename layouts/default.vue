@@ -146,6 +146,7 @@ const { showTopStrap } = useTopStrap();
   <footer v-if="!hideNavbar">
     <LazyFooter />
   </footer>
+  <ConsentBanner />
   <AdminEditToggle />
   <StyleToolbarHost />
   <PageMetaPanel v-if="globalIsContentEditor" />

@@ -146,6 +146,8 @@
             <input v-model="form.insuranceName" type="text" placeholder="Enter insurance provider name" required />
           </label>
 
+          <TermsCheckbox v-model="termsAccepted" :error="termsError" @update:modelValue="termsError = false" />
+
           <button type="submit" class="submit-btn" :disabled="isLoading">
             {{ isLoading ? 'Booking...' : 'Book Your Session' }}
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="btn-arrow">
@@ -164,6 +166,7 @@
 <script setup>
 import { reactive, ref } from 'vue'
 import { useApi } from '@/composables/useApi'
+import TermsCheckbox from '~/sharedComponents/TermsCheckbox.vue'
 
 const props = defineProps({
   contactPhone: { type: String, default: '(718) 648-0888' },
@@ -231,8 +234,16 @@ const form = reactive({
   // insuranceName: '',
 })
 
+const termsAccepted = ref(false)
+const termsError = ref(false)
+
 async function handleSubmit() {
   errorMessage.value = ''
+  if (!termsAccepted.value) {
+    termsError.value = true
+    errorMessage.value = 'Please agree to the Terms & Conditions and Privacy Policy'
+    return
+  }
 
   // Validation
   if (!form.fullName.trim()) {
@@ -272,6 +283,7 @@ async function handleSubmit() {
     isLoading.value = true
 
     const payload = {
+      terms_accepted: true,
       fullName: form.fullName,
       email: form.email,
       phone: form.phone,
@@ -306,6 +318,7 @@ async function handleSubmit() {
 
 function resetForm() {
   bookingSuccess.value = false
+  termsAccepted.value = false
   form.fullName = ''
   form.email = ''
   form.phone = ''

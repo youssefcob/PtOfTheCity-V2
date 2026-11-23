@@ -213,6 +213,7 @@
           </div>
         </fieldset>
 
+        <TermsCheckbox v-model="termsAccepted" :error="termsError" @update:modelValue="termsError = false" />
         <button type="submit" class="form-card__cta">Book My Session →</button>
 
         <p class="form-card__coverage-note">
@@ -250,6 +251,7 @@
 </template>
 
 <script lang="ts" setup>
+import TermsCheckbox from '~/sharedComponents/TermsCheckbox.vue';
 const trustItems = [
   'No payment required today',
   'Instant member ID verification',
@@ -288,11 +290,20 @@ const isLoading = ref(false);
 const submitted = ref(false);
 const toast = useToast();
 
+const termsAccepted = ref(false);
+const termsError = ref(false);
+
 async function submitForm() {
+  if (!termsAccepted.value) {
+    termsError.value = true;
+    toast.error({ title: 'Error!', message: 'Please agree to the Terms & Conditions and Privacy Policy' });
+    return;
+  }
   isLoading.value = true;
   try {
     const packageLabel = form.package === '5' ? '5-Session Package' : '10-Session Package';
     const payload: Record<string, unknown> = {
+      terms_accepted: true,
       name: form.name,
       email: form.email,
       phone: form.phone,

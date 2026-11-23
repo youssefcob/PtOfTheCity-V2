@@ -33,6 +33,8 @@
 
         </div>
 
+        <TermsCheckbox v-model="termsAccepted" :error="termsError" @update:modelValue="termsError = false" />
+
         <div class="auth-actions">
           <button class="btn cta submit" @click="submitForm">
             {{ isLoading ? 'Loading...' : 'Sign up' }}
@@ -54,6 +56,7 @@
 import Http from '~/mixins/Http';
 import validation from '~/mixins/Validation';
 import InputField from '~/sharedComponents/InputField.vue';
+import TermsCheckbox from '~/sharedComponents/TermsCheckbox.vue';
 
 const isLoading = ref(false);
 const toast = useToast();
@@ -107,7 +110,15 @@ const formErrors = reactive({
   password_confirmation: false,
 });
 
+const termsAccepted = ref(false);
+const termsError = ref(false);
+
 const validate = () => {
+  if (!termsAccepted.value) {
+    termsError.value = true;
+    toast.error({ message: 'Please agree to the Terms & Conditions and Privacy Policy' })
+    return false;
+  }
   let v = new validation(formValidation, form);
   v.validate();
   let errors = v.errors;
@@ -140,14 +151,13 @@ const validate = () => {
 
 
 const submitForm = async () => {
-  isLoading.value = true;
   let isValid = validate();
   if (isValid) {
     isLoading.value = true;
     // let recapatchaToken = await recaptcha('career');
     // if (recapatchaToken) ModdedForm.append('recaptcha', recapatchaToken);
     try {
-      let response = await Http.post('/auth/register', form);
+      let response = await Http.post('/auth/register', { ...form, terms_accepted: true });
       useAuth().setToken(response.tokens.token);
       useAuth().setUser(response.user);
       console.log(response);

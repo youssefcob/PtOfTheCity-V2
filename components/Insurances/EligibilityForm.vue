@@ -5,6 +5,7 @@ import validation from '~/mixins/Validation';
 import InputField from '~/sharedComponents/InputField.vue';
 import DropDownResponsive from '~/sharedComponents/DropDownResponsive.vue';
 import Loading from '~/sharedComponents/Loading.vue';
+import TermsCheckbox from '~/sharedComponents/TermsCheckbox.vue';
 import EditableText from '~/components/Admin/EditableText.vue';
 import type { Insurance } from '~/types/types';
 
@@ -61,6 +62,7 @@ const validate = () => {
 
 const modifyForm = () => {
   const formData = new FormData();
+  formData.append('terms_accepted', '1');
   formData.append('firstName', form.firstName);
   formData.append('lastName', form.lastName);
   formData.append('phone', form.phone.replace(/\D/g, ''));
@@ -74,7 +76,15 @@ const modifyForm = () => {
   return formData;
 };
 
+const termsAccepted = ref(false);
+const termsError = ref(false);
+
 const submit = async () => {
+  if (!termsAccepted.value) {
+    termsError.value = true;
+    toast.error({ title: 'Error!', message: 'Please agree to the Terms & Conditions and Privacy Policy' });
+    return;
+  }
   if (!validate()) return;
   isLoading.value = true;
   try {
@@ -128,6 +138,8 @@ const submit = async () => {
         <InputField cta label="Medicare ID" placeHolder="000000" id="medicareId" @input="form.medicareId = $event" />
         <InputField cta label="Medicaid ID" placeHolder="000000" id="medicaidId" @input="form.medicaidId = $event" />
       </div>
+
+      <TermsCheckbox v-model="termsAccepted" :error="termsError" @update:modelValue="termsError = false" />
 
       <button type="button" :disabled="isLoading" @click="submit" class="submit-btn">
         <span v-if="isLoading">Submitting...</span>

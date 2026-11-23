@@ -15,6 +15,10 @@
 
 <script lang="ts" setup>
 const route = useRoute();
+
+onMounted(() => {
+  if (route.params.name === 'booking') trackBookingConversion();
+});
 usePageSeo({
   title: 'Request Received | PT of the City',
   description: 'Your appointment request has been received. A member of our team will be in touch shortly.',
