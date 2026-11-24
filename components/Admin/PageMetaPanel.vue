@@ -657,7 +657,9 @@ const close = () => (open.value = false);
     overflow: auto;
     border-radius: 6px;
     background: #f5f7fa;
+    color: #000000;
     font-size: 12px;
+    white-space: pre;
   }
 }
 
