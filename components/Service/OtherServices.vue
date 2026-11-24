@@ -1,15 +1,12 @@
 <script setup lang="ts">
-import type { Service, ServiceType } from '~/types/types';
+import type { Service } from '~/types/types';
 import { vReveal } from '~/composables/useScrollReveal';
 
 const props = defineProps<{
   services: Service[];
-  kind: ServiceType;
 }>();
 
-const kindLabel = computed(() => (props.kind === 'program' ? 'Programs' : 'Services'));
-
-// Same icon + accent cycle as the homepage program cards.
+// Same icon + accent cycle as the homepage featured cards.
 const cardIcons = [
   '/images/home/icon-badge-1.svg',
   '/images/home/icon-badge-2.svg',
@@ -59,18 +56,18 @@ onBeforeUnmount(() => window.removeEventListener('resize', updateEdges));
     <div class="header" v-reveal="'rise'">
       <div class="titles">
         <p class="overline">Keep exploring</p>
-        <h2 class="heading">Other {{ kindLabel }}</h2>
+        <h2 class="heading">Other Services</h2>
       </div>
       <div class="arrows">
         <button type="button" class="arrow" :disabled="atStart" @click="scrollByCard(-1)"
-          :aria-label="`Previous ${kindLabel.toLowerCase()}`">
+          :aria-label="'Previous services'">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
             stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
             <polyline points="15 18 9 12 15 6" />
           </svg>
         </button>
         <button type="button" class="arrow" :disabled="atEnd" @click="scrollByCard(1)"
-          :aria-label="`Next ${kindLabel.toLowerCase()}`">
+          :aria-label="'Next services'">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
             stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
             <polyline points="9 18 15 12 9 6" />

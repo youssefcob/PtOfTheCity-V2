@@ -48,10 +48,15 @@ const rearrangedClinicsNames = computed(() => {
 const toItems = (items: NavServiceItem[]) =>
     items.map(s => ({ id: s.id, title: s.title, to: servicePath(s) }));
 
-const serviceGroups = computed(() => [
-    { label: 'Programs', items: toItems(props.serviceItems.filter(s => s.type === 'program')) },
-    { label: 'Services', items: toItems(props.serviceItems.filter(s => s.type === 'service')) },
-].filter(group => group.items.length > 0));
+// One flat list (featured first), split into columns so a long list doesn't
+// run off the screen. The columns have no headings.
+const SERVICE_COLUMN_SIZE = 8;
+const serviceColumns = computed(() => {
+    const items = toItems(featuredFirst(props.serviceItems));
+    const columns: ReturnType<typeof toItems>[] = [];
+    for (let i = 0; i < items.length; i += SERVICE_COLUMN_SIZE) columns.push(items.slice(i, i + SERVICE_COLUMN_SIZE));
+    return columns;
+});
 
 type DropdownKey = 'clinics' | 'services' | 'about' | 'patientInfo' | 'providers';
 
@@ -123,10 +128,10 @@ function cancelClose(type: DropdownKey) {
 <template>
     <ul role="menubar" aria-label="Main navigation menu">
 
-        <!-- Service & Programs Dropdown -->
+        <!-- Services Dropdown -->
         <li class="dropdown" role="none">
             <NuxtLink class="list-item dropbtn" to="/#Services" role="menuitem" aria-haspopup="true"
-                :aria-expanded="dropdownOpen.services" aria-label="Service & Programs - view all therapy services"
+                :aria-expanded="dropdownOpen.services" aria-label="Services - view all therapy services"
                 @mouseenter="(e: any) => openDropdown('services', e)" @mouseleave="() => closeDropdown('services')">
                 {{ $translate('serviceAndPrograms') }}
                 <svg class="chevron" width="10" height="6" viewBox="0 0 10 6" fill="none">
@@ -136,15 +141,14 @@ function cancelClose(type: DropdownKey) {
         </li>
 
         <teleport to="body">
-            <div v-if="dropdownOpen.services && serviceGroups.length > 0" class="dropdown-content clinics"
-                :style="dropdownStyle.services" role="menu" aria-label="Programs and services"
+            <div v-if="dropdownOpen.services && serviceColumns.length > 0" class="dropdown-content clinics"
+                :style="dropdownStyle.services" role="menu" aria-label="Services"
                 @mouseenter="() => cancelClose('services')" @mouseleave="() => closeDropdown('services')">
                 <div class="clinics-body">
                     <div class="borough-col"
-                        v-for="group in serviceGroups" :key="group.label">
-                        <strong class="borough-heading" role="presentation">{{ group.label }}</strong>
+                        v-for="(column, columnIndex) in serviceColumns" :key="columnIndex">
                         <div class="borough-items">
-                            <NuxtLink class="dropdown-item" v-for="item in group.items" :key="item.id"
+                            <NuxtLink class="dropdown-item" v-for="item in column" :key="item.id"
                                 :to="item.to" role="menuitem">
                                 {{ item.title }}
                             </NuxtLink>
@@ -348,7 +352,7 @@ ul {
         }
     }
 
-    // sectioned variant (clinics, programs & services): same card and items as the
+    // sectioned variant (clinics, services): same card and items as the
     // plain dropdowns above, split into columns with a gray label on each
     &.clinics {
         width: max-content;

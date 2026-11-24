@@ -15,6 +15,7 @@ providePageContent("booking", pageContentMap, pageIsContentEditor, pageTextStyle
     script: [
       {
         type: "application/ld+json",
+        key: PAGE_SCHEMA_KEY,
         innerHTML: JSON.stringify({
           "@context": "https://schema.org",
           "@type": "WebPage",

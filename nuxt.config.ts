@@ -46,6 +46,7 @@ export default defineNuxtConfig({
     // '/': { swr: 3600 },
     '/telehealth': { redirect: { to: '/teletherapy', statusCode: 301 } },
     '/telehealth/**': { redirect: { to: '/teletherapy/**', statusCode: 301 } },
+    '/programs/**': { redirect: { to: '/service/**', statusCode: 301 } },
     '/articles': { redirect: { to: '/blogs', statusCode: 301 } },
     '/articles/**': { redirect: { to: '/blogs/**', statusCode: 301 } },
   },

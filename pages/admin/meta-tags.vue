@@ -34,7 +34,7 @@ const formatDate = (iso: string | null) =>
   <div class="mt-admin">
     <h1>Page Meta Tags</h1>
     <p class="mt-intro">
-      Every page with custom meta tags. To add or change a page's tags, open the page and click
+      Every page with custom meta tags or schemas. To add or change them, open the page and click
       <strong>Manage Meta Tags</strong> in the editor toolbar.
     </p>
 
@@ -55,6 +55,7 @@ const formatDate = (iso: string | null) =>
             <th>Description</th>
             <th>Image</th>
             <th>Tags</th>
+            <th>Schemas</th>
             <th>Updated</th>
           </tr>
         </thead>
@@ -70,6 +71,7 @@ const formatDate = (iso: string | null) =>
             <td class="mt-desc">{{ row.description || '—' }}</td>
             <td>{{ row.has_og_image ? 'Yes' : '—' }}</td>
             <td>{{ row.custom_tag_count || '—' }}</td>
+            <td>{{ row.schema_count || '—' }}</td>
             <td class="mt-date">{{ formatDate(row.updated_at) }}</td>
           </tr>
         </tbody>

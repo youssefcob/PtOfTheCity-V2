@@ -4,7 +4,7 @@ import { useRoute } from "vue-router";
 export const useTopStrap = () => {
   const route = useRoute();
 
-  const topStrapRoutes = ["/", "/booking", "/clinics", "/clinic", "/service", "/programs"];
+  const topStrapRoutes = ["/", "/booking", "/clinics", "/clinic", "/service"];
 
   const showTopStrap = computed(() => {
     const path = route.path;

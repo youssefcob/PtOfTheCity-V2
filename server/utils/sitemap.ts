@@ -68,7 +68,7 @@ const staticDefaults = (url: string): SitemapDefaults => ({
   excluded: DEFAULT_EXCLUDED.has(url),
 });
 
-type Dated = { slug: string; updated_at: string | null; type?: 'program' | 'service' };
+type Dated = { slug: string; updated_at: string | null };
 interface ApiSitemap {
   clinic?: Dated[];
   service?: Dated[];
@@ -94,8 +94,7 @@ export const buildAutoUrls = async (): Promise<Map<string, SitemapDefaults>> => 
       if (item?.slug) urls.set(`${prefix}/${item.slug}`, { priority, changefreq, lastmod: dayOf(item.updated_at), excluded: false });
     }
   };
-  add(data.service?.filter((s) => s.type !== 'program'), '/service', 0.9, 'monthly');
-  add(data.service?.filter((s) => s.type === 'program'), '/programs', 0.9, 'monthly');
+  add(data.service, '/service', 0.9, 'monthly');
   add(data.conditions, '/conditions', 0.7, 'monthly');
   // body-part pages are served from Studio by these slugs, even without an API row
   for (const part of bodyParts) {

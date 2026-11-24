@@ -69,6 +69,7 @@ useHead({
   script: [
     {
       type: "application/ld+json",
+      key: PAGE_SCHEMA_KEY,
       innerHTML: JSON.stringify({
         "@context": "https://schema.org",
         "@graph": [

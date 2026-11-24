@@ -57,6 +57,15 @@ export interface PageMetaCustomTag {
   content: string;
 }
 
+// A JSON-LD block an editor attached to one page. `json` is the raw text as
+// saved (an object or array); it is parsed and re-serialized when rendered.
+export interface PageMetaSchema {
+  id: number;
+  label: string | null;
+  json: string;
+  position?: number;
+}
+
 export interface PageMeta {
   title: string | null;
   description: string | null;
@@ -64,6 +73,9 @@ export interface PageMeta {
   og_image: string | null;
   og_image_public_id?: string | null;
   customTags: PageMetaCustomTag[];
+  schemas?: PageMetaSchema[];
+  // true: drop the page's built-in schema and serve only `schemas`.
+  replace_default_schema?: boolean;
 }
 
 // A row in GET /page-meta/index: one page key that has custom meta.
@@ -73,6 +85,7 @@ export interface PageMetaIndexRow {
   description: string | null;
   has_og_image: boolean;
   custom_tag_count: number;
+  schema_count?: number;
   updated_at: string | null;
 }
 

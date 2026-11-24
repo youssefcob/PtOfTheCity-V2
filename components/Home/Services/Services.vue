@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { Service, ServiceType } from '~/types/types';
+import type { Service } from '~/types/types';
 import EditableText from '~/components/Admin/EditableText.vue';
 import EditableImage from '~/components/Admin/EditableImage.vue';
 import { FEATURES } from '~/config/features';
@@ -13,7 +13,7 @@ const pending = inject('homepagePending');
 const error = inject('homepageError');
 
 const { contentMap, page, isContentEditor } = useInjectedPageContent();
-const { saveText, setServiceType } = useContentApi();
+const { saveText, setServiceFeatured } = useContentApi();
 const { editModeEnabled } = useEditorState();
 
 const canManageServices = computed(() => isContentEditor.value && editModeEnabled.value && FEATURES.serviceOrdering);
@@ -65,22 +65,22 @@ const resolveOrder = (service: Service) => {
     return visibleServices.value.findIndex(s => s.slug === service.slug);
 };
 
-// A single order sequence shared by both the programs grid and the services
-// chips, so swapping two entries' order values reorders them within their own
+// A single order sequence shared by both the featured grid and the other
+// services chips, so swapping two entries' order values reorders them within their own
 // bucket without disturbing anyone else's position.
 const orderedRemaining = computed(() =>
     [...visibleServices.value].sort((a, b) => resolveOrder(a) - resolveOrder(b))
 );
 
-// Programs (grid) and services (chips) share the services table and are told
-// apart by its `type` column. typeOverrides layers an admin's just-clicked
-// move on top so the UI re-buckets without waiting on a refetch.
-const typeOverrides = ref<Record<string, ServiceType>>({});
+// Featured services get the card grid, the rest the chips. featuredOverrides
+// layers an admin's just-clicked change on top so the UI re-buckets without
+// waiting on a refetch.
+const featuredOverrides = ref<Record<string, boolean>>({});
 
-const resolveType = (service: Service): ServiceType => typeOverrides.value[service.id] ?? service.type;
+const isFeatured = (service: Service): boolean => featuredOverrides.value[service.id] ?? !!service.featured;
 
-const gridServices = computed(() => orderedRemaining.value.filter(s => resolveType(s) === 'program'));
-const chipServices = computed(() => orderedRemaining.value.filter(s => resolveType(s) === 'service'));
+const featuredServices = computed(() => orderedRemaining.value.filter(isFeatured));
+const otherServices = computed(() => orderedRemaining.value.filter(s => !isFeatured(s)));
 
 const moveService = (bucket: Service[], service: Service, direction: -1 | 1) => {
     const idx = bucket.findIndex(s => s.slug === service.slug);
@@ -93,14 +93,14 @@ const moveService = (bucket: Service[], service: Service, direction: -1 | 1) => 
     setMeta(other.id, 'order', String(serviceOrder));
 };
 
-const moveToBucket = async (service: Service, type: ServiceType) => {
-    const previous = resolveType(service);
-    typeOverrides.value = { ...typeOverrides.value, [service.id]: type };
+const setFeatured = async (service: Service, featured: boolean) => {
+    const previous = isFeatured(service);
+    featuredOverrides.value = { ...featuredOverrides.value, [service.id]: featured };
     try {
-        await setServiceType(service.id, type);
+        await setServiceFeatured(service.id, featured);
     } catch (err) {
-        console.error('Failed to save service type', service.id, err);
-        typeOverrides.value = { ...typeOverrides.value, [service.id]: previous };
+        console.error('Failed to save service featured flag', service.id, err);
+        featuredOverrides.value = { ...featuredOverrides.value, [service.id]: previous };
     }
 };
 const hideService = (service: Service) => setMeta(service.id, 'hidden', 'true');
@@ -128,11 +128,11 @@ const cardAccentColors = [
 <template>
     <div class="specialty-programs">
         <div class="intro">
-            <EditableText tag="p" class="overline" content-key="home.services.overline" default="Specialty Programs" />
+            <EditableText tag="p" class="overline" content-key="home.services.overline" default="Featured Services" />
             <EditableText tag="h2" class="heading" content-key="home.services.heading"
                 default="Advanced Care for Complex Conditions" />
             <EditableText tag="p" class="body" content-key="home.services.body"
-                default="Our specialty programs bring together advanced clinical expertise and individualized care pathways for patients who need more than standard physical therapy." />
+                default="Our featured services bring together advanced clinical expertise and individualized care pathways for patients who need more than standard physical therapy." />
         </div>
 
         <div v-if="pending" class="services-loading">
@@ -147,7 +147,7 @@ const cardAccentColors = [
             <div class="programs-layout">
                 <div class="cards-grid">
                     <NuxtLink
-                        v-for="(service, index) in gridServices"
+                        v-for="(service, index) in featuredServices"
                         :key="service.slug"
                         :to="servicePath(service)"
                         class="program-card"
@@ -165,11 +165,11 @@ const cardAccentColors = [
 
                         <div v-if="canManageServices" class="admin-controls" @click.stop.prevent>
                             <button type="button" class="admin-btn" :disabled="index === 0"
-                                @click="moveService(gridServices, service, -1)" aria-label="Move up">↑</button>
-                            <button type="button" class="admin-btn" :disabled="index === gridServices.length - 1"
-                                @click="moveService(gridServices, service, 1)" aria-label="Move down">↓</button>
+                                @click="moveService(featuredServices, service, -1)" aria-label="Move up">↑</button>
+                            <button type="button" class="admin-btn" :disabled="index === featuredServices.length - 1"
+                                @click="moveService(featuredServices, service, 1)" aria-label="Move down">↓</button>
                             <button type="button" class="admin-btn admin-btn--wide"
-                                @click="moveToBucket(service, 'service')">Move to Services</button>
+                                @click="setFeatured(service, false)">Unfeature</button>
                             <button type="button" class="admin-btn admin-btn--danger"
                                 @click="hideService(service)">Hide</button>
                         </div>
@@ -179,9 +179,9 @@ const cardAccentColors = [
                 <div class="featured-card">
                     <div class="featured-image-area">
                         <EditableImage content-key="home.services.featured.image"
-                            :default-src="useImg('whoWeArePage', 700)" default-alt="Featured program" />
+                            :default-src="useImg('whoWeArePage', 700)" default-alt="Featured service" />
                         <EditableText tag="span" class="featured-badge" content-key="home.services.featured.badge"
-                            default="Featured Program" />
+                            default="Featured Service" />
                     </div>
                     <div class="featured-copy">
                         <EditableText tag="p" class="featured-title" content-key="home.services.featured.title"
@@ -193,24 +193,24 @@ const cardAccentColors = [
                          the box - an admin sets its destination via the same Tag/Link
                          toolbar every other text field already exposes. -->
                     <EditableText tag="a" class="featured-cta" content-key="home.services.featured.cta_label"
-                        default="Explore Our Programs" />
+                        default="Explore Our Services" />
                 </div>
             </div>
 
-            <div v-if="chipServices.length" class="more-services">
+            <div v-if="otherServices.length" class="more-services">
                 <EditableText tag="h3" class="more-services-title" content-key="home.services.more_heading"
                     default="More Services Provided" />
                 <div class="chip-row">
-                    <NuxtLink v-for="(service, index) in chipServices" :key="service.slug" :to="servicePath(service)" class="chip">
+                    <NuxtLink v-for="(service, index) in otherServices" :key="service.slug" :to="servicePath(service)" class="chip">
                         <EditableText tag="span" :content-key="`service.${service.id}.title`" :default="service.title" />
 
                         <div v-if="canManageServices" class="admin-controls admin-controls--chip" @click.stop.prevent>
                             <button type="button" class="admin-btn" :disabled="index === 0"
-                                @click="moveService(chipServices, service, -1)" aria-label="Move up">↑</button>
-                            <button type="button" class="admin-btn" :disabled="index === chipServices.length - 1"
-                                @click="moveService(chipServices, service, 1)" aria-label="Move down">↓</button>
+                                @click="moveService(otherServices, service, -1)" aria-label="Move up">↑</button>
+                            <button type="button" class="admin-btn" :disabled="index === otherServices.length - 1"
+                                @click="moveService(otherServices, service, 1)" aria-label="Move down">↓</button>
                             <button type="button" class="admin-btn admin-btn--wide"
-                                @click="moveToBucket(service, 'program')">Move to Programs</button>
+                                @click="setFeatured(service, true)">Feature</button>
                             <button type="button" class="admin-btn admin-btn--danger"
                                 @click="hideService(service)">Hide</button>
                         </div>

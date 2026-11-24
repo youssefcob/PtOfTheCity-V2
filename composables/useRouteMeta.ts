@@ -51,10 +51,34 @@ export const useRouteMeta = async () => {
         ? meta.canonical.startsWith('http') ? meta.canonical : `${baseUrl}${meta.canonical}`
         : null;
 
+      // Editor JSON-LD. Invalid JSON is skipped rather than shipped. In
+      // replace mode everything goes into one script under the built-in
+      // schema's key, which removes the built-in one. Otherwise each schema
+      // gets its own script next to the built-in one.
+      const schemas = (meta.schemas || [])
+        .map((s) => ({ id: s.id, value: parseJsonLd(s.json) }))
+        .filter((s) => s.value !== null);
+      const script = meta.replace_default_schema
+        ? schemas.length
+          ? [{
+              type: 'application/ld+json',
+              key: PAGE_SCHEMA_KEY,
+              'data-cms-schema': '',
+              innerHTML: serializeJsonLd(schemas.length === 1 ? schemas[0].value : schemas.map((s) => s.value)),
+            }]
+          : []
+        : schemas.map((s) => ({
+            type: 'application/ld+json',
+            key: `cms-schema-${s.id}`,
+            'data-cms-schema': '',
+            innerHTML: serializeJsonLd(s.value),
+          }));
+
       return {
         ...(meta.title ? { title: meta.title } : {}),
         meta: tags,
         link: canonical ? [{ rel: 'canonical', href: canonical }] : [],
+        script,
       };
     },
     { tagPriority: 'critical' },

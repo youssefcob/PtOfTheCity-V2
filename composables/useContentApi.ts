@@ -5,6 +5,7 @@ import type {
   PageBootstrapResponse,
   PageMeta,
   PageMetaCustomTag,
+  PageMetaSchema,
   PageMetaIndexRow,
   RedirectInput,
   RedirectRule,
@@ -122,7 +123,10 @@ export const useContentApi = () => {
     return call('/page-meta/index') as Promise<PageMetaIndexRow[]>;
   };
 
-  const savePageMeta = (page: string, fields: { title?: string; description?: string; canonical?: string }) => {
+  const savePageMeta = (
+    page: string,
+    fields: { title?: string; description?: string; canonical?: string; replace_default_schema?: boolean },
+  ) => {
     return call('/page-meta', { method: 'POST', body: { page, ...fields } }) as Promise<PageMeta>;
   };
 
@@ -151,6 +155,15 @@ export const useContentApi = () => {
     return call(`/page-meta/custom-tags/${id}`, { method: 'DELETE' });
   };
 
+  // --- JSON-LD schemas (per page, same keys as page meta) ---
+  const saveSchema = (page: string, label: string, json: string) =>
+    call('/page-meta/schemas', { method: 'POST', body: { page, label, json } }) as Promise<PageMetaSchema>;
+
+  const updateSchema = (id: number, label: string, json: string) =>
+    call(`/page-meta/schemas/${id}`, { method: 'PUT', body: { label, json } }) as Promise<PageMetaSchema>;
+
+  const deleteSchema = (id: number) => call(`/page-meta/schemas/${id}`, { method: 'DELETE' });
+
   // --- redirects (/admin/redirects) ---
   const listRedirects = () => call('/admin/redirects') as Promise<RedirectRule[]>;
 
@@ -175,8 +188,8 @@ export const useContentApi = () => {
     return call('/partners/reorder', { method: 'POST', body: { ids } }) as Promise<Partner[]>;
   };
 
-  const setServiceType = (id: string | number, type: 'program' | 'service') => {
-    return call(`/services/${id}/type`, { method: 'PATCH', body: { type } });
+  const setServiceFeatured = (id: string | number, featured: boolean) => {
+    return call(`/services/${id}/featured`, { method: 'PATCH', body: { featured } });
   };
 
   return {
@@ -184,7 +197,7 @@ export const useContentApi = () => {
     fetchPageMeta,
     fetchPageMetaIndex,
     saveText,
-    setServiceType,
+    setServiceFeatured,
     saveImage,
     createTextStyle,
     updateTextStyle,
@@ -194,6 +207,9 @@ export const useContentApi = () => {
     saveCustomTag,
     updateCustomTag,
     deleteCustomTag,
+    saveSchema,
+    updateSchema,
+    deleteSchema,
     reorderPartners,
     listRedirects,
     createRedirect,

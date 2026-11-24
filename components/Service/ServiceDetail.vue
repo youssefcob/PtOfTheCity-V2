@@ -1,20 +1,16 @@
 <script setup lang="ts">
 import ServiceClinics from '~/components/Service/ServiceClinics.vue';
 import OtherServices from '~/components/Service/OtherServices.vue';
-import type { Service, ServiceType } from '~/types/types';
+import type { Service } from '~/types/types';
 import { createSlug, createSlugWithSeparator } from '~/utils/stringUtils';
 
 import StudioContent from '~/components/shared/StudioContent.vue';
 
-// Shared by /service/<slug> and /programs/<slug>: both read the same
-// services table, told apart by `type`.
 const props = defineProps<{
-  kind: ServiceType;
   slug: string;
 }>();
 
 const serviceName = decodeURIComponent(props.slug);
-const kindLabel = props.kind === 'program' ? 'Program' : 'Service';
 
 
   const serviceSeoSchema = await import(`~/assets/ServiceSeoSchema/${serviceName}.json`).catch(
@@ -36,36 +32,27 @@ const service = computed(() =>
 )
 
 const filteredServices = computed(() =>
-  data.value?.filter((other: Service) => other.id !== service.value?.id && other.type === props.kind) || []
+  data.value?.filter((other: Service) => other.id !== service.value?.id) || []
 )
-
-// A row reached under the other type's prefix belongs at its own URL.
-if (service.value && service.value.type && service.value.type !== props.kind) {
-  await navigateTo(servicePath(service.value), { redirectCode: 301 });
-}
 
 if (import.meta.server && !pending.value && !error.value && !service.value) {
   const event = useRequestEvent();
   if (event) setResponseStatus(event, 404);
 }
 
-// The per-slug SEO files hardcode /service/<slug> URLs; a program lives under
-// /programs, so let usePageSeo derive those from the route instead.
-const { canonical: _canonical, ogUrl: _ogUrl, twitterUrl: _twitterUrl, ...programSeo } = serviceSeoMetaTags || {};
-usePageSeo(
-    props.kind === 'program' ? programSeo : (serviceSeoMetaTags || {}),
-);
+usePageSeo(serviceSeoMetaTags || {});
 useHead({
-  title: service.value ? `${service.value.title} - PT of the City` : `${kindLabel} Not Found`,
+  title: service.value ? `${service.value.title} - PT of the City` : 'Service Not Found',
   meta: [
     {
       name: 'description',
-      content: service.value ? (service.value.description || '').replace(/<[^>]*>/g, '').substring(0, 160) : `${kindLabel} not found`
+      content: service.value ? (service.value.description || '').replace(/<[^>]*>/g, '').substring(0, 160) : 'Service not found'
     }
   ],
   script: [
    {
       type: "application/ld+json",
+      key: PAGE_SCHEMA_KEY,
       innerHTML: JSON.stringify(serviceSeoSchema?.default || {name:"PT"}),
     } 
   ]
@@ -74,7 +61,6 @@ useHead({
 // Studio owns the long page body; its head (title/description/meta) is
 // applied after the defaults above so it wins when a doc is published.
 // Without one, the API-driven layout below is the page.
-// Programs and services are both filed under Studio's "services" folder.
 const { doc } = await useStudioDoc(
   'services',
   () => service.value ? (service.value.cms_slug || service.value.slug) : null,
@@ -107,8 +93,8 @@ const { doc } = await useStudioDoc(
 
     <!-- Service not found -->
     <div v-else-if="!service" class="not-found">
-      <h1>{{ kindLabel }} Not Found</h1>
-      <p>The {{ kindLabel.toLowerCase() }} "{{ serviceName }}" doesn't exist.</p>
+      <h1>Service Not Found</h1>
+      <p>The service "{{ serviceName }}" doesn't exist.</p>
       <p>Please check the URL or browse our <NuxtLink to="/#Services">services</NuxtLink>.</p>
       <NuxtLink to="/" class="btn">Go Home</NuxtLink>
     </div>
@@ -134,7 +120,7 @@ const { doc } = await useStudioDoc(
     <NuxtLink to="/" class="btn transparent responsive main back">Back To Homepage</NuxtLink>
   </div>
 
-  <OtherServices :services="filteredServices" :kind="kind" />
+  <OtherServices :services="filteredServices" />
 </template>
 
 <style scoped lang="scss">

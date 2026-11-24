@@ -7,7 +7,9 @@ export interface Service {
     description?: string | null;
     clinics: Clinic[];
     slug: string;
-    type: ServiceType;
+    // Featured services get the large cards on the homepage; everywhere
+    // else they are ordinary services.
+    featured: boolean;
     // Slug of this row's page in Studio (the headless CMS); null/absent
     // means "same as slug".
     cms_slug?: string | null;
@@ -46,13 +48,11 @@ export interface Condition {
     image?: string | null;
 }
 
-export type ServiceType = 'program' | 'service';
-
 export interface NavServiceItem {
     id: number | string;
     title: string;
     slug: string;
-    type: ServiceType;
+    featured: boolean;
 }
 
 

@@ -9,5 +9,5 @@ const route = useRoute();
 </script>
 
 <template>
-  <ServiceDetail kind="service" :slug="(route.params.name as string)" :key="(route.params.name as string)" />
+  <ServiceDetail :slug="(route.params.name as string)" :key="(route.params.name as string)" />
 </template>

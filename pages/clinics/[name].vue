@@ -228,6 +228,7 @@ if (borough.value === "All Clinics") {
     script: [
       {
         type: "application/ld+json",
+        key: PAGE_SCHEMA_KEY,
         innerHTML: JSON.stringify({
           "@context": "https://schema.org",
           "@graph": [
@@ -310,7 +311,7 @@ if (borough.value === "All Clinics") {
 
 useHead({
   script: seoSchema
-    ? [{ type: "application/ld+json", innerHTML: JSON.stringify(seoSchema) }]
+    ? [{ type: "application/ld+json", key: PAGE_SCHEMA_KEY, innerHTML: JSON.stringify(seoSchema) }]
     : [],
 });
 

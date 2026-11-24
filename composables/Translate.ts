@@ -15,8 +15,8 @@ const phrase: PhraseDictionary = {
     AR: 'خدمات'
   },
   serviceAndPrograms: {
-    EN: 'Service & Programs',
-    ES: 'Servicios y Programas',
+    EN: 'Services',
+    ES: 'Servicios',
     AR: 'الخدمات والبرامج'
   },
   about: {

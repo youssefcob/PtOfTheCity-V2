@@ -25,7 +25,6 @@ const ADS_RESTRICTED = [
   /^\/service\//,
   /^\/blogs\/./,
   /^\/conditions(\/|$)/,
-  /^\/programs(\/|$)/,
   /^\/booking\/?$/,
   /^\/clinic\//, // clinic pages embed the booking form
   /^\/teletherapy(\/|$)/,

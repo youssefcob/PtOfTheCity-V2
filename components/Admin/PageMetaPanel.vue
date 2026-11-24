@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { PageMeta, PageMetaCustomTag } from '~/types/content';
+import type { PageMeta, PageMetaCustomTag, PageMetaSchema } from '~/types/content';
 import { routeMetaKey, useRouteMetaStore } from '~/composables/useRouteMeta';
 
 // Slide-over editor for the current URL's meta tags, opened from the editor
@@ -9,10 +9,15 @@ const open = useState<boolean>('cms-meta-panel-open', () => false);
 
 const route = useRoute();
 const store = useRouteMetaStore();
-const { fetchPageMeta, savePageMeta, savePageMetaOgImage, saveCustomTag, updateCustomTag, deleteCustomTag } = useContentApi();
+const {
+  fetchPageMeta, savePageMeta, savePageMetaOgImage, saveCustomTag, updateCustomTag, deleteCustomTag,
+  saveSchema, updateSchema, deleteSchema,
+} = useContentApi();
 
 const page = computed(() => routeMetaKey(route.path));
-const emptyMeta = (): PageMeta => ({ title: null, description: null, canonical: null, og_image: null, customTags: [] });
+const emptyMeta = (): PageMeta => ({
+  title: null, description: null, canonical: null, og_image: null, customTags: [], schemas: [], replace_default_schema: false,
+});
 
 const meta = ref<PageMeta>(emptyMeta());
 const form = reactive({ title: '', description: '', canonical: '' });
@@ -28,7 +33,7 @@ const notice = ref('');
 
 const pushToStore = () => {
   const hasAnything = meta.value.title || meta.value.description || meta.value.canonical || meta.value.og_image
-    || meta.value.customTags.length;
+    || meta.value.customTags.length || meta.value.schemas?.length || meta.value.replace_default_schema;
   store.value = { ...store.value, [page.value]: hasAnything ? { ...meta.value } : null };
 };
 
@@ -38,7 +43,7 @@ const load = async () => {
   notice.value = '';
   try {
     const current = (await fetchPageMeta(page.value)) || emptyMeta();
-    meta.value = { ...emptyMeta(), ...current, customTags: current.customTags || [] };
+    meta.value = { ...emptyMeta(), ...current, customTags: current.customTags || [], schemas: current.schemas || [] };
     form.title = current.title || '';
     form.description = current.description || '';
     form.canonical = current.canonical || '';
@@ -47,6 +52,7 @@ const load = async () => {
     if (!current.description) {
       defaults.description = document.querySelector('meta[name="description"]')?.getAttribute('content') || '';
     }
+    readBuiltInSchema();
   } catch (err: any) {
     error.value = err?.data?.message || "Couldn't load this page's meta tags.";
   } finally {
@@ -55,7 +61,10 @@ const load = async () => {
 };
 
 watch(open, (isOpen) => isOpen && load());
-watch(page, () => open.value && load());
+watch(page, () => {
+  builtInSchema.value = '';
+  if (open.value) load();
+});
 
 const save = async () => {
   saving.value = true;
@@ -67,7 +76,7 @@ const save = async () => {
       description: form.description.trim(),
       canonical: form.canonical.trim(),
     });
-    meta.value = { ...meta.value, ...updated, customTags: meta.value.customTags };
+    meta.value = { ...meta.value, ...updated, customTags: meta.value.customTags, schemas: meta.value.schemas };
     pushToStore();
     notice.value = 'Saved.';
   } catch (err: any) {
@@ -136,6 +145,116 @@ const removeTag = async (tag: PageMetaCustomTag) => {
     if (editingTagId.value === tag.id) resetTagForm();
   } catch (err: any) {
     error.value = err?.data?.message || "Couldn't delete the tag.";
+  }
+};
+
+// --- JSON-LD schemas ---
+// The page's own (code-defined) JSON-LD, read from the live <head>. Editor
+// schemas carry data-cms-schema, so they're left out. While "replace" is on
+// the built-in script isn't in the head, so this keeps the last one seen.
+const builtInSchema = ref('');
+const readBuiltInSchema = () => {
+  const scripts = [...document.querySelectorAll('script[type="application/ld+json"]:not([data-cms-schema])')];
+  // Nothing in the head while "replace" is on: keep what was read before.
+  if (!scripts.length) {
+    if (!meta.value.replace_default_schema) builtInSchema.value = '';
+    return;
+  }
+  const values = scripts.map((s) => parseJsonLd(s.textContent || '')).filter(Boolean);
+  builtInSchema.value = values.length ? JSON.stringify(values.length === 1 ? values[0] : values, null, 2) : '';
+};
+
+const schemaForm = reactive({ label: '', json: '' });
+const editingSchemaId = ref<number | null>(null);
+const savingSchema = ref(false);
+
+const schemaCheck = computed(() => {
+  const text = schemaForm.json.trim();
+  if (!text) return { ok: false, message: '' };
+  try {
+    const value = JSON.parse(text);
+    if (!value || typeof value !== 'object') return { ok: false, message: 'Must be a JSON object or array.' };
+    const types = jsonLdTypes(value);
+    return { ok: true, message: types ? `Valid JSON · ${types}` : 'Valid JSON, but no "@type" was found.' };
+  } catch (err: any) {
+    return { ok: false, message: err?.message || 'Invalid JSON.' };
+  }
+});
+
+const schemaSummary = (schema: PageMetaSchema) => {
+  const value = parseJsonLd(schema.json);
+  return value ? jsonLdTypes(value) || 'No @type' : 'Invalid JSON (not served)';
+};
+
+const resetSchemaForm = () => {
+  Object.assign(schemaForm, { label: '', json: '' });
+  editingSchemaId.value = null;
+};
+
+const formatSchema = () => {
+  const value = parseJsonLd(schemaForm.json);
+  if (value) schemaForm.json = JSON.stringify(value, null, 2);
+};
+
+const copyBuiltInSchema = () => {
+  resetSchemaForm();
+  Object.assign(schemaForm, { label: 'Built-in (edited)', json: builtInSchema.value });
+};
+
+const saveSchemaForm = async () => {
+  if (!schemaCheck.value.ok) return;
+  savingSchema.value = true;
+  error.value = '';
+  const label = schemaForm.label.trim();
+  const json = schemaForm.json.trim();
+  try {
+    const schemas = meta.value.schemas || [];
+    if (editingSchemaId.value) {
+      const updated = await updateSchema(editingSchemaId.value, label, json);
+      meta.value.schemas = schemas.map((s) => (s.id === updated.id ? updated : s));
+    } else {
+      const created = await saveSchema(page.value, label, json);
+      meta.value.schemas = [...schemas, created];
+    }
+    pushToStore();
+    resetSchemaForm();
+  } catch (err: any) {
+    error.value = err?.data?.message || "Couldn't save the schema.";
+  } finally {
+    savingSchema.value = false;
+  }
+};
+
+const editSchema = (schema: PageMetaSchema) => {
+  editingSchemaId.value = schema.id;
+  const value = parseJsonLd(schema.json);
+  Object.assign(schemaForm, { label: schema.label || '', json: value ? JSON.stringify(value, null, 2) : schema.json });
+};
+
+const removeSchema = async (schema: PageMetaSchema) => {
+  error.value = '';
+  try {
+    await deleteSchema(schema.id);
+    meta.value.schemas = (meta.value.schemas || []).filter((s) => s.id !== schema.id);
+    pushToStore();
+    if (editingSchemaId.value === schema.id) resetSchemaForm();
+  } catch (err: any) {
+    error.value = err?.data?.message || "Couldn't delete the schema.";
+  }
+};
+
+const toggleReplaceDefault = async (e: Event) => {
+  const value = (e.target as HTMLInputElement).checked;
+  const previous = !!meta.value.replace_default_schema;
+  meta.value.replace_default_schema = value;
+  error.value = '';
+  try {
+    // Only the flag is sent, so unsaved title/description edits stay unsaved.
+    await savePageMeta(page.value, { replace_default_schema: value });
+    pushToStore();
+  } catch (err: any) {
+    meta.value.replace_default_schema = previous;
+    error.value = err?.data?.message || "Couldn't save that setting.";
   }
 };
 
@@ -215,6 +334,55 @@ const close = () => (open.value = false);
               <input v-model="tagForm.content" type="text" placeholder="e.g. noindex" aria-label="Content" />
               <button type="submit" class="secondary-btn">{{ editingTagId ? 'Update' : 'Add' }}</button>
               <button v-if="editingTagId" type="button" class="link-btn" @click="resetTagForm">Cancel</button>
+            </form>
+          </section>
+
+          <section class="block">
+            <h3 class="block-title">Structured data (JSON-LD)</h3>
+            <p class="panel-hint">
+              Schemas added here are served on this page alongside its built-in schema, unless you replace it below.
+            </p>
+
+            <details v-if="builtInSchema" class="builtin-schema">
+              <summary>Built-in schema<span v-if="meta.replace_default_schema"> (replaced)</span></summary>
+              <pre>{{ builtInSchema }}</pre>
+              <button type="button" class="link-btn" @click="copyBuiltInSchema">Copy into the editor</button>
+            </details>
+            <p v-else class="panel-hint">
+              {{ meta.replace_default_schema ? 'The built-in schema is replaced on this page.' : 'This page has no built-in schema.' }}
+            </p>
+
+            <label class="checkbox-field">
+              <input type="checkbox" :checked="!!meta.replace_default_schema" @change="toggleReplaceDefault" />
+              <span>Replace the built-in schema with the schemas below</span>
+            </label>
+            <p v-if="meta.replace_default_schema && !meta.schemas?.length" class="panel-hint">
+              Add at least one schema, or the built-in one keeps being served.
+            </p>
+
+            <ul v-if="meta.schemas?.length" class="tag-list">
+              <li v-for="schema in meta.schemas" :key="schema.id">
+                <strong>{{ schema.label || 'Untitled schema' }}</strong>
+                <code>{{ schemaSummary(schema) }}</code>
+                <span class="tag-actions">
+                  <button type="button" class="link-btn" @click="editSchema(schema)">Edit</button>
+                  <button type="button" class="link-btn link-btn--danger" @click="removeSchema(schema)">Delete</button>
+                </span>
+              </li>
+            </ul>
+
+            <form class="schema-form" @submit.prevent="saveSchemaForm">
+              <input v-model="schemaForm.label" type="text" placeholder="Label, e.g. FAQ" aria-label="Schema label" />
+              <textarea v-model="schemaForm.json" rows="10" spellcheck="false" class="code-input"
+                placeholder='{ "@context": "https://schema.org", "@type": "FAQPage", ... }' aria-label="Schema JSON"></textarea>
+              <p v-if="schemaCheck.message" :class="schemaCheck.ok ? 'panel-notice' : 'panel-error'">{{ schemaCheck.message }}</p>
+              <div class="schema-actions">
+                <button type="submit" class="secondary-btn" :disabled="!schemaCheck.ok || savingSchema">
+                  {{ savingSchema ? 'Saving…' : editingSchemaId ? 'Update schema' : 'Add schema' }}
+                </button>
+                <button type="button" class="link-btn" :disabled="!schemaCheck.ok" @click="formatSchema">Format</button>
+                <button v-if="editingSchemaId" type="button" class="link-btn" @click="resetSchemaForm">Cancel</button>
+              </div>
             </form>
           </section>
 
@@ -445,6 +613,51 @@ const close = () => (open.value = false);
 
   input:last-of-type {
     grid-column: 1 / -1;
+  }
+}
+
+.schema-form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.meta-panel .code-input {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 12px;
+  resize: vertical;
+}
+
+.schema-actions {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.checkbox-field {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+
+  input {
+    width: auto;
+  }
+}
+
+.builtin-schema {
+  summary {
+    font-weight: 600;
+    cursor: pointer;
+  }
+
+  pre {
+    max-height: 24rem;
+    margin: 0.6rem 0;
+    padding: 0.8rem;
+    overflow: auto;
+    border-radius: 6px;
+    background: #f5f7fa;
+    font-size: 12px;
   }
 }
 
