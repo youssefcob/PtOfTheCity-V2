@@ -42,7 +42,7 @@ const bulletDefaults: Record<string, string> = {
         />
         <EditableText tag="p" class="body" :content-key="ck('summary')" :default="summary" />
       </div>
-      <div class="photo">
+      <!-- <div class="photo">
         <EditableImage
           :content-key="ck('image')"
           :default-src="aboutImage"
@@ -51,7 +51,7 @@ const bulletDefaults: Record<string, string> = {
           :height="700"
           loading="lazy"
         />
-      </div>
+      </div> -->
     </div>
 
     <div class="bottom">
