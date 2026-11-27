@@ -344,6 +344,12 @@ function setHidden(value: boolean) {
 .faq-answer {
   padding: 0 1.75rem 1.25rem;
 
+  // Answers are stored as plain text with "\n" line breaks (EditableText
+  // saves innerText); keep those breaks visible instead of collapsing them.
+  :deep(.cms-editable-text) {
+    white-space: pre-line;
+  }
+
   p {
     @include type-body;
     color: $primary-700;
