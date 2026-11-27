@@ -350,7 +350,8 @@ function setHidden(value: boolean) {
     white-space: pre-line;
   }
 
-  p {
+  p,
+  .cms-editable-text {
     @include type-body;
     color: $primary-700;
     margin: 0;

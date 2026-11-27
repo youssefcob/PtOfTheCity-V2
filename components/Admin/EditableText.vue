@@ -1,9 +1,11 @@
 <script setup lang="ts">
+import { useDebounceFn } from '@vueuse/core';
 import { FEATURES } from '~/config/features';
 import { CONTENT_TEXT_PLACEHOLDER } from '~/composables/useContentPlaceholders';
 import { useInjectedPageContent } from '~/composables/usePageContent';
 import { resolveTextStyleCss, resolveMobileTextStyleOverrideCss } from '~/composables/useTextStyleCss';
 import type { EditableTag, LinkTarget } from '~/types/content';
+import { escapeSource, hasBlockHtml, renderRichText } from '~/utils/richText';
 
 const props = withDefaults(defineProps<{
   contentKey: string;
@@ -16,6 +18,17 @@ const props = withDefaults(defineProps<{
 const { contentMap, page, isContentEditor, textStyles } = useInjectedPageContent();
 const { saveText } = useContentApi();
 const { editModeEnabled, activeEditableField, setActiveEditableField } = useEditorState();
+const toast = useToast();
+
+const notifySaved = () => toast.success({ message: 'Changes saved' });
+// The toolbar's link URL input saves on every keystroke - debounce so typing
+// a URL raises one toast rather than one per character.
+const notifySavedDebounced = useDebounceFn(notifySaved, 800);
+
+const saveSetting = async (options: Parameters<typeof saveText>[3]) => {
+  await saveText(props.contentKey, page, localValue.value, options);
+  notifySavedDebounced();
+};
 
 const dbEntry = contentMap.value[props.contentKey];
 
@@ -47,6 +60,15 @@ useHead({
 
 const rel = computed(() => (effectiveTag.value === 'a' && target.value === '_blank' ? 'noopener noreferrer' : undefined));
 
+// Edit mode shows the source, tags included; otherwise the allowed HTML renders.
+const displayHtml = computed(() => (canEdit.value ? escapeSource(localValue.value) : renderRichText(localValue.value)));
+
+// <p>, headings and <span> can't legally contain paragraphs or lists (the
+// browser would re-parse the SSR markup), so render those fields as a <div>.
+const renderedTag = computed(() =>
+  !canEdit.value && effectiveTag.value !== 'a' && hasBlockHtml(localValue.value) ? 'div' : effectiveTag.value,
+);
+
 const saving = ref(false);
 const el = ref<HTMLElement | null>(null);
 const isThisFieldActive = computed(() => activeEditableField.value?.kind === 'text' && activeEditableField.value.key === props.contentKey);
@@ -77,22 +99,22 @@ const onClick = () => {
     setTag: (newTag) => {
       effectiveTag.value = newTag;
       if (isThisFieldStillActive()) (activeEditableField.value as any).tag = newTag;
-      saveText(props.contentKey, page, localValue.value, { tag: newTag });
+      saveSetting({ tag: newTag });
     },
     setTextStyleId: (id) => {
       textStyleId.value = id;
       if (isThisFieldStillActive()) (activeEditableField.value as any).textStyleId = id;
-      saveText(props.contentKey, page, localValue.value, { textStyleId: id });
+      saveSetting({ textStyleId: id });
     },
     setHref: (newHref) => {
       href.value = newHref;
       if (isThisFieldStillActive()) (activeEditableField.value as any).href = newHref;
-      saveText(props.contentKey, page, localValue.value, { href: newHref });
+      saveSetting({ href: newHref });
     },
     setTarget: (newTarget) => {
       target.value = newTarget;
       if (isThisFieldStillActive()) (activeEditableField.value as any).target = newTarget;
-      saveText(props.contentKey, page, localValue.value, { target: newTarget });
+      saveSetting({ target: newTarget });
     },
   });
 };
@@ -134,6 +156,7 @@ const onBlur = async () => {
   saving.value = true;
   try {
     await saveText(props.contentKey, page, newText);
+    notifySaved();
   } catch (err) {
     console.error('Failed to save content', props.contentKey, err);
     localValue.value = previous;
@@ -146,7 +169,7 @@ const onBlur = async () => {
 
 <template>
   <component
-    :is="effectiveTag"
+    :is="renderedTag"
     ref="el"
     :data-cms-key="contentKey"
     :contenteditable="canEdit"
@@ -159,18 +182,49 @@ const onBlur = async () => {
     @blur="onBlur"
     @click="onFieldClick"
     @mousedown="onMousedown"
-  ><span v-once>{{ localValue }}</span></component>
+    :innerHTML="displayHtml"
+  />
 </template>
 
 <style scoped lang="scss">
-// assets/css/main.scss has a global, unscoped `span { font-size: 1.4rem; ... }`
-// rule that otherwise clobbers this wrapper span's inherited heading/paragraph
-// styling - it never mattered before since raw text wasn't normally wrapped
-// in a bare span. Higher specificity than that element selector wins here.
-.cms-editable-text > span {
-  font: inherit;
-  color: inherit;
-  letter-spacing: inherit;
+// The global `p` / `li` rules would otherwise override the field's own
+// typography for HTML entered into it.
+.cms-editable-text {
+  :deep(p),
+  :deep(ul),
+  :deep(ol),
+  :deep(li) {
+    font: inherit;
+    color: inherit;
+    letter-spacing: inherit;
+  }
+
+  :deep(p),
+  :deep(ul),
+  :deep(ol) {
+    margin: 0 0 1em;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+
+  :deep(ul),
+  :deep(ol) {
+    padding-left: 2rem;
+  }
+
+  :deep(ul) {
+    list-style: disc;
+  }
+
+  :deep(ol) {
+    list-style: decimal;
+  }
+
+  :deep(li) {
+    margin: 0;
+  }
 }
 
 .cms-is-editable {
@@ -178,6 +232,8 @@ const onBlur = async () => {
   outline-offset: 2px;
   border-radius: 2px;
   cursor: text;
+  // keep the source's line breaks, so innerText doesn't lose them on save
+  white-space: pre-wrap;
   transition: outline-color 0.15s ease-in-out;
 
   &:hover,
