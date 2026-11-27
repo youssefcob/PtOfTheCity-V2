@@ -105,6 +105,11 @@ const bulletDefaults: Record<string, string> = {
     flex-direction: column;
     gap: 2rem;
   }
+
+  // Without a photo, the text takes the full row
+  &:not(:has(.photo)) .intro {
+    width: 100%;
+  }
 }
 
 .intro {
